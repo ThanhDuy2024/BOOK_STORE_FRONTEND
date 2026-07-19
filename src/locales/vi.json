@@ -1,0 +1,57 @@
+{
+    "input.search": "Tìm kiếm...",
+    "header.title": "Hệ thống cửa hàng sách",
+    "header.en": "Tiếng Anh",
+    "header.vi": "Tiếng Việt", 
+
+    "side.dashboard": "Tổng quan",
+    "side.productsManagement": "Quản lý sản phẩm",
+    "side.category": "Danh sách danh mục",
+    "side.book": "Danh sách sản phẩm",
+    "side.clientManagement": "Khách hàng",
+    "side.users": "Quản lý người dùng",
+
+    "select.changeStatus": "Đổi trạng thái",
+    "select.active": "Hoạt động",
+    "select.inactive": "Ngừng hoạt động",
+    "select.sort": "Sắp xếp",
+
+    "table.status": "Trạng thái",
+    "table.updatedAt": "Cập nhật",
+    "table.updatedBy": "Cập nhật bởi",
+    "table.createdBy": "Được tạo bởi",
+    "table.createdAt": "Ngày tạo",
+    "table.active": "Hoạt động",
+    "table.inactive": "Ngừng hoạt động",
+    "table.actions": "Hành động",
+    "table.edit": "Chỉnh sửa",
+    "table.delete": "Xóa",
+    "table.quantity": "Số lượng",
+    "table.price": "Đơn giá",
+    "table.image": "Hình ảnh",
+
+    "input.image": "Chọn ảnh",
+
+    "button.create": "Thêm mới",
+    "button.edit": "Chỉnh sửa",
+    "button.close": "Đóng",
+    "button.confirm": "Xác nhận",
+    
+    "category.title": "Quản lý danh mục",
+    "category.createCategory": "Tạo danh mục",
+    "category.categoryName": "Tên danh mục",
+    "category.enterCatgory": "Nhập tên danh mục",
+    "category.editCategory": "Chỉnh sửa danh mục",
+    "category.deleteCategory": "Xóa danh mục",
+
+    "book.title": "Quản lý sách",
+    "book.createBook": "Tạo sách",
+    "book.bookName": "Tên sách",
+    "book.enterBook": "Nhập tên sách...",
+    "book.editBook": "Chỉnh sửa sách",
+    "book.deleteBook": "Cảnh báo!!!",
+    "book.deleteDes": "Bạn chắc chắn muốn xóa sản phẩm này chứ ?",
+
+    "users.title": "Quản lý người dùng",
+    "users.name": "Tên người dùng"
+}
