@@ -1,11 +1,14 @@
-import { HiOutlineMail } from "react-icons/hi";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { BsBook } from "react-icons/bs";
 import { useState } from "react";
-
+import { FaRegUser } from "react-icons/fa";
+import { useNavigate } from 'react-router';
+import { callApi } from "../../api/api"
+import axios from "axios";
 const Login = () => {
+    const navigate = useNavigate();
     const [loginData, setLoginData] = useState({
-        email: "",
+        text: "",
         password: "",
         remember: false,
     });
@@ -19,10 +22,25 @@ const Login = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        console.log(loginData);
+    const handleSubmit = async (e) => {
+        e.preventDefault(); 
+        try {
+            const res = await axios.post(`http://localhost:4000/api/admin/auth/login`, {
+                adminName: loginData.text,
+                password: loginData.password
+            })
+            if(res.data.status === false) {
+                console.log(res.data.msg);
+            } else if(loginData.remember === true) {
+                localStorage.setItem("token", res.data.token);
+                navigate("/admin/dashboard")
+            } else if (loginData.remember === false) {
+                sessionStorage.setItem("token", res.data.token);
+                navigate("/admin/dashboard")
+            }
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -82,15 +100,15 @@ const Login = () => {
 
                             <label className="input input-bordered w-full flex items-center gap-3 mb-6 rounded-xl">
 
-                                <HiOutlineMail className="text-gray-500" />
+                                <FaRegUser className="text-gray-500" />
 
                                 <input
-                                    type="email"
-                                    name="email"
-                                    value={loginData.email}
+                                    type="text"
+                                    name="text"
+                                    value={loginData.text}
                                     onChange={handleChange}
                                     className="grow"
-                                    placeholder="Email"
+                                    placeholder="Admin name"
                                 />
 
                             </label>
