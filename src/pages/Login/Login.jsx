@@ -25,7 +25,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault(); 
         try {
-            const res = await axios.post(`http://localhost:4000/api/admin/auth/login`, {
+            const res = await axios.post(`${import.meta.env.VITE_REACT_APP_APIDEV}/admin/auth/login`, {
                 adminName: loginData.text,
                 password: loginData.password
             })

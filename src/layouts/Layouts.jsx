@@ -10,9 +10,11 @@ import { renderIcon } from "../helpers/renderIcon";
 import { useContext } from "react";
 import { LangContext } from "../contexts/langContext";
 import { Link, Outlet } from "react-router";
+import { AdminContext } from "../contexts/adminContext";
 const AdminLayouts = ({ children }) => {
     const lang = useIntl();
-    const { langDispatch, locale} = useContext(LangContext);
+    const { langDispatch, locale } = useContext(LangContext);
+    const { fullName } = useContext(AdminContext);
     const changeLocale = (locale) => {
         langDispatch({
             type: "CHANGE-LOCALE",
@@ -45,10 +47,10 @@ const AdminLayouts = ({ children }) => {
                                 <IoIosNotificationsOutline tabIndex={0} size={25} />
                             </div>
                         </div>
-                        <div className="flex items-center gap-[20px]">
-                            <div className="avatar">
-                                <div className="w-10 rounded-full">
-                                    <img src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp" />
+                        <div className="flex items-center gap-[20px] fixed left-[1650px] cursor-pointer">
+                            <div className="">
+                                <div className="w-full text-primary font-bold rounded-full">
+                                    {fullName} (admin)
                                 </div>
                             </div>
                             <div className="avatar">
@@ -59,7 +61,7 @@ const AdminLayouts = ({ children }) => {
                         </div>
                     </nav>
                     {/* Page content here */}
-                    <Outlet/>
+                    <Outlet />
                 </div>
 
                 <div className="drawer-side is-drawer-close:overflow-visible">
@@ -75,7 +77,7 @@ const AdminLayouts = ({ children }) => {
                             </li>
                             {sibarInfo.map(item => (
                                 <li className="mb-[20px]">
-                                    <Link to={item.link} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip={lang.formatMessage({id: item.title})}>
+                                    <Link to={item.link} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip={lang.formatMessage({ id: item.title })}>
                                         {/* Home icon */}
                                         {renderIcon(item.iconKey, 20)}
                                         <span className="is-drawer-close:hidden text-[16px]">{lang.formatMessage({ id: `${item.title}` })}</span>
@@ -93,7 +95,7 @@ const AdminLayouts = ({ children }) => {
                                     <Link to={item.link} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip={lang.formatMessage({ id: item.title })}>
                                         {/* Home icon */}
                                         {renderIcon(item.iconkey, 20)}
-                                        <span className="is-drawer-close:hidden text-[16px]">{lang.formatMessage({ id: `${item.title}`})}</span>
+                                        <span className="is-drawer-close:hidden text-[16px]">{lang.formatMessage({ id: `${item.title}` })}</span>
                                     </Link>
                                 </li>
                             ))}
@@ -106,7 +108,7 @@ const AdminLayouts = ({ children }) => {
 
                             {clientInfo.map(item => (
                                 <li className="mb-[20px]">
-                                    <Link to={item.link} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip={lang.formatMessage({id: item.title})}>
+                                    <Link to={item.link} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip={lang.formatMessage({ id: item.title })}>
                                         {/* Home icon */}
                                         {renderIcon(item.iconkey, 20)}
                                         <span className="is-drawer-close:hidden text-[16px]">{lang.formatMessage({ id: `${item.title}` })}</span>

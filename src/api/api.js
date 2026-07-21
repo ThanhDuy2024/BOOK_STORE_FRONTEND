@@ -6,7 +6,7 @@ export const callApi = (method, url, data) => {
       if (method === 'get') {
         let res = await axios.get(url, {
           headers: {
-            token: JSON.parse(localStorage.getItem('token')) || JSON.parse(sessionStorage.getItem('token'))
+            token: localStorage.getItem('token') || sessionStorage.getItem('token')
           },
           withCredentials: true
         })
