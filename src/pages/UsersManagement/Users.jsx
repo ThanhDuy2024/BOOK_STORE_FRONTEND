@@ -1,7 +1,12 @@
-import { IoSearchOutline } from "react-icons/io5";
+import { IoSearchOutline, IoSpeedometerOutline } from "react-icons/io5";
 import { useIntl } from "react-intl";
 import { userMockData } from "../../data/mockData";
 import { useState } from "react";
+import { LiaUsersCogSolid } from "react-icons/lia";
+import { PiBooksThin } from "react-icons/pi";
+import { PiFlagBannerFoldDuotone } from "react-icons/pi";
+import { VscLayersActive } from "react-icons/vsc";
+import { IoMdRemoveCircleOutline } from "react-icons/io";
 const Users = () => {
     const lang = useIntl();
     const [usersList, setUsersList] = useState(userMockData);
@@ -17,9 +22,16 @@ const Users = () => {
     }
     return (
         <>
-            <div className="flex items-center shadow-md rounded-[10px] p-4 mt-[80px] mx-[10px] bg-white">
-                <div className="flex-1">
-                    <div className="text-xl text-primary font-[600]">{lang.formatMessage({ id: "users.title" })}</div>
+            <div className="flex justify-between items-center shadow-md rounded-[10px] p-4 mt-[80px] mx-[10px] bg-white">
+                <div className="flex items-center justify-center gap-[20px]">
+                    <div className="w-[48px] h-[48px] bg-[#eaf2ff] flex items-center justify-center rounded-[10px]">
+                        <IoSpeedometerOutline size={20} className="text-primary" />
+                    </div>
+                    <div className="">
+                        <div className="text-primary font-[700]">Management</div>
+                        <div className="text-[26px] text-black font-[700]">{lang.formatMessage({ id: "side.category" })}</div>
+                        <div className="">Monitor performance, sales, users, and support from one clean workspace.</div>
+                    </div>
                 </div>
                 <div className="flex-none">
                     <ul className="menu menu-horizontal px-1 gap-[10px]">
@@ -51,6 +63,78 @@ const Users = () => {
                     </ul>
                 </div>
             </div>
+
+            <div className="mt-[20px] grid grid-cols-4 gap-4 p-4">
+                <div className="bg-white shadow-md p-[21.6px] rounded-[10px] border-l-4 border-green-500">
+                    <div className="flex justify-between text-[14px] text-[#6b7280] font-bold items-center">
+                        <div className="">TOTAL USERS</div>
+                        <div className="bg-[#e7f6f3] w-[42px] h-[42px] flex items-center justify-center rounded-[10px]">
+                            <LiaUsersCogSolid size={20} color="green" />
+                        </div>
+                    </div>
+                    <div className="mt-[16px] font-bold text-[35px]">100</div>
+                    <div className="flex gap-[5px] text-[15px] mt-[14px]">
+                        <div className="text-green-700">
+                            +50
+                        </div>
+                        <div className="text-[#6b7280] font-bold">
+                            users in this month
+                        </div>
+                    </div>
+                </div>
+                <div className="bg-white shadow-md p-[21.6px] rounded-[10px] border-l-4 border-indigo-500">
+                    <div className="flex justify-between text-[14px] text-[#6b7280] font-bold items-center">
+                        <div className="">TOTAL ACTIVE</div>
+                        <div className="bg-[#eaf2ff] w-[42px] h-[42px] flex items-center justify-center rounded-[10px]">
+                            <VscLayersActive size={20} color="blue" />
+                        </div>
+                    </div>
+                    <div className="mt-[16px] font-bold text-[35px]">190</div>
+                    <div className="flex gap-[5px] text-[15px] mt-[14px]">
+                        <div className="text-indigo-700">
+                            90%
+                        </div>
+                        <div className="text-[#6b7280] font-bold">
+                            healthy account
+                        </div>
+                    </div>
+                </div>
+                <div className="bg-white shadow-md p-[21.6px] rounded-[10px] border-l-4 border-red-500">
+                    <div className="flex justify-between text-[14px] text-[#6b7280] font-bold items-center">
+                        <div className="">TOTAL INACTIVE</div>
+                        <div className="bg-[#ffecec] w-[42px] h-[42px] flex items-center justify-center rounded-[10px]">
+                            <IoMdRemoveCircleOutline size={20} color="red" />
+                        </div>
+                    </div>
+                    <div className="mt-[16px] font-bold text-[35px]">5</div>
+                    <div className="flex gap-[5px] text-[15px] mt-[14px]">
+                        <div className="text-red-700">
+                            5%
+                        </div>
+                        <div className="text-[#6b7280] font-bold">
+                            account inactive
+                        </div>
+                    </div>
+                </div>
+                <div className="bg-white shadow-md p-[21.6px] rounded-[10px] border-l-4 border-orange-500">
+                    <div className="flex justify-between text-[14px] text-[#6b7280] font-bold items-center">
+                        <div className="">TOTAL BANED</div>
+                        <div className="bg-[#fff4df] w-[42px] h-[42px] flex items-center justify-center rounded-[10px]">
+                            <PiFlagBannerFoldDuotone size={20} className="text-orange-400" />
+                        </div>
+                    </div>
+                    <div className="mt-[16px] font-bold text-[35px]">5</div>
+                    <div className="flex gap-[5px] text-[15px] mt-[14px]">
+                        <div className="text-orange-700">
+                            5%
+                        </div>
+                        <div className="text-[#6b7280] font-bold">
+                            account baned
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             <div className="mt-[20px] mx-[10px] rounded-[10px] shadow-md bg-white">
                 <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">

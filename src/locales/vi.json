@@ -1,21 +1,24 @@
 {
+    "global.management": "Quản lý",
+    "global.totalActive": "Tổng số đang hoạt động",
+    "global.totalInactive": "Tổng số không hoạt động",
+
     "input.search": "Tìm kiếm...",
     "header.title": "Hệ thống cửa hàng sách",
     "header.en": "Tiếng Anh",
-    "header.vi": "Tiếng Việt", 
-
+    "header.vi": "Tiếng Việt",
     "side.dashboard": "Tổng quan",
     "side.productsManagement": "Quản lý sản phẩm",
     "side.category": "Danh sách danh mục",
     "side.book": "Danh sách sản phẩm",
     "side.clientManagement": "Khách hàng",
     "side.users": "Quản lý người dùng",
-
+    
     "select.changeStatus": "Đổi trạng thái",
     "select.active": "Hoạt động",
     "select.inactive": "Ngừng hoạt động",
     "select.sort": "Sắp xếp",
-
+    
     "table.status": "Trạng thái",
     "table.updatedAt": "Cập nhật",
     "table.updatedBy": "Cập nhật bởi",
@@ -31,19 +34,26 @@
     "table.image": "Hình ảnh",
 
     "input.image": "Chọn ảnh",
-
+    
     "button.create": "Thêm mới",
     "button.edit": "Chỉnh sửa",
     "button.close": "Đóng",
     "button.confirm": "Xác nhận",
     
-    "category.title": "Quản lý danh mục",
+    "category.title": "Danh mục",
+    "category.sub": "Xem danh sách danh mục, thêm, xóa, sửa danh mục",
     "category.createCategory": "Tạo danh mục",
     "category.categoryName": "Tên danh mục",
     "category.enterCatgory": "Nhập tên danh mục",
     "category.editCategory": "Chỉnh sửa danh mục",
     "category.deleteCategory": "Xóa danh mục",
+    "category.totalCategory": "Tổng số danh mục",
+    "category.totalCategortSub": "danh mục trong tháng",
+    "category.totalActiveSub": "danh mục hoạt động",
+    "category.totalInactiveSub": "danh mục không hoạt động",
+    "category.list": "Danh sách danh mục",
 
+    
     "book.title": "Quản lý sách",
     "book.createBook": "Tạo sách",
     "book.bookName": "Tên sách",
@@ -51,7 +61,7 @@
     "book.editBook": "Chỉnh sửa sách",
     "book.deleteBook": "Cảnh báo!!!",
     "book.deleteDes": "Bạn chắc chắn muốn xóa sản phẩm này chứ ?",
-
+    
     "users.title": "Quản lý người dùng",
     "users.name": "Tên người dùng"
 }

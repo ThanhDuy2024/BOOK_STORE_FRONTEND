@@ -2,6 +2,12 @@ import { IoSearchOutline } from "react-icons/io5";
 import { useIntl } from "react-intl";
 import { categoryMockData } from "../../data/mockData";
 import { useState } from "react";
+import { MdOutlineCategory } from "react-icons/md";
+import { VscLayersActive } from "react-icons/vsc";
+import { IoMdRemoveCircleOutline } from "react-icons/io";
+import { IoSpeedometerOutline } from "react-icons/io5";
+import { BiCategoryAlt } from "react-icons/bi";
+import { FaRegChartBar } from "react-icons/fa";
 const Categories = () => {
     const lang = useIntl();
     const [categoryList, setcategoryList] = useState(categoryMockData);
@@ -17,11 +23,91 @@ const Categories = () => {
     }
     return (
         <>
-            <div className="flex items-center shadow-md rounded-[10px] p-4 mt-[80px] mx-[10px] bg-white">
-                <div className="flex-1">
-                    <div className="text-xl text-primary font-[600]">{lang.formatMessage({ id: "category.title" })}</div>
+            <div className="flex justify-between items-center shadow-md rounded-[10px] p-4 mt-[80px] mx-[10px] bg-white">
+                <div className="flex items-center justify-center gap-[20px]">
+                    <div className="w-[48px] h-[48px] bg-[#eaf2ff] flex items-center justify-center rounded-[10px]">
+                        <BiCategoryAlt size={20} className="text-primary" />
+                    </div>
+                    <div className="">
+                        <div className="text-primary font-[700]">{lang.formatMessage({ id: "global.management" })}</div>
+                        <div className="text-[26px] text-black font-[700]">{lang.formatMessage({ id: "category.title" })}</div>
+                        <div className="">{lang.formatMessage({ id: "category.sub" })}</div>
+                    </div>
                 </div>
                 <div className="flex-none">
+                    <ul className="menu menu-horizontal px-1 gap-[10px]">
+                        <li>
+                            <button className="btn btn-primary text-white font-[500]" onClick={() => document.getElementById('my_modal_create').showModal()}>{lang.formatMessage({ id: "category.createCategory" })}</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div className="mt-[20px] grid grid-cols-3 gap-4 p-4">
+                <div className="bg-white shadow-md p-[21.6px] rounded-[10px] border-l-4 border-green-500">
+                    <div className="flex justify-between text-[14px] text-[#6b7280] font-bold items-center">
+                        <div className="">{lang.formatMessage({ id: "category.totalCategory" })}</div>
+                        <div className="bg-[#e7f6f3] w-[42px] h-[42px] flex items-center justify-center rounded-[10px]">
+                            <MdOutlineCategory size={20} color="green" />
+                        </div>
+                    </div>
+                    <div className="mt-[16px] font-bold text-[35px]">10</div>
+                    <div className="flex gap-[5px] text-[15px] mt-[14px]">
+                        <div className="text-green-700">
+                            +5
+                        </div>
+                        <div className="text-[#6b7280] font-bold">
+                            {lang.formatMessage({ id: "category.totalCategortSub" })}
+                        </div>
+                    </div>
+                </div>
+                <div className="bg-white shadow-md p-[21.6px] rounded-[10px] border-l-4 border-indigo-500">
+                    <div className="flex justify-between text-[14px] text-[#6b7280] font-bold items-center">
+                        <div className="">{lang.formatMessage({ id: "global.totalActive" })}</div>
+                        <div className="bg-[#eaf2ff] w-[42px] h-[42px] flex items-center justify-center rounded-[10px]">
+                            <VscLayersActive size={20} color="blue" />
+                        </div>
+                    </div>
+                    <div className="mt-[16px] font-bold text-[35px]">9</div>
+                    <div className="flex gap-[5px] text-[15px] mt-[14px]">
+                        <div className="text-indigo-700">
+                            90%
+                        </div>
+                        <div className="text-[#6b7280] font-bold">
+                            {lang.formatMessage({ id: "category.totalActiveSub" })}
+                        </div>
+                    </div>
+                </div>
+                <div className="bg-white shadow-md p-[21.6px] rounded-[10px] border-l-4 border-red-500">
+                    <div className="flex justify-between text-[14px] text-[#6b7280] font-bold items-center">
+                        <div className="">{lang.formatMessage({ id: "global.totalInactive" })}</div>
+                        <div className="bg-[#ffecec] w-[42px] h-[42px] flex items-center justify-center rounded-[10px]">
+                            <IoMdRemoveCircleOutline size={20} color="red" />
+                        </div>
+                    </div>
+                    <div className="mt-[16px] font-bold text-[35px]">1</div>
+                    <div className="flex gap-[5px] text-[15px] mt-[14px]">
+                        <div className="text-red-700">
+                            10%
+                        </div>
+                        <div className="text-[#6b7280] font-bold">
+                            {lang.formatMessage({ id: "category.totalInactiveSub" })}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="mt-[20px] mx-[10px] rounded-[10px] shadow-md bg-white">
+                <div className="px-4 pt-4 flex items-center justify-between mb-[10px]">
+                    <div className="">
+                        <div className="flex items-center gap-[10px] text-[20px]">
+                            <div className="w-[48px] h-[48px] bg-[#eaf2ff] flex items-center justify-center rounded-[10px]">
+                                <FaRegChartBar size={20} className="text-primary" />
+                            </div>
+                            <div className="font-bold">{lang.formatMessage({ id: "category.list" })}</div>
+                        </div>
+                    </div>
+                                    <div className="flex-none">
                     <ul className="menu menu-horizontal px-1 gap-[10px]">
                         <li>
                             <label className="input outline-none">
@@ -45,14 +131,9 @@ const Categories = () => {
                                 <option>Z-A</option>
                             </select>
                         </li>
-                        <li>
-                            <button className="btn btn-primary text-white font-[500]" onClick={() => document.getElementById('my_modal_create').showModal()}>{lang.formatMessage({ id: "category.createCategory" })}</button>
-                        </li>
                     </ul>
                 </div>
-            </div>
-
-            <div className="mt-[20px] mx-[10px] rounded-[10px] shadow-md bg-white">
+                </div>
                 <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="table text-center">

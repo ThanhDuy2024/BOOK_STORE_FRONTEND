@@ -1,22 +1,21 @@
 {
+    "global.management": "Management",
+    "global.totalActive": "Total active",
+    "global.totalInactive": "Total inactive",
     "input.search": "Search...",
-
     "header.title": "Book Store System",
     "header.en": "English",
-    "header.vi": "Vietnamese", 
-
+    "header.vi": "Vietnamese",
     "side.dashboard": "Dashboard",
     "side.productsManagement": "Products management",
     "side.category": "Categories management",
     "side.book": "Books management",
     "side.clientManagement": "Client management",
     "side.users": "Users management",
-
     "select.changeStatus": "Change status",
     "select.active": "Active",
     "select.inactive": "Inactive",
     "select.sort": "Sort",
-
     "table.status": "Status",
     "table.updatedAt": "Updated At",
     "table.updatedBy": "Updated By",
@@ -30,20 +29,24 @@
     "table.quantity": "Quantity",
     "table.price": "Price",
     "table.image": "Image",
-
     "input.image": "Choose image",
-
     "button.create": "Create new item",
     "button.edit": "Edit item",
     "button.close": "Close",
     "button.confirm": "Confirm",
 
-    "category.title": "Categories management",
+    "category.title": "Categories",
+    "category.sub": "View category list; add, delete, and edit categories",
     "category.createCategory": "Create category",
     "category.categoryName": "Category name",
     "category.enterCatgory": "Enter category name",
     "category.editCategory": "Edit category",
     "category.deleteCategory": "Delete category",
+    "category.totalCategory": "Total category",
+    "category.totalCategortSub": "categories for the month",
+    "category.totalActiveSub": "active categories",
+    "category.totalInactiveSub": "inactive categories",
+    "category.list": "Categories list",
 
     "book.title": "Books management",
     "book.createBook": "Create book",
@@ -52,7 +55,6 @@
     "book.editBook": "Edit book",
     "book.deleteBook": "Alert!",
     "book.deleteDes": "Are you sure you want to delete this product?",
-
     "users.title": "Users management",
     "users.name": "User name"
 }
