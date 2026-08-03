@@ -1,26 +1,128 @@
 import { IoSearchOutline } from "react-icons/io5";
 import { useIntl } from "react-intl";
 import { categoryMockData } from "../../data/mockData";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdOutlineCategory } from "react-icons/md";
 import { VscLayersActive } from "react-icons/vsc";
 import { IoMdRemoveCircleOutline } from "react-icons/io";
 import { IoSpeedometerOutline } from "react-icons/io5";
 import { BiCategoryAlt } from "react-icons/bi";
 import { FaRegChartBar } from "react-icons/fa";
+import { callApi, From } from "../../api/api";
+import axios from "axios";
+import { toast } from "sonner";
 const Categories = () => {
     const lang = useIntl();
     const [categoryList, setcategoryList] = useState(categoryMockData);
+    const [total, setTotal] = useState({});
     const [categoryDetail, setcategoryDetail] = useState();
-    const handleSubmitCreate = (e) => {
+    const [preview, setPreview] = useState("");
+    const [totalPages, setTotalPages] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [search, setSearch] = useState("null");
+    const [status, setStatus] = useState("all");
+    const [sort, setSort] = useState("desc");
+
+    const loadCategoriesList = async (currentPage, search, status, sort) => {
+        try {
+            const res = await callApi("get", `${import.meta.env.VITE_REACT_APP_APIDEV}/admin/categories?search=${search}&status=${status}&updatedAt=${sort}&page=${currentPage}`, {});
+            setcategoryList(res.data);
+            setTotalPages(res.totalPages);
+            setTotal({
+                totalStatus: res.totalStatus,
+                totalStatusActive: res.totalStatusActive,
+                totalStatusInactive: res.totalStatusInactive
+            })
+        } catch (error) {
+            console.log(error);
+
+        }
+    }
+    useEffect(() => {
+        loadCategoriesList(currentPage, search, status, sort);
+    }, [currentPage, search, status, sort]);
+
+    const handleSubmitCreate = async (e) => {
         e.preventDefault();
-        console.log("submit is here")
+        const formData = new FormData();
+
+        const categoryName = e.target.categoryName.value;
+        const status = e.target.status.value;
+        const image = e.target.image.files[0];
+
+        formData.append("categoryName", categoryName);
+        formData.append("status", status);
+        formData.append("image", image);
+
+        try {
+            const res = await axios.post(`${import.meta.env.VITE_REACT_APP_APIDEV}/admin/categories`, formData,
+                {
+                    headers: {
+                        token: localStorage.getItem('token') || sessionStorage.getItem('token'),
+                        'content-type': 'multipart/form-data'
+                    },
+                    withCredentials: true
+                }
+            );
+
+            if (res.data.status === true) {
+                toast.success(`${lang.formatMessage({ id: "category.title" })} ${lang.formatMessage({ id: "toast.created" })}!`)
+                loadCategoriesList(1, "null", "all")
+                document.getElementById("create_category_modal").close();
+            } else {
+                toast.error(`${lang.formatMessage({ id: "category.title" })} ${lang.formatMessage({ id: "toast.existed" })}!`)
+            }
+            e.target.reset();
+        } catch (error) {
+            console.log(error);
+        }
     }
 
-    const handleSubmitEdit = (e) => {
+    const handleSubmitEdit = async (e) => {
         e.preventDefault();
-        console.log("submit is here")
+        const formData = new FormData();
+
+        const categoryName = e.target.categoryName.value;
+        const status = e.target.status.value;
+        const image = e.target.image.files[0];
+
+        formData.append("categoryName", categoryName);
+        formData.append("status", status);
+        formData.append("image", image);
+
+        try {
+            const res = await axios.put(`${import.meta.env.VITE_REACT_APP_APIDEV}/admin/categories/${categoryDetail?.id}`, formData,
+                {
+                    headers: {
+                        token: localStorage.getItem('token') || sessionStorage.getItem('token'),
+                        'content-type': 'multipart/form-data'
+                    },
+                    withCredentials: true
+                }
+            );
+
+            if (res.data.status === true) {
+                toast.success(`${lang.formatMessage({ id: "category.title" })} ${lang.formatMessage({ id: "toast.updated" })}!`)
+                loadCategoriesList(1, "null", "all");
+                document.getElementById("my_modal_edit").close();
+            } else {
+                toast.error(`${lang.formatMessage({ id: "category.title" })} ${lang.formatMessage({ id: "toast.notFound" })}!`)
+
+            }
+            e.target.reset();
+        } catch (error) {
+            console.log(error);
+        }
     }
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+
+        if (file) {
+            setPreview(URL.createObjectURL(file));
+        }
+    };
+
     return (
         <>
             <div className="flex justify-between items-center shadow-md rounded-[10px] p-4 mt-[80px] mx-[10px] bg-white">
@@ -37,7 +139,7 @@ const Categories = () => {
                 <div className="flex-none">
                     <ul className="menu menu-horizontal px-1 gap-[10px]">
                         <li>
-                            <button className="btn btn-primary text-white font-[500]" onClick={() => document.getElementById('my_modal_create').showModal()}>{lang.formatMessage({ id: "category.createCategory" })}</button>
+                            <button className="btn btn-primary text-white font-[500]" onClick={() => document.getElementById('create_category_modal').showModal()}>{lang.formatMessage({ id: "category.createCategory" })}</button>
                         </li>
                     </ul>
                 </div>
@@ -51,7 +153,7 @@ const Categories = () => {
                             <MdOutlineCategory size={20} color="green" />
                         </div>
                     </div>
-                    <div className="mt-[16px] font-bold text-[35px]">10</div>
+                    <div className="mt-[16px] font-bold text-[35px]">{total.totalStatus}</div>
                     <div className="flex gap-[5px] text-[15px] mt-[14px]">
                         <div className="text-green-700">
                             +5
@@ -68,7 +170,7 @@ const Categories = () => {
                             <VscLayersActive size={20} color="blue" />
                         </div>
                     </div>
-                    <div className="mt-[16px] font-bold text-[35px]">9</div>
+                    <div className="mt-[16px] font-bold text-[35px]">{total.totalStatusActive}</div>
                     <div className="flex gap-[5px] text-[15px] mt-[14px]">
                         <div className="text-indigo-700">
                             90%
@@ -85,7 +187,7 @@ const Categories = () => {
                             <IoMdRemoveCircleOutline size={20} color="red" />
                         </div>
                     </div>
-                    <div className="mt-[16px] font-bold text-[35px]">1</div>
+                    <div className="mt-[16px] font-bold text-[35px]">{total.totalStatusInactive}</div>
                     <div className="flex gap-[5px] text-[15px] mt-[14px]">
                         <div className="text-red-700">
                             10%
@@ -107,32 +209,46 @@ const Categories = () => {
                             <div className="font-bold">{lang.formatMessage({ id: "category.list" })}</div>
                         </div>
                     </div>
-                                    <div className="flex-none">
-                    <ul className="menu menu-horizontal px-1 gap-[10px]">
-                        <li>
-                            <label className="input outline-none">
-                                <div className="h-[1em] opacity-50 flex items-center">
-                                    <IoSearchOutline size={20} />
-                                </div>
-                                <input type="search" placeholder={lang.formatMessage({ id: "input.search" })} />
-                            </label>
-                        </li>
-                        <li>
-                            <select defaultValue="change" className="select outline-none">
-                                <option disabled={true} value={"change"}>{lang.formatMessage({ id: "select.changeStatus" })}</option>
-                                <option>{lang.formatMessage({ id: "select.active" })}</option>
-                                <option>{lang.formatMessage({ id: "select.inactive" })}</option>
-                            </select>
-                        </li>
-                        <li>
-                            <select defaultValue="sort" className="select outline-none">
-                                <option disabled={true} value={"sort"}>{lang.formatMessage({ id: "select.sort" })}</option>
-                                <option>A-Z</option>
-                                <option>Z-A</option>
-                            </select>
-                        </li>
-                    </ul>
-                </div>
+                    <div className="flex-none">
+                        <ul className="menu menu-horizontal px-1 gap-[10px]">
+                            <li>
+                                <label className="input outline-none">
+                                    <div className="h-[1em] opacity-50 flex items-center">
+                                        <IoSearchOutline size={20} />
+                                    </div>
+                                    <input
+                                        type="search"
+                                        placeholder={lang.formatMessage({ id: "input.search" })}
+                                        onChange={(e) => setSearch(e.target.value)}
+                                    />
+                                </label>
+                            </li>
+                            <li>
+                                <select
+                                    value={status}
+                                    className="select outline-none"
+                                    onChange={(e) => setStatus(e.target.value)}
+                                >
+                                    <option value="all">
+                                        {lang.formatMessage({ id: "select.allStatus" })}
+                                    </option>
+                                    <option value="active">
+                                        {lang.formatMessage({ id: "select.active" })}
+                                    </option>
+                                    <option value="inactive">
+                                        {lang.formatMessage({ id: "select.inactive" })}
+                                    </option>
+                                </select>
+                            </li>
+                            <li>
+                                <select defaultValue={sort} className="select outline-none" onChange={(e) => setSort(e.target.value)}>
+                                    <option disabled={true} value={"desc"}>{lang.formatMessage({ id: "select.sort" })}</option>
+                                    <option value={"asc"}>A-Z</option>
+                                    <option value={"desc"}>Z-A</option>
+                                </select>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                     <div className="overflow-x-auto">
@@ -166,10 +282,6 @@ const Categories = () => {
                                                     <div className="font-semibold">
                                                         {item.categoryName}
                                                     </div>
-
-                                                    <div className="text-sm text-gray-500">
-                                                        120 products
-                                                    </div>
                                                 </div>
                                             </div>
                                         </td>
@@ -182,19 +294,19 @@ const Categories = () => {
 
                                         <td className="align-middle">
                                             <span className="text-slate-700">
-                                                {item.updatedAt}
+                                                {item.updatedAtFormat}
                                             </span>
                                         </td>
 
                                         <td className="align-middle">
                                             <span className="text-primary font-medium">
-                                                {item.updatedBy}
+                                                {item.updater?.adminName}
                                             </span>
                                         </td>
 
                                         <td className="align-middle">
                                             <span className="text-primary font-medium">
-                                                {item.createdBy}
+                                                {item.creator?.adminName}
                                             </span>
                                         </td>
 
@@ -215,33 +327,31 @@ const Categories = () => {
                         </table>
                     </div>
                     <div className="flex items-center justify-center mt-[10px] mb-[10px]">
-                        <button className="join-item btn">«</button>
-                        <input
-                            className="join-item btn btn-square"
-                            type="radio"
-                            name="options"
-                            aria-label="1"
-                            checked="checked" />
-                        <input className="join-item btn btn-square" type="radio" name="options" aria-label="2" />
-                        <input className="join-item btn btn-square" type="radio" name="options" aria-label="3" />
-                        <input className="join-item btn btn-square" type="radio" name="options" aria-label="4" />
-                        <button className="join-item btn">»</button>
+                        {totalPages > 1 && (
+                            <>
+                                <button className="join-item btn">«</button>
+                                {Array.from({ length: totalPages }, (_, index) => (
+                                    <input className="join-item btn btn-square" type="radio" name="options" aria-label={`${index + 1}`} onClick={() => setCurrentPage(index + 1)} />
+                                ))}
+                                <button className="join-item btn">»</button>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
 
-            <dialog id="my_modal_create" className="modal">
+            <dialog id="create_category_modal" className="modal">
                 <div className="modal-box">
                     <h3 className="font-bold text-[24px] mb-[10px] text-primary">{lang.formatMessage({ id: "category.createCategory" })}</h3>
                     <form action="w-[100%]" onSubmit={handleSubmitCreate}>
                         <fieldset className="fieldset w-[100%] mb-[10px]">
                             <label className="label text-primary text-[18px]" htmlFor="categoryName">{lang.formatMessage({ id: "category.categoryName" })}</label>
-                            <input type="text" id="categoryName" className="input w-[100%] outline-none" placeholder={lang.formatMessage({ id: "category.enterCatgory" })} />
+                            <input type="text" name="categoryName" id="categoryName" className="input w-[100%] outline-none" placeholder={lang.formatMessage({ id: "category.enterCatgory" })} />
                         </fieldset>
 
                         <fieldset className="fieldset w-[100%] mb-[10px]">
                             <label className="label text-primary text-[18px]" htmlFor="status">{lang.formatMessage({ id: "table.status" })}</label>
-                            <select defaultValue="active" className="select w-[100%] outline-none">
+                            <select name="status" defaultValue="active" className="select w-[100%] outline-none">
                                 <option value={"active"}>{lang.formatMessage({ id: "select.active" })}</option>
                                 <option value={"inactive"}>{lang.formatMessage({ id: "select.inactive" })}</option>
                             </select>
@@ -249,7 +359,13 @@ const Categories = () => {
 
                         <fieldset className="fieldset w-[100%] mb-[10px]">
                             <label className="label text-primary text-[18px]" htmlFor="status">{lang.formatMessage({ id: "input.image" })}</label>
-                            <input type="file" className="file-input file-input-primary w-[100%]" />
+                            <input name="image" type="file" className="file-input file-input-primary w-[100%]" onChange={handleImageChange} />
+                            {preview && (
+                                <img
+                                    src={preview}
+                                    className="w-32 h-32 object-cover rounded-lg"
+                                />
+                            )}
                         </fieldset>
 
                         <button className="w-[100%] mt-[10px] btn btn-outline btn-primary">{lang.formatMessage({ id: "button.create" })}</button>
@@ -267,7 +383,7 @@ const Categories = () => {
                     <form action="w-[100%]" onSubmit={handleSubmitEdit}>
                         <fieldset className="fieldset w-[100%] mb-[10px]">
                             <label className="label text-primary text-[18px]" htmlFor="categoryName">{lang.formatMessage({ id: "category.categoryName" })}</label>
-                            <input type="text" id="categoryName" className="input w-[100%] outline-none" placeholder={lang.formatMessage({ id: "category.enterCatgory" })} value={categoryDetail?.categoryName ? categoryDetail.categoryName : "0"} />
+                            <input type="text" id="categoryName" name="categoryName" className="input w-[100%] outline-none" placeholder={lang.formatMessage({ id: "category.enterCatgory" })} value={categoryDetail?.categoryName ? categoryDetail.categoryName : "0"} />
                         </fieldset>
 
                         <fieldset className="fieldset w-[100%] mb-[10px]">
@@ -280,6 +396,7 @@ const Categories = () => {
                                         status: e.target.value,
                                     })
                                 }
+                                name="status"
                                 className="select w-full outline-none"
                             >
                                 <option value="active">
@@ -293,10 +410,10 @@ const Categories = () => {
 
                         <fieldset className="fieldset w-[100%] mb-[10px]">
                             <label className="label text-primary text-[18px]" htmlFor="status">{lang.formatMessage({ id: "input.image" })}</label>
-                            <input type="file" className="file-input file-input-primary w-[100%]" />
+                            <input type="file" name="image" className="file-input file-input-primary w-[100%]" onChange={handleImageChange} />
                             {categoryDetail?.image && (
                                 <img
-                                    src={categoryDetail.image}
+                                    src={preview || categoryDetail.image}
                                     className="w-32 h-32 object-cover rounded-lg"
                                 />
                             )}

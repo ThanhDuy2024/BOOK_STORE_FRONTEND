@@ -4,6 +4,14 @@
     "global.totalInactive": "Tổng số không hoạt động",
 
     "input.search": "Tìm kiếm...",
+
+    "toast.created": "đã được tạo",
+    "toast.updated": "đã được cập nhật",
+    "toast.deleted": "đã được xóa",
+    "toast.error": "Lỗi hệ thống",
+    "toast.existed": "đã tồn tại!",
+    "toast.notFound": "không tìm thấy",
+
     "header.title": "Hệ thống cửa hàng sách",
     "header.en": "Tiếng Anh",
     "header.vi": "Tiếng Việt",
@@ -14,6 +22,7 @@
     "side.clientManagement": "Khách hàng",
     "side.users": "Quản lý người dùng",
     
+    "select.allStatus": "Tất cả trạng thái",
     "select.changeStatus": "Đổi trạng thái",
     "select.active": "Hoạt động",
     "select.inactive": "Ngừng hoạt động",

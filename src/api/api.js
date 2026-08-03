@@ -15,7 +15,7 @@ export const callApi = (method, url, data) => {
       } else if(method === 'post') {
         let res = await axios.post(url, data, {
           headers: {
-            token: JSON.parse(localStorage.getItem('token')) || JSON.parse(sessionStorage.getItem('token')),
+            token: localStorage.getItem('token') || sessionStorage.getItem('token'),
           },
           withCredentials: true
         })
@@ -37,7 +37,7 @@ export const callApi = (method, url, data) => {
       } else if (method === 'put') {
         let res = await axios.put(url, data, {
           headers: {
-            token: JSON.parse(localStorage.getItem('token')) || JSON.parse(sessionStorage.getItem('token')),
+            token: localStorage.getItem('token') || sessionStorage.getItem('token'),
           },
           withCredentials: true
         })

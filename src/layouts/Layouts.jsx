@@ -29,7 +29,7 @@ const AdminLayouts = ({ children }) => {
                 <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
                 <div className="drawer-content bg-slate-50 min-h-screen">
                     {/* Navbar */}
-                    <nav className="navbar w-full bg-white shadow-md flex justify-between padding-[10px] fixed">
+                    <nav className="navbar w-full bg-white shadow-md flex justify-between padding-[10px] fixed z-100">
                         <div className="flex items-center gap-[30px]">
                             <label htmlFor="my-drawer-4" aria-label="open sidebar" className="btn btn-square btn-ghost">
                                 {/* Sidebar toggle icon */}

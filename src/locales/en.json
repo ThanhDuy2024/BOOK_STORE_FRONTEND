@@ -2,20 +2,33 @@
     "global.management": "Management",
     "global.totalActive": "Total active",
     "global.totalInactive": "Total inactive",
+
     "input.search": "Search...",
+
+    "toast.created": "has been created",
+    "toast.updated": "has been updated",
+    "toast.deleted": "has been deleted",
+    "toast.error": "Error system",
+    "toast.existed": "has been existed!",
+    "toast.notFound": "not Found",
+    
     "header.title": "Book Store System",
     "header.en": "English",
     "header.vi": "Vietnamese",
+    
     "side.dashboard": "Dashboard",
     "side.productsManagement": "Products management",
     "side.category": "Categories management",
     "side.book": "Books management",
     "side.clientManagement": "Client management",
     "side.users": "Users management",
+
+    "select.allStatus": "All status",
     "select.changeStatus": "Change status",
     "select.active": "Active",
     "select.inactive": "Inactive",
     "select.sort": "Sort",
+
     "table.status": "Status",
     "table.updatedAt": "Updated At",
     "table.updatedBy": "Updated By",
@@ -30,6 +43,7 @@
     "table.price": "Price",
     "table.image": "Image",
     "input.image": "Choose image",
+    
     "button.create": "Create new item",
     "button.edit": "Edit item",
     "button.close": "Close",
@@ -55,6 +69,7 @@
     "book.editBook": "Edit book",
     "book.deleteBook": "Alert!",
     "book.deleteDes": "Are you sure you want to delete this product?",
+    
     "users.title": "Users management",
     "users.name": "User name"
 }

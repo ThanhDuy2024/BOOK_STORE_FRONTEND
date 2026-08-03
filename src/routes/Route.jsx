@@ -8,6 +8,7 @@ import Login from "../pages/Login/Login";
 import { useContext, useEffect, useState } from "react";
 import { callApi } from "../api/api";
 import { AdminContext } from "../contexts/adminContext";
+import { Toaster, toast } from 'sonner'
 
 const ProtectedRoute = () => {
     const navigate = useNavigate();
@@ -44,17 +45,20 @@ const ProtectedRoute = () => {
 
 const RoutesList = () => {
     return (
-        <Routes>
-            <Route path="/admin/login" element={<Login />} />
-            <Route element={<ProtectedRoute />}>
-                <Route element={<AdminLayouts />}>
-                    <Route path="/admin/dashboard" element={<Dashboard />} />
-                    <Route path="/admin/category" element={<Categories />} />
-                    <Route path="/admin/books" element={<Books />} />
-                    <Route path="/admin/users" element={<Users />} />
+        <>
+            <Toaster position="top-right" richColors/>
+            <Routes>
+                <Route path="/admin/login" element={<Login />} />
+                <Route element={<ProtectedRoute />}>
+                    <Route element={<AdminLayouts />}>
+                        <Route path="/admin/dashboard" element={<Dashboard />} />
+                        <Route path="/admin/category" element={<Categories />} />
+                        <Route path="/admin/books" element={<Books />} />
+                        <Route path="/admin/users" element={<Users />} />
+                    </Route>
                 </Route>
-            </Route>
-        </Routes>
+            </Routes>
+        </>
     )
 }
 
