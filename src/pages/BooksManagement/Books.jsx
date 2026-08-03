@@ -1,4 +1,4 @@
-import { IoSearchOutline, IoSpeedometerOutline } from "react-icons/io5";
+import { IoSearchOutline } from "react-icons/io5";
 import { useIntl } from "react-intl";
 import { bookMockData, categoryMockData } from "../../data/mockData";
 import { useState } from "react";
@@ -6,6 +6,9 @@ import { LiaBookSolid } from "react-icons/lia";
 import { PiBooksThin } from "react-icons/pi";
 import { VscLayersActive } from "react-icons/vsc";
 import { IoMdRemoveCircleOutline } from "react-icons/io";
+import { FaRegChartBar } from "react-icons/fa";
+import { GoBook } from "react-icons/go";
+import { Link } from "react-router";
 const Books = () => {
     const lang = useIntl();
     const [bookList, setBookList] = useState(bookMockData);
@@ -24,41 +27,21 @@ const Books = () => {
             <div className="flex justify-between items-center shadow-md rounded-[10px] p-4 mt-[80px] mx-[10px] bg-white">
                 <div className="flex items-center justify-center gap-[20px]">
                     <div className="w-[48px] h-[48px] bg-[#eaf2ff] flex items-center justify-center rounded-[10px]">
-                        <IoSpeedometerOutline size={20} className="text-primary" />
+                        <GoBook size={20} className="text-primary" />
                     </div>
                     <div className="">
-                        <div className="text-primary font-[700]">Management</div>
-                        <div className="text-[26px] text-black font-[700]">{lang.formatMessage({ id: "side.category" })}</div>
-                        <div className="">Monitor performance, sales, users, and support from one clean workspace.</div>
+                        <div className="text-primary font-[700]">{lang.formatMessage({ id: "global.management" })}</div>
+                        <div className="text-[26px] text-black font-[700]">{lang.formatMessage({ id: "book.title" })}</div>
+                        <div className="">{lang.formatMessage({ id: "book.sub" })}</div>
                     </div>
                 </div>
                 <div className="flex-none">
                     <ul className="menu menu-horizontal px-1 gap-[10px]">
                         <li>
-                            <label className="input outline-none">
-                                <div className="h-[1em] opacity-50 flex items-center">
-                                    <IoSearchOutline size={20} />
-                                </div>
-                                <input type="search" placeholder={lang.formatMessage({ id: "input.search" })} />
-                            </label>
-                        </li>
-                        <li>
-                            <select defaultValue="change" className="select outline-none">
-                                <option disabled={true} value={"change"}>{lang.formatMessage({ id: "select.changeStatus" })}</option>
-                                <option>{lang.formatMessage({ id: "select.active" })}</option>
-                                <option>{lang.formatMessage({ id: "select.inactive" })}</option>
-                            </select>
-                        </li>
-                        <li>
-                            <select defaultValue="sort" className="select outline-none">
-                                <option disabled={true} value={"sort"}>{lang.formatMessage({ id: "select.sort" })}</option>
-                                <option>A-Z</option>
-                                <option>Z-A</option>
-                            </select>
-                        </li>
-                        <li>
                             <button className="btn btn-primary text-white font-[500]" onClick={() => document.getElementById('my_modal_create').showModal()}>
-                                {lang.formatMessage({ id: "book.createBook" })}
+                                <Link to={"/admin/books/create"}>
+                                    {lang.formatMessage({ id: "book.createBook" })}
+                                </Link>
                             </button>
                         </li>
                     </ul>
@@ -68,7 +51,7 @@ const Books = () => {
             <div className="mt-[20px] grid grid-cols-4 gap-4 p-4">
                 <div className="bg-white shadow-md p-[21.6px] rounded-[10px] border-l-4 border-green-500">
                     <div className="flex justify-between text-[14px] text-[#6b7280] font-bold items-center">
-                        <div className="">TOTAL BOOKS</div>
+                        <div className="">{lang.formatMessage({ id: "book.total" })}</div>
                         <div className="bg-[#e7f6f3] w-[42px] h-[42px] flex items-center justify-center rounded-[10px]">
                             <LiaBookSolid size={20} color="green" />
                         </div>
@@ -85,7 +68,7 @@ const Books = () => {
                 </div>
                 <div className="bg-white shadow-md p-[21.6px] rounded-[10px] border-l-4 border-orange-500">
                     <div className="flex justify-between text-[14px] text-[#6b7280] font-bold items-center">
-                        <div className="">TOTAL QUANTITY</div>
+                        <div className="">{lang.formatMessage({ id: "book.totalQuantity" })}</div>
                         <div className="bg-[#fff4df] w-[42px] h-[42px] flex items-center justify-center rounded-[10px]">
                             <PiBooksThin size={20} className="text-orange-400" />
                         </div>
@@ -102,7 +85,7 @@ const Books = () => {
                 </div>
                 <div className="bg-white shadow-md p-[21.6px] rounded-[10px] border-l-4 border-indigo-500">
                     <div className="flex justify-between text-[14px] text-[#6b7280] font-bold items-center">
-                        <div className="">TOTAL ACTIVE</div>
+                        <div className="">{lang.formatMessage({ id: "global.totalActive" })}</div>
                         <div className="bg-[#eaf2ff] w-[42px] h-[42px] flex items-center justify-center rounded-[10px]">
                             <VscLayersActive size={20} color="blue" />
                         </div>
@@ -119,7 +102,7 @@ const Books = () => {
                 </div>
                 <div className="bg-white shadow-md p-[21.6px] rounded-[10px] border-l-4 border-red-500">
                     <div className="flex justify-between text-[14px] text-[#6b7280] font-bold items-center">
-                        <div className="">TOTAL INACTIVE</div>
+                        <div className="">{lang.formatMessage({ id: "global.totalInactive" })}</div>
                         <div className="bg-[#ffecec] w-[42px] h-[42px] flex items-center justify-center rounded-[10px]">
                             <IoMdRemoveCircleOutline size={20} color="red" />
                         </div>
@@ -137,6 +120,55 @@ const Books = () => {
             </div>
 
             <div className="mt-[20px] mx-[10px] rounded-[10px] shadow-md bg-white">
+                <div className="px-4 pt-4 flex items-center justify-between mb-[10px]">
+                    <div className="">
+                        <div className="flex items-center gap-[10px] text-[20px]">
+                            <div className="w-[48px] h-[48px] bg-[#eaf2ff] flex items-center justify-center rounded-[10px]">
+                                <FaRegChartBar size={20} className="text-primary" />
+                            </div>
+                            <div className="font-bold">{lang.formatMessage({ id: "book.list" })}</div>
+                        </div>
+                    </div>
+                    <div className="flex-none">
+                        <ul className="menu menu-horizontal px-1 gap-[10px]">
+                            <li>
+                                <label className="input outline-none">
+                                    <div className="h-[1em] opacity-50 flex items-center">
+                                        <IoSearchOutline size={20} />
+                                    </div>
+                                    <input
+                                        type="search"
+                                        placeholder={lang.formatMessage({ id: "input.search" })}
+
+                                    />
+                                </label>
+                            </li>
+                            <li>
+                                <select
+                                    className="select outline-none"
+
+                                >
+                                    <option value="all">
+                                        {lang.formatMessage({ id: "select.allStatus" })}
+                                    </option>
+                                    <option value="active">
+                                        {lang.formatMessage({ id: "select.active" })}
+                                    </option>
+                                    <option value="inactive">
+                                        {lang.formatMessage({ id: "select.inactive" })}
+                                    </option>
+                                </select>
+                            </li>
+                            <li>
+                                <select defaultValue={""} className="select outline-none">
+                                    <option disabled={true} value={"desc"}>{lang.formatMessage({ id: "select.sort" })}</option>
+                                    <option value={"asc"}>A-Z</option>
+                                    <option value={"desc"}>Z-A</option>
+                                </select>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
                 <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="table text-center">

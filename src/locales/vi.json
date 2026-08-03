@@ -2,6 +2,8 @@
     "global.management": "Quản lý",
     "global.totalActive": "Tổng số đang hoạt động",
     "global.totalInactive": "Tổng số không hoạt động",
+    "global.createNew": "Tạo mới",
+    "global.recall": "Quay lại trang danh sách",
 
     "input.search": "Tìm kiếm...",
 
@@ -63,13 +65,18 @@
     "category.list": "Danh sách danh mục",
 
     
-    "book.title": "Quản lý sách",
+    "book.title": "Bách khoa toàn thư",
+    "book.list": "Danh sách bách khoa toàn thư",
     "book.createBook": "Tạo sách",
     "book.bookName": "Tên sách",
+    "book.sub": "Xem danh sách sách, thêm, xóa, sửa sách",
     "book.enterBook": "Nhập tên sách...",
     "book.editBook": "Chỉnh sửa sách",
     "book.deleteBook": "Cảnh báo!!!",
     "book.deleteDes": "Bạn chắc chắn muốn xóa sản phẩm này chứ ?",
+    "book.total": "Tổng số quyển sách",
+    "book.totalQuantity": "Tổng số lượng sách",
+    "book.information": "Thông tin sách",
     
     "users.title": "Quản lý người dùng",
     "users.name": "Tên người dùng"

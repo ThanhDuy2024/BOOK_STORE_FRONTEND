@@ -9,6 +9,8 @@ import { useContext, useEffect, useState } from "react";
 import { callApi } from "../api/api";
 import { AdminContext } from "../contexts/adminContext";
 import { Toaster, toast } from 'sonner'
+import { CreateBook } from "../pages/BooksManagement/CreateBook";
+import { CreateUsers } from "../pages/UsersManagement/CreateUsers";
 
 const ProtectedRoute = () => {
     const navigate = useNavigate();
@@ -54,7 +56,9 @@ const RoutesList = () => {
                         <Route path="/admin/dashboard" element={<Dashboard />} />
                         <Route path="/admin/category" element={<Categories />} />
                         <Route path="/admin/books" element={<Books />} />
+                        <Route path="/admin/books/create" element={<CreateBook />} />
                         <Route path="/admin/users" element={<Users />} />
+                        <Route path="/admin/users/create" element={<CreateUsers/>}/>
                     </Route>
                 </Route>
             </Routes>
