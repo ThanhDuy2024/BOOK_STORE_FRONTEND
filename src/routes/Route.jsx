@@ -11,6 +11,7 @@ import { AdminContext } from "../contexts/adminContext";
 import { Toaster, toast } from 'sonner'
 import { CreateBook } from "../pages/BooksManagement/CreateBook";
 import { CreateUsers } from "../pages/UsersManagement/CreateUsers";
+import { EditBook } from "../pages/BooksManagement/EditBook";
 
 const ProtectedRoute = () => {
     const navigate = useNavigate();
@@ -48,7 +49,7 @@ const ProtectedRoute = () => {
 const RoutesList = () => {
     return (
         <>
-            <Toaster position="top-right" richColors/>
+            <Toaster position="top-right" richColors />
             <Routes>
                 <Route path="/admin/login" element={<Login />} />
                 <Route element={<ProtectedRoute />}>
@@ -57,8 +58,10 @@ const RoutesList = () => {
                         <Route path="/admin/category" element={<Categories />} />
                         <Route path="/admin/books" element={<Books />} />
                         <Route path="/admin/books/create" element={<CreateBook />} />
+                        <Route path="/admin/books/edit/:id" element={<EditBook />} />
                         <Route path="/admin/users" element={<Users />} />
-                        <Route path="/admin/users/create" element={<CreateUsers/>}/>
+                        <Route path="/admin/users/create" element={<CreateUsers />} />
+
                     </Route>
                 </Route>
             </Routes>

@@ -71,14 +71,16 @@ export const CreateBook = () => {
                 }
             );
 
-            if(res.data.status === true) {
-                toast.success(`${lang.formatMessage({id: "book.subtitle"})} ${lang.formatMessage({ id: "toast.created" })}`)
+            if (res.data.status === true) {
+                toast.success(`${lang.formatMessage({ id: "book.subtitle" })} ${lang.formatMessage({ id: "toast.created" })}`)
                 navigate("/admin/books")
             } else {
-                toast.success(`${lang.formatMessage({id: "book.subtitle"})} ${lang.formatMessage({ id: "toast.notFound" })}`)
+                toast.success(`${lang.formatMessage({ id: "book.subtitle" })} ${lang.formatMessage({ id: "toast.notFound" })}`)
             }
         } catch (error) {
             console.log(error);
+            toast.success(`${lang.formatMessage({ id: "book.subtitle" })} ${lang.formatMessage({ id: "toast.notFound" })}`)
+
         }
     }
     return (
@@ -148,7 +150,7 @@ export const CreateBook = () => {
                                 id="quantity"
                                 name="quantity"
                                 className="input w-full outline-none"
-                                placeholder={lang.formatMessage({ id: "global.subQuantity"})} />
+                                placeholder={lang.formatMessage({ id: "global.subQuantity" })} />
                         </fieldset>
 
                         <fieldset className="fieldset">
@@ -179,7 +181,7 @@ export const CreateBook = () => {
 
                         <fieldset className="fieldset">
                             <label className="label text-black" htmlFor="price">
-                                {lang.formatMessage({ id: "global.price"})}
+                                {lang.formatMessage({ id: "global.price" })}
                                 <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -187,7 +189,7 @@ export const CreateBook = () => {
                                 id="price"
                                 name="price"
                                 className="input w-full outline-none"
-                                placeholder={lang.formatMessage({ id: "book.subPrice"})} />
+                                placeholder={lang.formatMessage({ id: "book.subPrice" })} />
                         </fieldset>
 
                         <fieldset className="fieldset">
@@ -221,20 +223,20 @@ export const CreateBook = () => {
                                 {lang.formatMessage({ id: "input.image" })}
                                 <span className="text-red-500">*</span>
                             </label>
-                            <input 
-                                type="file" 
-                                id="image" 
-                                name="image" 
-                                className="file-input w-[100%] outline-none" 
+                            <input
+                                type="file"
+                                id="image"
+                                name="image"
+                                className="file-input w-[100%] outline-none"
                                 onChange={handleImageChange} />
                         </fieldset>
 
                         <fieldset className="fieldset">
                             <label className="label text-black">{lang.formatMessage({ id: "book.description" })}</label>
-                            <textarea 
-                                className="textarea h-24 w-full outline-none" 
-                                name="description" 
-                                placeholder={lang.formatMessage({ id: "book.subDescription" })}>    
+                            <textarea
+                                className="textarea h-24 w-full outline-none"
+                                name="description"
+                                placeholder={lang.formatMessage({ id: "book.subDescription" })}>
                             </textarea>
                         </fieldset>
 

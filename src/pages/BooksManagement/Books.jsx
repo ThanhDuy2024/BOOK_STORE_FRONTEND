@@ -1,7 +1,7 @@
 import { IoSearchOutline } from "react-icons/io5";
 import { useIntl } from "react-intl";
 import { bookMockData, categoryMockData } from "../../data/mockData";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LiaBookSolid } from "react-icons/lia";
 import { PiBooksThin } from "react-icons/pi";
 import { VscLayersActive } from "react-icons/vsc";
@@ -9,10 +9,46 @@ import { IoMdRemoveCircleOutline } from "react-icons/io";
 import { FaRegChartBar } from "react-icons/fa";
 import { GoBook } from "react-icons/go";
 import { Link } from "react-router";
+import { callApi } from "../../api/api";
 const Books = () => {
     const lang = useIntl();
-    const [bookList, setBookList] = useState(bookMockData);
+    const [bookList, setBookList] = useState([]);
     const [bookDetail, setBookDetail] = useState();
+    const [totalPage, setTotalPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [search, setSearch] = useState("null");
+    const [status, setStatus] = useState("all");
+    const [updatedAtFilter, setUpdatedAtFilter] = useState("desc");
+    const [priceFilter, setPriceFilter] = useState("null");
+    const [quantityFilter, setQuantityFilter] = useState("null");
+    const [totalBook, setTotalBook] = useState(0);
+    const [totalQuantity, setTotalQuantity] = useState(0);
+    const [totalActive, setTotalActive] = useState(0);
+    const [totalInactive, setTotalInactive] = useState(0);
+    const loadBookApi = async (currentPage, search, status, updatedAtFilter, priceFilter, quantityFilter) => {
+        try {
+            const res = await callApi(
+                "get",
+                `${import.meta.env.VITE_REACT_APP_APIDEV}/admin/books?search=${search}&status=${status}&sortUpdatedAt=${updatedAtFilter}&priceFilter=${priceFilter}&quantityFilter=${quantityFilter}&page=${currentPage}`,
+                {});
+
+            if (res.status === true) {
+                setBookList(res.data);
+                setTotalPage(res.totalPage);
+                setTotalBook(res.totalBook);
+                setTotalActive(res.totalActive);
+                setTotalInactive(res.totalInactive);
+                setTotalQuantity(res.totalQuantity);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        loadBookApi(currentPage, search, status, updatedAtFilter, priceFilter, quantityFilter);
+    }, [currentPage, search, status, updatedAtFilter, priceFilter, quantityFilter]);
+
     const handleSubmitCreate = (e) => {
         e.preventDefault();
         console.log("submit is here")
@@ -56,7 +92,7 @@ const Books = () => {
                             <LiaBookSolid size={20} color="green" />
                         </div>
                     </div>
-                    <div className="mt-[16px] font-bold text-[35px]">10</div>
+                    <div className="mt-[16px] font-bold text-[35px]">{totalBook}</div>
                     <div className="flex gap-[5px] text-[15px] mt-[14px]">
                         <div className="text-green-700">
                             +5
@@ -73,7 +109,7 @@ const Books = () => {
                             <PiBooksThin size={20} className="text-orange-400" />
                         </div>
                     </div>
-                    <div className="mt-[16px] font-bold text-[35px]">200</div>
+                    <div className="mt-[16px] font-bold text-[35px]">{totalQuantity}</div>
                     <div className="flex gap-[5px] text-[15px] mt-[14px]">
                         <div className="text-orange-700">
                             +200
@@ -90,7 +126,7 @@ const Books = () => {
                             <VscLayersActive size={20} color="blue" />
                         </div>
                     </div>
-                    <div className="mt-[16px] font-bold text-[35px]">9</div>
+                    <div className="mt-[16px] font-bold text-[35px]">{totalActive}</div>
                     <div className="flex gap-[5px] text-[15px] mt-[14px]">
                         <div className="text-indigo-700">
                             90%
@@ -107,7 +143,7 @@ const Books = () => {
                             <IoMdRemoveCircleOutline size={20} color="red" />
                         </div>
                     </div>
-                    <div className="mt-[16px] font-bold text-[35px]">1</div>
+                    <div className="mt-[16px] font-bold text-[35px]">{totalInactive}</div>
                     <div className="flex gap-[5px] text-[15px] mt-[14px]">
                         <div className="text-red-700">
                             10%
@@ -139,14 +175,14 @@ const Books = () => {
                                     <input
                                         type="search"
                                         placeholder={lang.formatMessage({ id: "input.search" })}
-
+                                        onChange={(e) => setSearch(e.target.value)}
                                     />
                                 </label>
                             </li>
                             <li>
                                 <select
                                     className="select outline-none"
-
+                                    onChange={(e) => setStatus(e.target.value)}
                                 >
                                     <option value="all">
                                         {lang.formatMessage({ id: "select.allStatus" })}
@@ -160,10 +196,35 @@ const Books = () => {
                                 </select>
                             </li>
                             <li>
-                                <select defaultValue={""} className="select outline-none">
-                                    <option disabled={true} value={"desc"}>{lang.formatMessage({ id: "select.sort" })}</option>
-                                    <option value={"asc"}>A-Z</option>
-                                    <option value={"desc"}>Z-A</option>
+                                <select
+                                    value={updatedAtFilter}
+                                    className="select outline-none"
+                                    onChange={(e) => setUpdatedAtFilter(e.target.value)}
+                                >
+                                    <option value="desc">{lang.formatMessage({ id: "global.updatedDESC" })}</option>
+                                    <option value="asc">{lang.formatMessage({ id: "global.updatedASC" })}</option>
+                                </select>
+                            </li>
+                            <li>
+                                <select
+                                    value={priceFilter}
+                                    className="select outline-none"
+                                    onChange={(e) => setPriceFilter(e.target.value)}
+                                >
+                                    <option value="null">{lang.formatMessage({ id: "global.priceFilter" })}</option>
+                                    <option value="desc">{lang.formatMessage({ id: "global.priceDESC" })}</option>
+                                    <option value="asc">{lang.formatMessage({ id: "global.priceASC" })}</option>
+                                </select>
+                            </li>
+                            <li>
+                                <select
+                                    value={quantityFilter}
+                                    className="select outline-none"
+                                    onChange={(e) => setQuantityFilter(e.target.value)}
+                                >
+                                    <option value="null">{lang.formatMessage({ id: "global.quantityFilter" })}</option>
+                                    <option value="desc">{lang.formatMessage({ id: "global.quantityDESC" })}</option>
+                                    <option value="asc">{lang.formatMessage({ id: "global.quantityASC" })}</option>
                                 </select>
                             </li>
                         </ul>
@@ -224,26 +285,28 @@ const Books = () => {
 
                                         <td className="align-middle">
                                             <span className="text-slate-700">
-                                                {item.updatedAt}
+                                                {item.updatedAtFormat}
                                             </span>
                                         </td>
 
                                         <td className="align-middle">
                                             <span className="text-primary font-medium">
-                                                {item.updatedBy}
+                                                {item.creator?.adminName}
                                             </span>
                                         </td>
 
                                         <td className="align-middle">
                                             <span className="text-primary font-medium">
-                                                {item.createdBy}
+                                                {item.updater?.adminName}
                                             </span>
                                         </td>
 
                                         <td className="align-middle">
                                             <div className="flex justify-center gap-2">
                                                 <button className="btn btn-sm btn-primary btn-outline">
-                                                    {lang.formatMessage({ id: "table.edit" })}
+                                                    <Link to={`/admin/books/edit/${item.id}`}>
+                                                        {lang.formatMessage({ id: "table.edit" })}
+                                                    </Link>
                                                 </button>
 
                                                 <button className="btn btn-sm btn-error btn-outline" onClick={() => { setBookDetail(item); document.getElementById('my_modal_delete').showModal(); }}>
@@ -257,17 +320,15 @@ const Books = () => {
                         </table>
                     </div>
                     <div className="flex items-center justify-center mt-[10px] mb-[10px]">
-                        <button className="join-item btn">«</button>
-                        <input
-                            className="join-item btn btn-square"
-                            type="radio"
-                            name="options"
-                            aria-label="1"
-                            checked="checked" />
-                        <input className="join-item btn btn-square" type="radio" name="options" aria-label="2" />
-                        <input className="join-item btn btn-square" type="radio" name="options" aria-label="3" />
-                        <input className="join-item btn btn-square" type="radio" name="options" aria-label="4" />
-                        <button className="join-item btn">»</button>
+                        {totalPage > 1 && (
+                            <>
+                                <button className="join-item btn">«</button>
+                                {Array.from({ length: totalPages }, (_, index) => (
+                                    <input className="join-item btn btn-square" type="radio" name="options" aria-label={`${index + 1}`} onClick={() => setCurrentPage(index + 1)} />
+                                ))}
+                                <button className="join-item btn">»</button>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
