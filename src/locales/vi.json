@@ -4,16 +4,15 @@
     "global.totalInactive": "Tổng số không hoạt động",
     "global.createNew": "Tạo mới",
     "global.recall": "Quay lại trang danh sách",
-
+    "global.price": "Giá tiền",
+    "global.subQuantity": "Nhập số lượng...",
     "input.search": "Tìm kiếm...",
-
     "toast.created": "đã được tạo",
     "toast.updated": "đã được cập nhật",
     "toast.deleted": "đã được xóa",
     "toast.error": "Lỗi hệ thống",
     "toast.existed": "đã tồn tại!",
     "toast.notFound": "không tìm thấy",
-
     "header.title": "Hệ thống cửa hàng sách",
     "header.en": "Tiếng Anh",
     "header.vi": "Tiếng Việt",
@@ -23,13 +22,11 @@
     "side.book": "Danh sách sản phẩm",
     "side.clientManagement": "Khách hàng",
     "side.users": "Quản lý người dùng",
-    
     "select.allStatus": "Tất cả trạng thái",
     "select.changeStatus": "Đổi trạng thái",
     "select.active": "Hoạt động",
     "select.inactive": "Ngừng hoạt động",
     "select.sort": "Sắp xếp",
-    
     "table.status": "Trạng thái",
     "table.updatedAt": "Cập nhật",
     "table.updatedBy": "Cập nhật bởi",
@@ -43,14 +40,11 @@
     "table.quantity": "Số lượng",
     "table.price": "Đơn giá",
     "table.image": "Hình ảnh",
-
     "input.image": "Chọn ảnh",
-    
     "button.create": "Thêm mới",
     "button.edit": "Chỉnh sửa",
     "button.close": "Đóng",
     "button.confirm": "Xác nhận",
-    
     "category.title": "Danh mục",
     "category.sub": "Xem danh sách danh mục, thêm, xóa, sửa danh mục",
     "category.createCategory": "Tạo danh mục",
@@ -63,12 +57,15 @@
     "category.totalActiveSub": "danh mục hoạt động",
     "category.totalInactiveSub": "danh mục không hoạt động",
     "category.list": "Danh sách danh mục",
-
-    
+    "category.selectCategory": "Chọn danh mục",
+    "category.subSelectCategory": "Bạn có thể chọn nhiều danh mục cho một cuốn sách.",
     "book.title": "Bách khoa toàn thư",
+    "book.subtitle": "Sách",
     "book.list": "Danh sách bách khoa toàn thư",
     "book.createBook": "Tạo sách",
     "book.bookName": "Tên sách",
+    "book.author": "Tác giả",
+    "book.publishing": "Nhà xuất bản",
     "book.sub": "Xem danh sách sách, thêm, xóa, sửa sách",
     "book.enterBook": "Nhập tên sách...",
     "book.editBook": "Chỉnh sửa sách",
@@ -77,7 +74,14 @@
     "book.total": "Tổng số quyển sách",
     "book.totalQuantity": "Tổng số lượng sách",
     "book.information": "Thông tin sách",
-    
+    "book.subInformation": "Những thông tin bạn cần điền cho một cuốn sách",
+    "book.publication": "Ngày xuất bản",
+    "book.description": "Mô tả",
+    "book.subDescription": "Mô tả sách...",
+    "book.subPrice": "Nhập giá...",
+    "book.subPublishing": "Nhập thông tin xuất bản...",
+    "book.subAuthor": "Nhập tên tác giả...",
+    "book.subBookName": "Nhập tên sách...",
     "users.title": "Quản lý người dùng",
     "users.name": "Tên người dùng"
 }

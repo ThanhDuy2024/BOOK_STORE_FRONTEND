@@ -4,9 +4,10 @@
     "global.totalInactive": "Total inactive",
     "global.createNew": "Create new",
     "global.recall": "Return to the list page",
+    "global.price": "Price",
+    "global.subQuantity": "Enter quantity...",
 
     "input.search": "Search...",
-
     "toast.created": "has been created",
     "toast.updated": "has been updated",
     "toast.deleted": "has been deleted",
@@ -24,13 +25,13 @@
     "side.book": "Books management",
     "side.clientManagement": "Client management",
     "side.users": "Users management",
-
+    
     "select.allStatus": "All status",
     "select.changeStatus": "Change status",
     "select.active": "Active",
     "select.inactive": "Inactive",
     "select.sort": "Sort",
-
+    
     "table.status": "Status",
     "table.updatedAt": "Updated At",
     "table.updatedBy": "Updated By",
@@ -44,13 +45,14 @@
     "table.quantity": "Quantity",
     "table.price": "Price",
     "table.image": "Image",
+    
     "input.image": "Choose image",
     
     "button.create": "Create new item",
     "button.edit": "Edit item",
     "button.close": "Close",
     "button.confirm": "Confirm",
-
+    
     "category.title": "Categories",
     "category.sub": "View category list; add, delete, and edit categories",
     "category.createCategory": "Create category",
@@ -63,11 +65,16 @@
     "category.totalActiveSub": "active categories",
     "category.totalInactiveSub": "inactive categories",
     "category.list": "Categories list",
-
+    "category.selectCategory": "Select category",
+    "category.subSelectCategory": "You can select multiple categories for a book.",
+    
     "book.title": "Books management",
+    "book.subtitle": "Book",
     "book.list": "Book list",
     "book.createBook": "Create book",
     "book.bookName": "Book name",
+    "book.author": "Author",
+    "book.publishing": "Publishing house",
     "book.sub": "View the list of books; add, delete, and edit books.",
     "book.enterBook": "Enter book name",
     "book.editBook": "Edit book",
@@ -76,6 +83,14 @@
     "book.total": "Total books",
     "book.totalQuantity": "Total quantity",
     "book.information": "Book information",
+    "book.subInformation": "Information you need to fill in for a book",
+    "book.publication": "Publication date",
+    "book.description": "Description",
+    "book.subDescription": "Book description...",
+    "book.subPrice": "Enter price...",
+    "book.subPublishing": "Enter publishing...",
+    "book.subAuthor": "Enter author...",
+    "book.subBookName": "Enter book name...",
 
     "users.title": "Users management",
     "users.name": "User name"

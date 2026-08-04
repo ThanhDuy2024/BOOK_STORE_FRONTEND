@@ -1,19 +1,15 @@
 import { useIntl } from "react-intl"
-import { Form, Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { BsBookmarkPlus } from "react-icons/bs";
 import { FaRegChartBar } from "react-icons/fa";
 import { MdOutlineBookmarkAdd } from "react-icons/md";
 import { MdOutlineCategory } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { callApi } from "../../api/api"
-import { toast } from "sonner";
-import axios from "axios";
-export const CreateBook = () => {
+export const EditBook = () => {
     const lang = useIntl();
-    const navigate = useNavigate();
     const [preview, setPreview] = useState("")
     const [categories, setCategories] = useState([]);
-    const [selectedCategories, setSelectedCategories] = useState([]);
 
     useEffect(() => {
         (async () => {
@@ -37,50 +33,7 @@ export const CreateBook = () => {
         }
     };
 
-    const handleSubmitForm = async (e) => {
-        e.preventDefault();
-
-        const formData = new FormData();
-
-        formData.append("bookName", e.target.bookName.value);
-        formData.append("quantity", e.target.quantity.value);
-        formData.append("author", e.target.author.value);
-        formData.append("publishing", e.target.publishing.value);
-        formData.append("price", e.target.price.value);
-        formData.append("publication", e.target.publication.value);
-        formData.append("status", e.target.status.value);
-        formData.append("description", e.target.description.value);
-
-        selectedCategories.forEach(id => {
-            formData.append("categories[]", Number(id));
-        });
-
-        const file = e.target.image.files[0];
-        if (file) {
-            formData.append("image", file);
-        }
-
-        try {
-            const res = await axios.post(`${import.meta.env.VITE_REACT_APP_APIDEV}/admin/books`, formData,
-                {
-                    headers: {
-                        token: localStorage.getItem('token') || sessionStorage.getItem('token'),
-                        'content-type': 'multipart/form-data'
-                    },
-                    withCredentials: true
-                }
-            );
-
-            if(res.data.status === true) {
-                toast.success(`${lang.formatMessage({id: "book.subtitle"})} ${lang.formatMessage({ id: "toast.created" })}`)
-                navigate("/admin/books")
-            } else {
-                toast.success(`${lang.formatMessage({id: "book.subtitle"})} ${lang.formatMessage({ id: "toast.notFound" })}`)
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    console.log(categories);
     return (
         <>
             <div className="flex justify-between items-center shadow-md rounded-[10px] p-4 mt-[80px] mx-[10px] bg-white">
@@ -117,17 +70,17 @@ export const CreateBook = () => {
                                 <div className="">
                                     <div className="font-bold">{lang.formatMessage({ id: "book.information" })}</div>
                                     <div className="mt-[5px] text-[14px] opacity-75">
-                                        {lang.formatMessage({ id: "book.subInformation" })}
+                                        Những thông tin bạn cần điền cho một cuốn sách
                                     </div>
                                 </div>
                             </div>
 
                         </div>
                     </div>
-                    <form className="grid grid-cols-2 gap-[5px]" onSubmit={handleSubmitForm}>
+                    <form className="grid grid-cols-2 gap-[5px]">
                         <fieldset className="fieldset">
                             <label className="label text-black" htmlFor="name">
-                                {lang.formatMessage({ id: "book.bookName" })}
+                                Book name
                                 <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -135,12 +88,12 @@ export const CreateBook = () => {
                                 id="name"
                                 name="bookName"
                                 className="input w-full outline-none"
-                                placeholder={lang.formatMessage({ id: "book.subBookName" })} />
+                                placeholder="Enter book name..." />
                         </fieldset>
 
                         <fieldset className="fieldset">
                             <label className="label text-black" htmlFor="quantity">
-                                {lang.formatMessage({ id: "table.quantity" })}
+                                Quantity
                                 <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -148,12 +101,12 @@ export const CreateBook = () => {
                                 id="quantity"
                                 name="quantity"
                                 className="input w-full outline-none"
-                                placeholder={lang.formatMessage({ id: "global.subQuantity"})} />
+                                placeholder="Enter quantity..." />
                         </fieldset>
 
                         <fieldset className="fieldset">
                             <label className="label text-black" htmlFor="author">
-                                {lang.formatMessage({ id: "book.author" })}
+                                Author
                                 <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -161,12 +114,12 @@ export const CreateBook = () => {
                                 id="author"
                                 name="author"
                                 className="input w-full outline-none"
-                                placeholder={lang.formatMessage({ id: "book.subAuthor" })} />
+                                placeholder="Enter author..." />
                         </fieldset>
 
                         <fieldset className="fieldset">
                             <label className="label text-black" htmlFor="publishing">
-                                {lang.formatMessage({ id: "book.publishing" })}
+                                Publishing house
                                 <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -174,12 +127,12 @@ export const CreateBook = () => {
                                 id="publishing"
                                 name="publishing"
                                 className="input w-full outline-none"
-                                placeholder={lang.formatMessage({ id: "book.subPublishing" })} />
+                                placeholder="Enter publishing..." />
                         </fieldset>
 
                         <fieldset className="fieldset">
                             <label className="label text-black" htmlFor="price">
-                                {lang.formatMessage({ id: "global.price"})}
+                                Price
                                 <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -187,12 +140,12 @@ export const CreateBook = () => {
                                 id="price"
                                 name="price"
                                 className="input w-full outline-none"
-                                placeholder={lang.formatMessage({ id: "book.subPrice"})} />
+                                placeholder="Enter price..." />
                         </fieldset>
 
                         <fieldset className="fieldset">
                             <label className="label text-black" htmlFor="publication">
-                                {lang.formatMessage({ id: "book.publication" })}
+                                Publication date
                                 <span className="text-red-500">*</span>
                             </label>
                             <input type="date" name="publication" className="input w-full" />
@@ -221,21 +174,12 @@ export const CreateBook = () => {
                                 {lang.formatMessage({ id: "input.image" })}
                                 <span className="text-red-500">*</span>
                             </label>
-                            <input 
-                                type="file" 
-                                id="image" 
-                                name="image" 
-                                className="file-input w-[100%] outline-none" 
-                                onChange={handleImageChange} />
+                            <input type="file" id="image" name="image" className="file-input w-[100%] outline-none" onChange={handleImageChange} />
                         </fieldset>
 
                         <fieldset className="fieldset">
-                            <label className="label text-black">{lang.formatMessage({ id: "book.description" })}</label>
-                            <textarea 
-                                className="textarea h-24 w-full outline-none" 
-                                name="description" 
-                                placeholder={lang.formatMessage({ id: "book.subDescription" })}>    
-                            </textarea>
+                            <label className="label text-black">Description</label>
+                            <textarea className="textarea h-24 w-full outline-none" placeholder="Book description..."></textarea>
                         </fieldset>
 
                         <div className="flex justify-end items-end gap-[5px]">
@@ -272,10 +216,10 @@ export const CreateBook = () => {
                                 </div>
                                 <div className="">
                                     <div className="font-bold">
-                                        {lang.formatMessage({ id: "category.selectCategory" })}
+                                        Chọn danh mục
                                     </div>
                                     <div className="mt-[5px] text-[14px] opacity-75">
-                                        {lang.formatMessage({ id: "category.subSelectCategory" })}
+                                        Trong một cuốn sách bạn có thể chọn nhiều danh mục
                                     </div>
                                 </div>
                             </div>
@@ -287,16 +231,7 @@ export const CreateBook = () => {
                             <label className="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:border-primary transition">
                                 <input
                                     type="checkbox"
-                                    checked={selectedCategories.includes(item.id)}
-                                    onChange={(e) => {
-                                        if (e.target.checked) {
-                                            setSelectedCategories(prev => [...prev, item.id]);
-                                        } else {
-                                            setSelectedCategories(prev =>
-                                                prev.filter(id => id !== item.id)
-                                            );
-                                        }
-                                    }}
+                                    className="checkbox checkbox-primary"
                                 />
                                 <span className="font-medium text-gray-700">
                                     {item.categoryName}
