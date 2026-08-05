@@ -13,7 +13,7 @@ import { callApi } from "../../api/api";
 const Books = () => {
     const lang = useIntl();
     const [bookList, setBookList] = useState([]);
-    const [bookDetail, setBookDetail] = useState();
+    const [bookDelete, setBookDelete] = useState();
     const [totalPage, setTotalPage] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
     const [search, setSearch] = useState("null");
@@ -49,15 +49,23 @@ const Books = () => {
         loadBookApi(currentPage, search, status, updatedAtFilter, priceFilter, quantityFilter);
     }, [currentPage, search, status, updatedAtFilter, priceFilter, quantityFilter]);
 
-    const handleSubmitCreate = (e) => {
-        e.preventDefault();
-        console.log("submit is here")
+
+    const handleDeleteBook = async () => {
+        try {
+            const res = await callApi("put", `${import.meta.env.VITE_REACT_APP_APIDEV}/admin/books/delete/${bookDelete}`, {});
+            if (res.status === true) {
+                loadBookApi(currentPage, search, status, updatedAtFilter, priceFilter, quantityFilter);
+                document.getElementById('my_modal_delete').close();
+                toast.success(`${lang.formatMessage({ id: "book.subtitle" })} ${lang.formatMessage({ id: "toast.deleted" })}`)
+            } else {
+                toast.error(`${lang.formatMessage({ id: "book.subtitle" })} ${lang.formatMessage({ id: "toast.notFound" })}`)
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(`${lang.formatMessage({ id: "book.subtitle" })} ${lang.formatMessage({ id: "toast.notFound" })}`)
+        }
     }
 
-    const handleSubmitEdit = (e) => {
-        e.preventDefault();
-        console.log("submit is here")
-    }
     return (
         <>
             <div className="flex justify-between items-center shadow-md rounded-[10px] p-4 mt-[80px] mx-[10px] bg-white">
@@ -309,7 +317,7 @@ const Books = () => {
                                                     </Link>
                                                 </button>
 
-                                                <button className="btn btn-sm btn-error btn-outline" onClick={() => { setBookDetail(item); document.getElementById('my_modal_delete').showModal(); }}>
+                                                <button className="btn btn-sm btn-error btn-outline" onClick={() => { setBookDelete(item.id); document.getElementById('my_modal_delete').showModal(); }}>
                                                     {lang.formatMessage({ id: "table.delete" })}
                                                 </button>
                                             </div>
@@ -339,7 +347,7 @@ const Books = () => {
                     <p class="py-4">{lang.formatMessage({ id: "book.deleteDes" })}</p>
                     <div class="modal-action">
                         <div className="">
-                            <button className="btn btn-primary">
+                            <button className="btn btn-primary" onClick={handleDeleteBook}>
                                 {lang.formatMessage({ id: "button.confirm" })}
                             </button>
                         </div>
