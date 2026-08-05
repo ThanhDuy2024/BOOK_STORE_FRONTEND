@@ -11,6 +11,7 @@ import { FaRegChartBar } from "react-icons/fa";
 import { callApi, From } from "../../api/api";
 import axios from "axios";
 import { toast } from "sonner";
+
 const Categories = () => {
     const lang = useIntl();
     const [categoryList, setcategoryList] = useState(categoryMockData);
