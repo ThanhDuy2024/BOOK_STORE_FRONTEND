@@ -12,6 +12,7 @@ import { Toaster, toast } from 'sonner'
 import { CreateBook } from "../pages/BooksManagement/CreateBook";
 import { CreateUsers } from "../pages/UsersManagement/CreateUsers";
 import { EditBook } from "../pages/BooksManagement/EditBook";
+import { EditUsers } from "../pages/UsersManagement/EditUsers";
 
 const ProtectedRoute = () => {
     const navigate = useNavigate();
@@ -61,7 +62,7 @@ const RoutesList = () => {
                         <Route path="/admin/books/edit/:id" element={<EditBook />} />
                         <Route path="/admin/users" element={<Users />} />
                         <Route path="/admin/users/create" element={<CreateUsers />} />
-
+                        <Route path="/admin/users/edit/:id" element={<EditUsers />} />
                     </Route>
                 </Route>
             </Routes>
