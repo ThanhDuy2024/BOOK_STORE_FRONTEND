@@ -13,8 +13,10 @@ import { CreateBook } from "../pages/BooksManagement/CreateBook";
 import { CreateUsers } from "../pages/UsersManagement/CreateUsers";
 import { EditBook } from "../pages/BooksManagement/EditBook";
 import { EditUsers } from "../pages/UsersManagement/EditUsers";
+import { LayoutClient } from "../layouts/LayoutsClient";
+import { Home } from "../pages/Home/Home";
 
-const ProtectedRoute = () => {
+const ProtectedAdminRoute = () => {
     const navigate = useNavigate();
     const { adminName, adminDispatch } = useContext(AdminContext);
     const [loginStatus, setLoginStatus] = useState(false);
@@ -52,8 +54,11 @@ const RoutesList = () => {
         <>
             <Toaster position="top-right" richColors />
             <Routes>
+                <Route element={<LayoutClient/>}>
+                    <Route path="/" element={<Home/>}/>
+                </Route>
                 <Route path="/admin/login" element={<Login />} />
-                <Route element={<ProtectedRoute />}>
+                <Route element={<ProtectedAdminRoute />}>
                     <Route element={<AdminLayouts />}>
                         <Route path="/admin/dashboard" element={<Dashboard />} />
                         <Route path="/admin/category" element={<Categories />} />
