@@ -327,7 +327,7 @@ export const LayoutClient = () => {
                 </header>
 
                 {/* ================= CONTENT ================= */}
-                <main className="max-w-7xl mx-auto px-4 py-6">
+                <main className="mx-78 px-4 py-6">
                     <Outlet />
                 </main>
 
