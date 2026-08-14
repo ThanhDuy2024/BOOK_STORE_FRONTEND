@@ -1,0 +1,209 @@
+import React, { useEffect, useState } from 'react';
+import { FaPlus, FaMinus, FaRegHeart, FaHeart } from 'react-icons/fa'; // Import icon từ react-icons/fa
+import { Link, useParams } from 'react-router';
+import { callApi } from '../../api/api';
+import { MdKeyboardArrowRight } from "react-icons/md";
+export const BookDetail = () => {
+    const [quantity, setQuantity] = useState(1);
+    const [isLiked, setIsLiked] = useState(false);
+    const { id } = useParams();
+    const [bookDetail, setBookDetail] = useState();
+    const [bookBestSaler, setBookBestSaler] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const res = await callApi("get", `${import.meta.env.VITE_REACT_APP_APIDEV}/client/books/${id}`, {});
+                setBookDetail(res.data);
+                console.log(res.data)
+            } catch (error) {
+                console.log(error)
+            }
+        })()
+    }, [id]);
+
+    useEffect(() => {
+        (async () => {
+            const res = await callApi("get", `${import.meta.env.VITE_REACT_APP_APIDEV}/client/books/list?searchBookName=null&searchAuthor=null&priceFilter=null&category=all&sortCreatedAt=null&page=1&limit=6`, {});
+            setBookBestSaler(res.data);
+        })()
+    }, [id]);
+
+    const handleDecrease = () => {
+        if (quantity > 1) setQuantity(quantity - 1);
+    };
+
+    const handleIncrease = () => {
+        setQuantity(quantity + 1);
+    };
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth', // Tạo hiệu ứng cuộn mượt mà
+        });
+    };
+    return (
+        <div className="max-w-6xl mx-auto p-6 bg-white font-sans text-gray-700">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+
+                {/* Khung ảnh bên trái */}
+                <div className="border border-gray-200 rounded-lg p-12 flex justify-center items-center bg-white min-h-[500px]">
+                    <img
+                        src={bookDetail?.image}
+                        alt={bookDetail?.bookName}
+                        className="max-h-[400px] object-contain shadow-md"
+                    />
+                </div>
+
+                {/* Thông tin bên phải */}
+                <div className="space-y-6">
+                    {/* Header & Giá */}
+                    <div className="space-y-2">
+                        <h1 className="text-4xl font-normal text-gray-600">{bookDetail?.bookName}</h1>
+                        <p className="text-gray-500 text-sm">
+                            By <span className="font-medium">{bookDetail?.author}</span>
+                        </p>
+                        <div className="text-2xl font-bold text-gray-800 pt-2">
+                            {bookDetail?.price?.toLocaleString("vi-VN")} VND
+                        </div>
+                    </div>
+
+                    <hr className="border-gray-200" />
+
+                    {/* Condition */}
+                    <div className="flex items-center gap-6 text-sm">
+                        <span className="text-gray-600 font-medium">
+                            Categories:
+                        </span>
+                        {bookDetail?.categories?.map((item) => (
+                            <span className="btn btn-outline btn-primary">
+                                {item.categoryName}
+                            </span>
+                        ))}
+                    </div>
+
+                    {/* Thao tác: Tăng/giảm số lượng, Add to Cart, Heart */}
+                    <div className="flex items-center gap-3 pt-2">
+                        {/* Tăng giảm số lượng */}
+                        <div className=" flex items-center justify-between bg-gray-100 rounded-full px-4 py-3 w-32">
+                            <button
+                                onClick={handleDecrease}
+                                className="cursor-pointer text-gray-500 hover:text-gray-800 transition-colors"
+                                aria-label="Decrease quantity"
+                            >
+                                <FaMinus size={12} />
+                            </button>
+                            <span className="font-medium text-gray-800 text-sm">{quantity}</span>
+                            <button
+                                onClick={handleIncrease}
+                                className="cursor-pointer text-gray-500 hover:text-gray-800 transition-colors"
+                                aria-label="Increase quantity"
+                            >
+                                <FaPlus size={12} />
+                            </button>
+                        </div>
+
+                        {/* Nút Add to Cart */}
+                        <button className="flex-1 cursor-pointer bg-primary hover:bg-primary text-white font-medium py-3 px-6 rounded-full flex items-center justify-center gap-2 transition-colors text-sm border-none">
+                            <FaPlus size={14} />
+                            <span>Add to Cart</span>
+                        </button>
+
+                        {/* Nút Heart */}
+                        <button
+                            onClick={() => setIsLiked(!isLiked)}
+                            className={`p-3 rounded-full border border-gray-200 hover:border-gray-300 transition-colors ${isLiked ? 'text-red-500' : 'text-gray-500'
+                                }`}
+                        >
+                            {isLiked ? <FaHeart size={18} /> : <FaRegHeart size={18} />}
+                        </button>
+                    </div>
+
+                    <hr className="border-gray-200" />
+
+                    {/* Danh sách Details */}
+                    <div className="space-y-3 pt-2">
+                        <h2 className="text-base font-bold text-gray-800">Details</h2>
+                        <div className="space-y-2 text-xs md:text-sm">
+                            <div className="flex gap-[5px]">
+                                <span className="font-bold text-gray-700 flex-shrink-0">
+                                    Author:
+                                </span>
+                                <span className="text-gray-600">{bookDetail?.author}</span>
+                            </div>
+                            <div className="flex gap-[5px]">
+                                <span className="font-bold text-gray-700 flex-shrink-0">
+                                    Publishing:
+                                </span>
+                                <span className="text-gray-600">{bookDetail?.publishing}</span>
+                            </div>
+
+                            <div className="flex gap-[5px]">
+                                <span className="font-bold text-gray-700 flex-shrink-0">
+                                    Publication:
+                                </span>
+                                <span className="text-gray-600">{bookDetail?.publication}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section className="space-y-4 mt-[50px]">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-[#6d6e71]">
+                    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold leading-tight">
+                        Shop Bestsellers
+                    </h2>
+
+                    <div className="self-start sm:self-auto px-3 sm:px-4 py-1.5 sm:py-2 border border-[#6d6e71] rounded-full flex items-center gap-1 cursor-pointer transition-colors hover:bg-primary hover:text-white hover:border-primary">
+                        <span className="text-xs sm:text-sm font-medium">Browse All</span>
+                        <MdKeyboardArrowRight size={18} />
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 lg:gap-5 items-stretch">
+                    {bookBestSaler.map((item) => (
+                        <Link 
+                            onClick={scrollToTop}
+                            to={`/book/detail/${item.id}`} 
+                            key={item.id} 
+                            className="w-full min-w-0 group relative flex flex-col rounded-xl sm:rounded-2xl border border-base-200 bg-base-100 p-2.5 sm:p-3 lg:p-4 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-primary/30">
+                            {/* Image */}
+                            <div className="relative w-full aspect-[3/4] overflow-hidden rounded-lg sm:rounded-xl bg-base-200">
+                                <img src={item.image} alt={item.bookName} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+
+                                <span className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-md bg-primary text-primary-content text-[8px] sm:text-[10px] md:text-xs font-bold shadow">
+                                    Best Seller
+                                </span>
+                            </div>
+
+                            {/* Content */}
+                            <div className="flex flex-col flex-1 mt-2.5 sm:mt-3">
+                                <h3 className="font-bold text-[11px] sm:text-xs md:text-sm leading-tight line-clamp-2 min-h-[28px] sm:min-h-[32px] group-hover:text-primary transition-colors">
+                                    {item.bookName}
+                                </h3>
+
+                                <p className="mt-1 text-[9px] sm:text-[11px] md:text-xs opacity-60 min-h-[14px] sm:min-h-[18px] line-clamp-1">
+                                    {item.author}
+                                </p>
+
+                                <div className="mt-1.5 sm:mt-2">
+                                    <span className="text-[10px] sm:text-xs md:text-sm lg:text-base font-bold text-primary whitespace-nowrap">
+                                        {Number(item.price).toLocaleString("vi-VN")} VND
+                                    </span>
+                                </div>
+
+                                <div className="mt-auto pt-2 sm:pt-3">
+                                    <button className="btn btn-primary btn-xs sm:btn-sm md:btn-md w-full text-[9px] sm:text-xs lg:opacity-0 lg:translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                                        + Add to cart
+                                    </button>
+                                </div>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+            </section>
+        </div>
+    );
+};

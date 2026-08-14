@@ -9,6 +9,7 @@ import sellYourBook from "../../assets/sellyourbook.png"
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { useEffect, useState } from "react"
 import { callApi } from "../../api/api"
+import { Link } from "react-router"
 export const Home = () => {
     const [bookBestSaler, setBookBestSaler] = useState([]);
     const [newBooks, setNewBooks] = useState([]);
@@ -87,7 +88,7 @@ export const Home = () => {
 
                             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 lg:gap-5 items-stretch">
                                 {bookBestSaler.map((item) => (
-                                    <div key={item.id} className="w-full min-w-0 group relative flex flex-col rounded-xl sm:rounded-2xl border border-base-200 bg-base-100 p-2.5 sm:p-3 lg:p-4 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-primary/30">
+                                    <Link to={`/book/detail/${item.id}`} key={item.id} className="w-full min-w-0 group relative flex flex-col rounded-xl sm:rounded-2xl border border-base-200 bg-base-100 p-2.5 sm:p-3 lg:p-4 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-primary/30">
                                         {/* Image */}
                                         <div className="relative w-full aspect-[3/4] overflow-hidden rounded-lg sm:rounded-xl bg-base-200">
                                             <img src={item.image} alt={item.bookName} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
@@ -119,7 +120,7 @@ export const Home = () => {
                                                 </button>
                                             </div>
                                         </div>
-                                    </div>
+                                    </Link>
                                 ))}
                             </div>
                         </section>

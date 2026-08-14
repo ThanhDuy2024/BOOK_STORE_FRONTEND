@@ -8,12 +8,15 @@ import en from "./locales/en.json";
 import vi from "./locales/vi.json";
 import { LangContextProvider } from './contexts/langContext.jsx';
 import { AdminContextProvider } from './contexts/adminContext.jsx';
+import { CartContextProvider } from './contexts/cartContext.jsx';
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <LangContextProvider>
-      <AdminContextProvider>
-        <App />
-      </AdminContextProvider>
+      <CartContextProvider>
+        <AdminContextProvider>
+          <App />
+        </AdminContextProvider>
+      </CartContextProvider>
     </LangContextProvider>
   </BrowserRouter>
 )

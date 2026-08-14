@@ -15,6 +15,7 @@ import { EditBook } from "../pages/BooksManagement/EditBook";
 import { EditUsers } from "../pages/UsersManagement/EditUsers";
 import { LayoutClient } from "../layouts/LayoutsClient";
 import { Home } from "../pages/Home/Home";
+import { BookDetail } from "../pages/BooksClient/BooksDetail";
 
 const ProtectedAdminRoute = () => {
     const navigate = useNavigate();
@@ -56,6 +57,7 @@ const RoutesList = () => {
             <Routes>
                 <Route element={<LayoutClient/>}>
                     <Route path="/" element={<Home/>}/>
+                    <Route path="/book/detail/:id" element={<BookDetail/>}/>
                 </Route>
                 <Route path="/admin/login" element={<Login />} />
                 <Route element={<ProtectedAdminRoute />}>

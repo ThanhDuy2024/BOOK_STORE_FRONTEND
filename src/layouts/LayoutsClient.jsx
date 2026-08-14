@@ -1,9 +1,12 @@
-import { Outlet } from "react-router"
-import icon from "../assets/Icon2.jpeg"
+import { Link, Outlet } from "react-router"
+import icon from "../assets/Logo1.png"
 import { LiaUserSolid } from "react-icons/lia";
 import { IoCartOutline } from "react-icons/io5";
 import { FaAngleDown } from "react-icons/fa";
+import { useContext } from "react";
+import { CartContext } from "../contexts/cartContext";
 export const LayoutClient = () => {
+    const { totalCart } = useContext(CartContext);
     return (
         <>
             <div className="min-h-screen bg-base-100">
@@ -15,33 +18,33 @@ export const LayoutClient = () => {
                         <div className="h-[80px] flex items-center gap-6">
 
                             {/* Logo */}
-                            <div className="shrink-0">
-                                <div className="w-[70px] md:w-[70px]">
+                            <Link className="shrink-0" to={"/"}>
+                                <div className="w-[70px] md:w-[100px]">
                                     <img
                                         src={icon}
                                         alt="Book Store"
                                         className="w-full h-auto object-contain"
                                     />
                                 </div>
-                            </div>
+                            </Link>
 
                             {/* Search */}
                             <div className="flex-1 flex justify-center">
                                 <label className="
-                        input
-                        input-bordered
-                        flex
-                        items-center
-                        gap-3
-                        w-full
-                        max-w-2xl
-                        h-12
-                        rounded-xl
-                        bg-base-200/50
-                        focus-within:border-primary
-                        focus-within:bg-base-100
-                        transition
-                    ">
+                                    input
+                                    input-bordered
+                                    flex
+                                    items-center
+                                    gap-3
+                                    w-full
+                                    max-w-2xl
+                                    h-12
+                                    rounded-xl
+                                    bg-base-200/50
+                                    focus-within:border-primary
+                                    focus-within:bg-base-100
+                                    transition
+                                ">
                                     <svg
                                         className="h-5 w-5 opacity-50"
                                         xmlns="http://www.w3.org/2000/svg"
@@ -76,30 +79,30 @@ export const LayoutClient = () => {
                                         tabIndex={0}
                                         role="button"
                                         className="
-                                btn
-                                btn-ghost
-                                btn-circle
-                                hover:bg-primary/10
-                                hover:text-primary
-                            "
-                                    >
+                                            btn
+                                            btn-ghost
+                                            btn-circle
+                                            hover:bg-primary/10
+                                            hover:text-primary
+                                        "
+                                                >
                                         <LiaUserSolid size={27} />
                                     </div>
 
                                     <ul
                                         tabIndex="-1"
                                         className="
-                                dropdown-content
-                                menu
-                                mt-3
-                                w-56
-                                rounded-2xl
-                                bg-base-100
-                                p-2
-                                shadow-xl
-                                border
-                                border-base-200
-                            "
+                                            dropdown-content
+                                            menu
+                                            mt-3
+                                            w-56
+                                            rounded-2xl
+                                            bg-base-100
+                                            p-2
+                                            shadow-xl
+                                            border
+                                            border-base-200
+                                        "
                                     >
                                         <li>
                                             <a className="rounded-xl">
@@ -119,34 +122,34 @@ export const LayoutClient = () => {
                                 {/* Cart */}
                                 <button
                                     className="
-                            btn
-                            btn-ghost
-                            btn-circle
-                            hover:bg-primary/10
-                            hover:text-primary
-                            relative
-                        "
+                                        btn
+                                        btn-ghost
+                                        btn-circle
+                                        hover:bg-primary/10
+                                        hover:text-primary
+                                        relative
+                                    "
                                 >
                                     <IoCartOutline size={29} />
 
                                     {/* Cart badge */}
                                     <span className="
-                            absolute
-                            right-0
-                            top-0
-                            min-w-5
-                            h-5
-                            px-1
-                            flex
-                            items-center
-                            justify-center
-                            rounded-full
-                            bg-primary
-                            text-primary-content
-                            text-[10px]
-                            font-bold
-                        ">
-                                        0
+                                        absolute
+                                        right-0
+                                        top-0
+                                        min-w-5
+                                        h-5
+                                        px-1
+                                        flex
+                                        items-center
+                                        justify-center
+                                        rounded-full
+                                        bg-primary
+                                        text-primary-content
+                                        text-[10px]
+                                        font-bold
+                                    ">
+                                        {totalCart}
                                     </span>
                                 </button>
 
