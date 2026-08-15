@@ -60,7 +60,6 @@ export const BookDetail = () => {
         })
     }
 
-    console.log(items);
     return (
         <div className="max-w-6xl mx-auto p-6 bg-white font-sans text-gray-700">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">

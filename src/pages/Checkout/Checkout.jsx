@@ -92,6 +92,7 @@ const CheckoutPage = () => {
                 }
             } catch (error) {
                 console.log(error);
+                toast.error("Number of books exceeds the limit")
             }
 
         }
