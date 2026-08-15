@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaMinus, FaPlus, FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 import { FiChevronDown } from 'react-icons/fi';
+import { Link } from 'react-router';
 import { toast } from 'sonner';
 
 const ShoppingCart = () => {
@@ -195,9 +196,9 @@ const ShoppingCart = () => {
                         </div>
 
                         {/* Checkout Button */}
-                        <button className="btn btn-primary rounded-full w-full">
+                        <Link to={"/checkout"} className="btn btn-primary rounded-full w-full">
                             Proceed to Checkout
-                        </button>
+                        </Link>
 
                     </div>
                 </div>

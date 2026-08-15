@@ -17,6 +17,7 @@ import { LayoutClient } from "../layouts/LayoutsClient";
 import { Home } from "../pages/Home/Home";
 import { BookDetail } from "../pages/BooksClient/BooksDetail";
 import ShoppingCart from "../pages/ShppingCart/ShoppingCart";
+import CheckoutPage from "../pages/Checkout/Checkout";
 
 const ProtectedAdminRoute = () => {
     const navigate = useNavigate();
@@ -60,6 +61,7 @@ const RoutesList = () => {
                     <Route path="/" element={<Home/>}/>
                     <Route path="/book/detail/:id" element={<BookDetail/>}/>
                     <Route path="/cart" element={<ShoppingCart/>}/>
+                    <Route path="/checkout" element={<CheckoutPage/>}/>
                 </Route>
                 <Route path="/admin/login" element={<Login />} />
                 <Route element={<ProtectedAdminRoute />}>
