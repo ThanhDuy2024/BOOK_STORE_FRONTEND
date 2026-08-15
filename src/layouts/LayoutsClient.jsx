@@ -120,7 +120,8 @@ export const LayoutClient = () => {
                                 </div>
 
                                 {/* Cart */}
-                                <button
+                                <Link 
+                                    to={"/cart"}
                                     className="
                                         btn
                                         btn-ghost
@@ -151,7 +152,7 @@ export const LayoutClient = () => {
                                     ">
                                         {totalCart}
                                     </span>
-                                </button>
+                                </Link>
 
                             </div>
                         </div>

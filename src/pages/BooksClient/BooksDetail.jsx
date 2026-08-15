@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FaPlus, FaMinus, FaRegHeart, FaHeart } from 'react-icons/fa'; // Import icon từ react-icons/fa
 import { Link, useParams } from 'react-router';
 import { callApi } from '../../api/api';
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { CartContext } from '../../contexts/cartContext';
 export const BookDetail = () => {
+    const { id } = useParams();
+    const { items, cartDispatch } = useContext(CartContext);
     const [quantity, setQuantity] = useState(1);
     const [isLiked, setIsLiked] = useState(false);
-    const { id } = useParams();
     const [bookDetail, setBookDetail] = useState();
     const [bookBestSaler, setBookBestSaler] = useState([]);
 
@@ -43,6 +45,22 @@ export const BookDetail = () => {
             behavior: 'smooth', // Tạo hiệu ứng cuộn mượt mà
         });
     };
+
+    const addToCart = () => {
+        cartDispatch({
+            type: "CART-SAVE",
+            payload: {
+                id: bookDetail?.id,
+                bookName: bookDetail?.bookName,
+                author: bookDetail?.author,
+                price: bookDetail?.price,
+                image: bookDetail?.image,
+                buyQuantity: quantity
+            }
+        })
+    }
+
+    console.log(items);
     return (
         <div className="max-w-6xl mx-auto p-6 bg-white font-sans text-gray-700">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
@@ -105,7 +123,7 @@ export const BookDetail = () => {
                         </div>
 
                         {/* Nút Add to Cart */}
-                        <button className="flex-1 cursor-pointer bg-primary hover:bg-primary text-white font-medium py-3 px-6 rounded-full flex items-center justify-center gap-2 transition-colors text-sm border-none">
+                        <button onClick={addToCart} className="flex-1 cursor-pointer bg-primary hover:bg-primary text-white font-medium py-3 px-6 rounded-full flex items-center justify-center gap-2 transition-colors text-sm border-none">
                             <FaPlus size={14} />
                             <span>Add to Cart</span>
                         </button>
@@ -164,10 +182,10 @@ export const BookDetail = () => {
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 lg:gap-5 items-stretch">
                     {bookBestSaler.map((item) => (
-                        <Link 
+                        <Link
                             onClick={scrollToTop}
-                            to={`/book/detail/${item.id}`} 
-                            key={item.id} 
+                            to={`/book/detail/${item.id}`}
+                            key={item.id}
                             className="w-full min-w-0 group relative flex flex-col rounded-xl sm:rounded-2xl border border-base-200 bg-base-100 p-2.5 sm:p-3 lg:p-4 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-primary/30">
                             {/* Image */}
                             <div className="relative w-full aspect-[3/4] overflow-hidden rounded-lg sm:rounded-xl bg-base-200">
