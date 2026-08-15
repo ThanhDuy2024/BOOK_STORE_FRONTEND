@@ -3,9 +3,10 @@ import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaMoneyBillWave, FaWallet,
 import { toast } from 'sonner';
 import { callApi } from '../../api/api';
 import { CartContext } from '../../contexts/cartContext';
-
+import { useNavigate } from 'react-router';
 const CheckoutPage = () => {
     const { cartDispatch } = useContext(CartContext);
+    const navigate = useNavigate();
     // 1. Quản lý thông tin form người dùng (Default paymentMethod = 'cod')
     const [formData, setFormData] = useState({
         fullName: '',
@@ -69,7 +70,7 @@ const CheckoutPage = () => {
 
         if (validateForm()) {
             if (cartItems.length === 0) {
-                alert('Giỏ hàng của bạn đang trống!');
+                toast.error('Giỏ hàng của bạn đang trống!');
                 return;
             }
 
@@ -83,18 +84,28 @@ const CheckoutPage = () => {
             try {
                 const res = await callApi("post", `${import.meta.env.VITE_REACT_APP_APIDEV}/client/order`, orderData);
                 if (res.status === true) {
-                    toast.success("Checkout success")
+                    toast.success("Đặt hàng thành công!");
+
+                    // Xóa cart trong LocalStorage và State
                     localStorage.removeItem('cart_items');
                     setCartItems([]);
-                    cartDispatch({
-                        type: "CART-CLEAR"
-                    })
+                    if (cartDispatch) {
+                        cartDispatch({ type: "CART-CLEAR" });
+                    }
+
+                    // 3. CHUYỂN HƯỚNG SANG TRANG THÀNH CÔNG VỚI DỮ LIỆU ĐƠN HÀNG
+                    navigate('/order/success', {
+                        state: {
+                            orderData: {
+                                ...orderData,
+                            }
+                        }
+                    });
                 }
             } catch (error) {
                 console.log(error);
-                toast.error("Number of books exceeds the limit")
+                toast.error("Có lỗi xảy ra khi đặt hàng!");
             }
-
         }
     };
 
@@ -208,8 +219,8 @@ const CheckoutPage = () => {
                             {/* Thanh toán trực tiếp */}
                             <label
                                 className={`flex items-center justify-between p-4 border rounded-xl cursor-pointer transition-all ${formData.paymentMethod === 'cod'
-                                        ? 'border-primary bg-primary/10 ring-1 ring-primary'
-                                        : 'border-gray-200 hover:border-gray-300'
+                                    ? 'border-primary bg-primary/10 ring-1 ring-primary'
+                                    : 'border-gray-200 hover:border-gray-300'
                                     }`}
                             >
                                 <div className="flex items-center gap-3">
@@ -232,8 +243,8 @@ const CheckoutPage = () => {
                             {/* ZaloPay */}
                             <label
                                 className={`flex items-center justify-between p-4 border rounded-xl cursor-pointer transition-all ${formData.paymentMethod === 'zalopay'
-                                        ? 'border-primary bg-primary/10 ring-1 ring-primary'
-                                        : 'border-gray-200 hover:border-gray-300'
+                                    ? 'border-primary bg-primary/10 ring-1 ring-primary'
+                                    : 'border-gray-200 hover:border-gray-300'
                                     }`}
                             >
                                 <div className="flex items-center gap-3">
