@@ -100,7 +100,7 @@ const CheckoutPage = () => {
     // 6. Tính toán tiền hàng
     const subtotal = cartItems.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0);
     const shippingFee = cartItems.length > 0 ? 30000 : 0;
-    const grandTotal = subtotal + shippingFee;
+    const grandTotal = subtotal;
 
     return (
         <div className="max-w-6xl mx-auto p-6 font-sans text-gray-700">
