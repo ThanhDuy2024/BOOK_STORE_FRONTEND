@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaMoneyBillWave, FaWallet, FaLock, FaCheckCircle } from 'react-icons/fa';
+import { toast } from 'sonner';
+import { callApi } from '../../api/api';
+import { CartContext } from '../../contexts/cartContext';
 
 const CheckoutPage = () => {
+    const { cartDispatch } = useContext(CartContext);
     // 1. Quản lý thông tin form người dùng (Default paymentMethod = 'cod')
     const [formData, setFormData] = useState({
         fullName: '',
@@ -60,7 +64,7 @@ const CheckoutPage = () => {
     };
 
     // 5. Xử lý khi nhấn nút Đặt hàng
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (validateForm()) {
@@ -76,12 +80,20 @@ const CheckoutPage = () => {
                 createdAt: new Date().toISOString()
             };
 
-            console.log('Dữ liệu đơn hàng:', orderData);
-            alert('Đặt hàng thành công!');
-            
-            // Xóa giỏ hàng sau khi đặt thành công
-            localStorage.removeItem('cart_items');
-            setCartItems([]);
+            try {
+                const res = await callApi("post", `${import.meta.env.VITE_REACT_APP_APIDEV}/client/order`, orderData);
+                if (res.status === true) {
+                    toast.success("Checkout success")
+                    localStorage.removeItem('cart_items');
+                    setCartItems([]);
+                    cartDispatch({
+                        type: "CART-CLEAR"
+                    })
+                }
+            } catch (error) {
+                console.log(error);
+            }
+
         }
     };
 
@@ -95,7 +107,7 @@ const CheckoutPage = () => {
             <h1 className="text-3xl font-bold text-gray-800 mb-8 border-b pb-4">Thanh Toán Đơn Hàng</h1>
 
             <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                
+
                 {/* BÊN TRÁI: THÔNG TIN GIAO HÀNG & THANH TOÁN (7 cols) */}
                 <div className="lg:col-span-7 space-y-5">
                     <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
@@ -114,9 +126,8 @@ const CheckoutPage = () => {
                                 value={formData.fullName}
                                 onChange={handleChange}
                                 placeholder="Nguyễn Văn A"
-                                className={`w-full pl-10 pr-4 py-2.5 rounded-lg border text-sm focus:outline-none ${
-                                    errors.fullName ? 'border-error focus:ring-1 focus:ring-error' : 'border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary'
-                                }`}
+                                className={`w-full pl-10 pr-4 py-2.5 rounded-lg border text-sm focus:outline-none ${errors.fullName ? 'border-error focus:ring-1 focus:ring-error' : 'border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary'
+                                    }`}
                             />
                             <FaUser className="absolute left-3 top-3.5 text-gray-400 text-sm" />
                         </div>
@@ -137,9 +148,8 @@ const CheckoutPage = () => {
                                     value={formData.email}
                                     onChange={handleChange}
                                     placeholder="example@gmail.com"
-                                    className={`w-full pl-10 pr-4 py-2.5 rounded-lg border text-sm focus:outline-none ${
-                                        errors.email ? 'border-error focus:ring-1 focus:ring-error' : 'border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary'
-                                    }`}
+                                    className={`w-full pl-10 pr-4 py-2.5 rounded-lg border text-sm focus:outline-none ${errors.email ? 'border-error focus:ring-1 focus:ring-error' : 'border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary'
+                                        }`}
                                 />
                                 <FaEnvelope className="absolute left-3 top-3.5 text-gray-400 text-sm" />
                             </div>
@@ -158,9 +168,8 @@ const CheckoutPage = () => {
                                     value={formData.phone}
                                     onChange={handleChange}
                                     placeholder="0912345678"
-                                    className={`w-full pl-10 pr-4 py-2.5 rounded-lg border text-sm focus:outline-none ${
-                                        errors.phone ? 'border-error focus:ring-1 focus:ring-error' : 'border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary'
-                                    }`}
+                                    className={`w-full pl-10 pr-4 py-2.5 rounded-lg border text-sm focus:outline-none ${errors.phone ? 'border-error focus:ring-1 focus:ring-error' : 'border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary'
+                                        }`}
                                 />
                                 <FaPhone className="absolute left-3 top-3.5 text-gray-400 text-sm" />
                             </div>
@@ -180,9 +189,8 @@ const CheckoutPage = () => {
                                 value={formData.address}
                                 onChange={handleChange}
                                 placeholder="Số nhà, tên đường, phường/xã, quận/huyện, tỉnh/thành phố"
-                                className={`w-full pl-10 pr-4 py-2.5 rounded-lg border text-sm focus:outline-none ${
-                                    errors.address ? 'border-error focus:ring-1 focus:ring-error' : 'border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary'
-                                }`}
+                                className={`w-full pl-10 pr-4 py-2.5 rounded-lg border text-sm focus:outline-none ${errors.address ? 'border-error focus:ring-1 focus:ring-error' : 'border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary'
+                                    }`}
                             ></textarea>
                             <FaMapMarkerAlt className="absolute left-3 top-3.5 text-gray-400 text-sm" />
                         </div>
@@ -198,11 +206,10 @@ const CheckoutPage = () => {
                         <div className="space-y-3">
                             {/* Thanh toán trực tiếp */}
                             <label
-                                className={`flex items-center justify-between p-4 border rounded-xl cursor-pointer transition-all ${
-                                    formData.paymentMethod === 'cod'
+                                className={`flex items-center justify-between p-4 border rounded-xl cursor-pointer transition-all ${formData.paymentMethod === 'cod'
                                         ? 'border-primary bg-primary/10 ring-1 ring-primary'
                                         : 'border-gray-200 hover:border-gray-300'
-                                }`}
+                                    }`}
                             >
                                 <div className="flex items-center gap-3">
                                     <input
@@ -223,11 +230,10 @@ const CheckoutPage = () => {
 
                             {/* ZaloPay */}
                             <label
-                                className={`flex items-center justify-between p-4 border rounded-xl cursor-pointer transition-all ${
-                                    formData.paymentMethod === 'zalopay'
+                                className={`flex items-center justify-between p-4 border rounded-xl cursor-pointer transition-all ${formData.paymentMethod === 'zalopay'
                                         ? 'border-primary bg-primary/10 ring-1 ring-primary'
                                         : 'border-gray-200 hover:border-gray-300'
-                                }`}
+                                    }`}
                             >
                                 <div className="flex items-center gap-3">
                                     <input
@@ -274,11 +280,11 @@ const CheckoutPage = () => {
                                                 </p>
                                             )}
                                             <p className="text-xs text-gray-500 mt-1">
-                                                Số lượng: <span className="font-semibold">{item.quantity}</span>
+                                                Số lượng: <span className="font-semibold">{item.buyQuantity}</span>
                                             </p>
                                         </div>
                                         <div className="text-right font-semibold text-sm text-gray-800">
-                                            {((item.price || 0) * (item.quantity || 1)).toLocaleString('vi-VN')} đ
+                                            {((item.price || 0) * (item.buyQuantity || 1)).toLocaleString('vi-VN')} đ
                                         </div>
                                     </div>
                                 ))
@@ -295,12 +301,12 @@ const CheckoutPage = () => {
                                     {subtotal.toLocaleString('vi-VN')} đ
                                 </span>
                             </div>
-                            <div className="flex justify-between">
+                            {/* <div className="flex justify-between">
                                 <span>Phí vận chuyển</span>
                                 <span className="font-semibold text-gray-800">
                                     {shippingFee.toLocaleString('vi-VN')} đ
                                 </span>
-                            </div>
+                            </div> */}
                         </div>
 
                         {/* Tổng thanh toán */}

@@ -11,7 +11,7 @@ const CartReducer = (state, action) => {
     switch (action.type) {
         case 'CART-SAVE': {
             const newItem = action.payload; // Sản phẩm vừa bấm Add
-            
+
             // Tìm sản phẩm đã tồn tại chưa
             const existingIndex = state.items.findIndex(item => item.id === newItem.id);
 
@@ -40,6 +40,21 @@ const CartReducer = (state, action) => {
                 ...state,
                 items: updatedItems,
                 totalCart: updatedItems.length // Tính theo số loại sản phẩm khác nhau
+            };
+        }
+
+        // cartReducer.js
+        case 'CART-REMOVE': {
+            // 1. Lọc bỏ sản phẩm có id trùng với payload gửi lên
+            const updatedItems = state.items.filter(item => item.id !== action.payload);
+
+            // 3. Cập nhật lại localStorage
+            localStorage.setItem('cart_items', JSON.stringify(updatedItems));
+
+            return {
+                ...state,
+                totalCart: state.totalCart - 1,
+                items: updatedItems
             };
         }
 

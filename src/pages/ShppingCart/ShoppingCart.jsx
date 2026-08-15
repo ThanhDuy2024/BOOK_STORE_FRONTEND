@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FaMinus, FaPlus, FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 import { FiChevronDown } from 'react-icons/fi';
 import { Link } from 'react-router';
 import { toast } from 'sonner';
+import { CartContext } from '../../contexts/cartContext';
 
 const ShoppingCart = () => {
     // State quản lý danh sách sản phẩm trong giỏ
     const [cartItem, setCartItem] = useState([]);
+    const { cartDispatch } = useContext(CartContext);
 
     useEffect(() => {
         const savedCart = localStorage.getItem('cart_items');
@@ -24,8 +26,8 @@ const ShoppingCart = () => {
     const handleQuantityChange = (id, delta) => {
         const updatedItems = cartItem.map((item) => {
             if (item.id === id) {
-                const newQty = item.quantity + delta;
-                return { ...item, quantity: newQty > 0 ? newQty : 1 };
+                const newQty = item.buyQuantity + delta;
+                return { ...item, buyQuantity: newQty > 0 ? newQty : 1 };
             }
             return item;
         });
@@ -36,7 +38,11 @@ const ShoppingCart = () => {
     const handleDeleteItem = (id) => {
         if (window.confirm("Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?")) {
             const updatedItems = cartItem.filter((item) => item.id !== id);
-            updateCartAndStorage(updatedItems);
+            updateCartAndStorage(updatedItems); 
+            cartDispatch({
+                type: 'CART-REMOVE',
+                payload: id
+            })
         }
     };
 
@@ -112,7 +118,7 @@ const ShoppingCart = () => {
                                                     <FaMinus className="text-[10px]" />
                                                 </button>
                                                 <span className="text-sm font-medium text-gray-800 min-w-[12px] text-center">
-                                                    {item.quantity}
+                                                    {item.buyQuantity}
                                                 </span>
                                                 <button
                                                     onClick={() => handleQuantityChange(item.id, 1)}
