@@ -19,6 +19,7 @@ import { BookDetail } from "../pages/BooksClient/BooksDetail";
 import ShoppingCart from "../pages/ShppingCart/ShoppingCart";
 import CheckoutPage from "../pages/Checkout/Checkout";
 import OrderSuccessPage from "../pages/OrderSuccess/OrderSuccessPage";
+import BookStorePage from "../pages/BooksClient/BooksStore";
 
 const ProtectedAdminRoute = () => {
     const navigate = useNavigate();
@@ -64,6 +65,7 @@ const RoutesList = () => {
                     <Route path="/cart" element={<ShoppingCart/>}/>
                     <Route path="/checkout" element={<CheckoutPage/>}/>
                     <Route path="/order/success" element={<OrderSuccessPage/>}/>
+                    <Route path="/books" element={<BookStorePage/>}/>
                 </Route>
                 <Route path="/admin/login" element={<Login />} />
                 <Route element={<ProtectedAdminRoute />}>

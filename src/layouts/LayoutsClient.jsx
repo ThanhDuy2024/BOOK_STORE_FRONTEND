@@ -236,7 +236,7 @@ export const LayoutClient = () => {
                                 border-base-200
                             "
                                     >
-                                        <li><a>All Books</a></li>
+                                        <li><Link to={"/books"}>All Books</Link></li>
                                         <li><a>Best Sellers</a></li>
                                         <li><a>New Arrivals</a></li>
                                     </ul>
