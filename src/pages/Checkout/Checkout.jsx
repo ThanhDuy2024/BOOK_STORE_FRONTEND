@@ -68,44 +68,63 @@ const CheckoutPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (validateForm()) {
-            if (cartItems.length === 0) {
-                toast.error('Giỏ hàng của bạn đang trống!');
-                return;
-            }
+        if (!validateForm()) return;
 
-            const orderData = {
-                customer: formData,
-                items: cartItems,
-                totalAmount: grandTotal,
-                createdAt: new Date().toISOString()
-            };
+        if (cartItems.length === 0) {
+            toast.error('Giỏ hàng của bạn đang trống!');
+            return;
+        }
 
-            try {
+        const orderData = {
+            customer: formData,
+            items: cartItems,
+            totalAmount: grandTotal,
+            createdAt: new Date().toISOString()
+        };
+
+        try {
+            // Tách rõ ràng 2 nhánh theo phương thức thanh toán:
+
+            // 1. XỬ LÝ THANH TOÁN THỜI ĐIỂM NHẬN HÀNG (COD)
+            if (formData.paymentMethod === 'cod') {
                 const res = await callApi("post", `${import.meta.env.VITE_REACT_APP_APIDEV}/client/order`, orderData);
-                if (res.status === true) {
-                    toast.success("Đặt hàng thành công!");
 
-                    // Xóa cart trong LocalStorage và State
+                if (res && res.status === true) {
+                    // Xóa giỏ hàng
                     localStorage.removeItem('cart_items');
                     setCartItems([]);
-                    if (cartDispatch) {
-                        cartDispatch({ type: "CART-CLEAR" });
-                    }
+                    if (cartDispatch) cartDispatch({ type: "CART-CLEAR" });
 
-                    // 3. CHUYỂN HƯỚNG SANG TRANG THÀNH CÔNG VỚI DỮ LIỆU ĐƠN HÀNG
+                    toast.success("Đặt hàng thành công!");
                     navigate('/order/success', {
                         state: {
-                            orderData: {
-                                ...orderData,
-                            }
+                            orderData: { ...orderData, orderId: res.orderId }
                         }
                     });
+                } else {
+                    toast.error(res?.msg || "Đặt hàng thất bại!");
                 }
-            } catch (error) {
-                console.log(error);
-                toast.error("Có lỗi xảy ra khi đặt hàng!");
             }
+
+            // 2. XỬ LÝ THANH TOÁN QUA ZALOPAY
+            else if (formData.paymentMethod === 'zalopay') {
+                const res = await callApi("post", `${import.meta.env.VITE_REACT_APP_APIDEV}/client/order/zalopay`, orderData);
+
+                if (res && res.status === true && res.paymentUrl) {
+                    // Xóa giỏ hàng trước khi chuyển hướng sang Gateway ZaloPay
+                    localStorage.removeItem('cart_items');
+                    setCartItems([]);
+                    if (cartDispatch) cartDispatch({ type: "CART-CLEAR" });
+
+                    // Chuyển hướng trực tiếp sang trang thanh toán ZaloPay Gateway
+                    window.location.href = res.paymentUrl;
+                } else {
+                    toast.error(res?.msg || "Không thể tạo liên kết thanh toán ZaloPay!");
+                }
+            }
+        } catch (error) {
+            console.error("Submit order error:", error);
+            toast.error("Có lỗi xảy ra khi đặt hàng!");
         }
     };
 
