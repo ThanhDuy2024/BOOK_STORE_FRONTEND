@@ -13,8 +13,10 @@ import { callApi } from "../../api/api";
 const BookStorePage = () => {
     const [searchParams] = useSearchParams();
     const searchQuery = searchParams.get("search") || "null";
+    const createdAtQuery = searchParams.get("createdAtFilter") || "null";
+    const categoryFilter = searchParams.get("categoryFilter") || "all";
     const LIMIT = 16;
-    const [selectedCategory, setSelectedCategory] = useState('all');
+    const [selectedCategory, setSelectedCategory] = useState(categoryFilter);
     const [isCategoryOpen, setIsCategoryOpen] = useState(true);
     const [bookBestSaler, setBookBestSaler] = useState([]);
     const [priceFilter, setPriceFilter] = useState("null");
@@ -31,16 +33,17 @@ const BookStorePage = () => {
         (async () => {
             const res = await callApi(
                 "get",
-                `${import.meta.env.VITE_REACT_APP_APIDEV}/client/books/list?searchBookName=${searchQuery}&searchAuthor=null&priceFilter=${priceFilter}&category=${selectedCategory}&sortCreatedAt=null&page=${page}&limit=${LIMIT}`,
+                `${import.meta.env.VITE_REACT_APP_APIDEV}/client/books/list?searchBookName=${searchQuery}&searchAuthor=null&priceFilter=${priceFilter}&category=${selectedCategory}&sortCreatedAt=${createdAtQuery}&page=${page}&limit=${LIMIT}`,
                 {}
             );
+            window.scrollTo({ top: 0, behavior: 'smooth' });
 
             // Cập nhật danh sách sách
             setBookBestSaler(res.data || []);
             setTotalPages(res.totalPage)
             console.log(res)
         })();
-    }, [priceFilter, selectedCategory, page, searchQuery]);
+    }, [priceFilter, selectedCategory, page, searchQuery, createdAtQuery, categoryFilter]);
 
     useEffect(() => {
         (async () => {

@@ -263,8 +263,7 @@ export const LayoutClient = () => {
                                         "
                                     >
                                         <li><Link to={"/books"}>All Books</Link></li>
-                                        <li><a>Best Sellers</a></li>
-                                        <li><a>New Arrivals</a></li>
+                                        <li><Link to={`/books?createdAtFilter=desc`} >New Arrivals</Link></li>
                                     </ul>
                                 </div>
 

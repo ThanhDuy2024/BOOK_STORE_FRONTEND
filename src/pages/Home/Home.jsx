@@ -35,6 +35,7 @@ export const Home = () => {
             setMythBooks(res.data);
         })()
     }, []);
+
     return (
         <>
             <div className="w-full max-w-none">
@@ -81,7 +82,7 @@ export const Home = () => {
                                 </h2>
 
                                 <div className="self-start sm:self-auto px-3 sm:px-4 py-1.5 sm:py-2 border border-[#6d6e71] rounded-full flex items-center gap-1 cursor-pointer transition-colors hover:bg-primary hover:text-white hover:border-primary">
-                                    <span className="text-xs sm:text-sm font-medium">Browse All</span>
+                                    <Link to={"/books"} className="text-xs sm:text-sm font-medium">Browse All</Link>
                                     <MdKeyboardArrowRight size={18} />
                                 </div>
                             </div>
@@ -179,7 +180,7 @@ export const Home = () => {
                                 </h2>
 
                                 <div className="self-start sm:self-auto px-3 sm:px-4 py-1.5 sm:py-2 border border-[#6d6e71] rounded-full flex items-center gap-1 cursor-pointer transition-colors hover:bg-primary hover:text-white hover:border-primary">
-                                    <span className="text-xs sm:text-sm font-medium">Browse All</span>
+                                    <Link to={'/books?createdAtFilter=desc'} className="text-xs sm:text-sm font-medium">Browse All</Link>
                                     <MdKeyboardArrowRight size={18} />
                                 </div>
                             </div>
@@ -224,7 +225,7 @@ export const Home = () => {
                                 </h2>
 
                                 <div className="self-start sm:self-auto shrink-0 px-3 sm:px-4 py-1.5 sm:py-2 border border-[#6d6e71] rounded-full flex items-center gap-1 cursor-pointer transition-colors hover:bg-primary hover:text-white hover:border-primary">
-                                    <span className="text-xs sm:text-sm font-medium">Browse All</span>
+                                    <Link to={`/books?categoryFilter=36`} className="text-xs sm:text-sm font-medium">Browse All</Link>
                                     <MdKeyboardArrowRight size={18} />
                                 </div>
                             </div>

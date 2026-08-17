@@ -56,7 +56,7 @@ const ShoppingCart = () => {
     };
 
     // Tính tổng tiền
-    const subtotal = cartItem.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0);
+    const subtotal = cartItem.reduce((sum, item) => sum + (item.price || 0) * (item.buyQuantity || 1), 0);
     const tax = 0.0;
     const grandTotal = subtotal + tax;
 
