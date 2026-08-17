@@ -205,7 +205,7 @@ export const Home = () => {
                                         </span>
 
                                         <button className="btn btn-primary btn-xs sm:btn-sm w-full text-[9px] sm:text-xs lg:opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                            + Add to cart
+                                            + View Details
                                         </button>
                                     </div>
                                 ))}
@@ -250,7 +250,7 @@ export const Home = () => {
                                         </span>
 
                                         <button className="btn btn-primary btn-xs sm:btn-sm w-full text-[9px] sm:text-xs lg:opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                            + Add to cart
+                                            + View Details
                                         </button>
                                     </div>
                                 ))}

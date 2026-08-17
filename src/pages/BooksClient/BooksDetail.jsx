@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { FaPlus, FaMinus, FaRegHeart, FaHeart, FaArrowUp } from 'react-icons/fa'; // Import icon từ react-icons/fa
+import { FaPlus, FaMinus, FaRegHeart, FaHeart, FaArrowUp } from 'react-icons/fa';
 import { Link, useParams } from 'react-router';
 import { callApi } from '../../api/api';
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { CartContext } from '../../contexts/cartContext';
+
 export const BookDetail = () => {
     const { id } = useParams();
     const { items, cartDispatch } = useContext(CartContext);
@@ -12,23 +13,42 @@ export const BookDetail = () => {
     const [bookDetail, setBookDetail] = useState();
     const [bookBestSaler, setBookBestSaler] = useState([]);
 
+    // State cho phần bình luận
+    const [commentText, setCommentText] = useState("");
+    const [reviews, setReviews] = useState([
+        {
+            id: 1,
+            userName: "Thanh Duy",
+            userAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Duy",
+            date: "15/08/2026",
+            comment: "Sách in rất rõ nét, đóng gói cẩn thận. Nội dung cực kỳ cuốn hút!"
+        },
+        {
+            id: 2,
+            userName: "Minh Anh",
+            userAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Minh",
+            date: "10/08/2026",
+            comment: "Giao hàng nhanh, nội dung ổn nhưng bìa sách hơi nhăn nhẹ ở góc."
+        }
+    ]);
+
     useEffect(() => {
         (async () => {
             try {
                 const res = await callApi("get", `${import.meta.env.VITE_REACT_APP_APIDEV}/client/books/${id}`, {});
                 setBookDetail(res.data);
-                console.log(res.data)
+                console.log(res.data);
             } catch (error) {
-                console.log(error)
+                console.log(error);
             }
-        })()
+        })();
     }, [id]);
 
     useEffect(() => {
         (async () => {
             const res = await callApi("get", `${import.meta.env.VITE_REACT_APP_APIDEV}/client/books/list?searchBookName=null&searchAuthor=null&priceFilter=null&category=all&sortCreatedAt=null&page=1&limit=6`, {});
             setBookBestSaler(res.data);
-        })()
+        })();
     }, [id]);
 
     const handleDecrease = () => {
@@ -42,7 +62,7 @@ export const BookDetail = () => {
     const scrollToTop = () => {
         window.scrollTo({
             top: 0,
-            behavior: 'smooth', // Tạo hiệu ứng cuộn mượt mà
+            behavior: 'smooth',
         });
     };
 
@@ -57,12 +77,29 @@ export const BookDetail = () => {
                 image: bookDetail?.image,
                 buyQuantity: quantity
             }
-        })
-    }
+        });
+    };
 
     const scrollToTop2 = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
+
+    const handleSubmitComment = (e) => {
+        e.preventDefault();
+        if (!commentText.trim()) return;
+
+        const newComment = {
+            id: Date.now(),
+            userName: "Bạn",
+            userAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=User",
+            date: new Date().toLocaleDateString("vi-VN"),
+            comment: commentText.trim()
+        };
+
+        setReviews([newComment, ...reviews]);
+        setCommentText("");
+    };
+
     return (
         <div className="max-w-6xl mx-auto p-6 bg-white font-sans text-gray-700">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
@@ -96,8 +133,8 @@ export const BookDetail = () => {
                         <span className="text-gray-600 font-medium">
                             Categories:
                         </span>
-                        {bookDetail?.categories?.map((item) => (
-                            <span className="btn btn-outline btn-primary">
+                        {bookDetail?.categories?.map((item, index) => (
+                            <span key={index} className="btn btn-outline btn-primary">
                                 {item.categoryName}
                             </span>
                         ))}
@@ -106,7 +143,7 @@ export const BookDetail = () => {
                     {/* Thao tác: Tăng/giảm số lượng, Add to Cart, Heart */}
                     <div className="flex items-center gap-3 pt-2">
                         {/* Tăng giảm số lượng */}
-                        <div className=" flex items-center justify-between bg-gray-100 rounded-full px-4 py-3 w-32">
+                        <div className="flex items-center justify-between bg-gray-100 rounded-full px-4 py-3 w-32">
                             <button
                                 onClick={handleDecrease}
                                 className="cursor-pointer text-gray-500 hover:text-gray-800 transition-colors"
@@ -170,6 +207,49 @@ export const BookDetail = () => {
                 </div>
             </div>
 
+            {/* ================= COMMENTS SECTION ================= */}
+            <section className="mt-16 pt-10 border-t border-gray-200 space-y-8">
+                <h2 className="text-2xl font-semibold text-gray-800">
+                    Customer Comments
+                </h2>
+
+                {/* Form Viết Bình luận */}
+                <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                    <form onSubmit={handleSubmitComment} className="space-y-4">
+                        <textarea
+                            rows={3}
+                            value={commentText}
+                            onChange={(e) => setCommentText(e.target.value)}
+                            placeholder="Write your comment here..."
+                            className="w-full p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-primary bg-white shadow-sm"
+                        ></textarea>
+                        <button
+                            type="submit"
+                            className="btn btn-primary text-white rounded-full px-6 text-sm hover:shadow-md transition"
+                        >
+                            Post Comment
+                        </button>
+                    </form>
+                </div>
+
+                {/* Danh sách bình luận */}
+                <div className="space-y-6">
+                    {reviews.map((rev) => (
+                        <div key={rev.id} className="p-4 rounded-xl border border-slate-100 bg-white shadow-sm flex gap-4">
+                            <img src={rev.userAvatar} alt={rev.userName} className="w-10 h-10 rounded-full bg-slate-100" />
+                            <div className="flex-1 space-y-1">
+                                <div className="flex items-center justify-between">
+                                    <h4 className="font-bold text-slate-800 text-sm">{rev.userName}</h4>
+                                    <span className="text-xs text-slate-400">{rev.date}</span>
+                                </div>
+                                <p className="text-sm text-slate-600 mt-1">{rev.comment}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </section>
+
+            {/* SECTION BESTSELLERS */}
             <section className="space-y-4 mt-[50px]">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-[#6d6e71]">
                     <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold leading-tight">
