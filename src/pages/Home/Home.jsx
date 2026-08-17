@@ -116,7 +116,7 @@ export const Home = () => {
 
                                             <div className="mt-auto pt-2 sm:pt-3">
                                                 <button className="btn btn-primary btn-xs sm:btn-sm md:btn-md w-full text-[9px] sm:text-xs lg:opacity-0 lg:translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                                                    + Add to cart
+                                                    +  View Details
                                                 </button>
                                             </div>
                                         </div>
