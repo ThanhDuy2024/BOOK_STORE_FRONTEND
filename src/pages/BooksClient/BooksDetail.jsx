@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { FaPlus, FaMinus, FaRegHeart, FaHeart } from 'react-icons/fa'; // Import icon từ react-icons/fa
+import { FaPlus, FaMinus, FaRegHeart, FaHeart, FaArrowUp } from 'react-icons/fa'; // Import icon từ react-icons/fa
 import { Link, useParams } from 'react-router';
 import { callApi } from '../../api/api';
 import { MdKeyboardArrowRight } from "react-icons/md";
@@ -60,6 +60,9 @@ export const BookDetail = () => {
         })
     }
 
+    const scrollToTop2 = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
     return (
         <div className="max-w-6xl mx-auto p-6 bg-white font-sans text-gray-700">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
@@ -221,6 +224,14 @@ export const BookDetail = () => {
                     ))}
                 </div>
             </section>
+
+            {/* Back to Top */}
+            <button
+                onClick={scrollToTop2}
+                className="cursor-pointer fixed bottom-6 right-6 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center shadow-lg shadow-primary/30 hover:scale-110 active:scale-95 transition-all z-50"
+            >
+                <FaArrowUp className="text-xs" />
+            </button>
         </div>
     );
 };

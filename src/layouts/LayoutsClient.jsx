@@ -1,12 +1,28 @@
-import { Link, Outlet } from "react-router"
-import icon from "../assets/Logo1.png"
+import { Link, Outlet, useNavigate } from "react-router";
+import icon from "../assets/Logo1.png";
 import { LiaUserSolid } from "react-icons/lia";
 import { IoCartOutline } from "react-icons/io5";
 import { FaAngleDown } from "react-icons/fa";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CartContext } from "../contexts/cartContext";
+
 export const LayoutClient = () => {
     const { totalCart } = useContext(CartContext);
+    const [search, setSearch] = useState("");
+    const navigate = useNavigate();
+
+    // Hàm xử lý tìm kiếm
+    const handleSearch = (e) => {
+        if (e.key === "Enter" || e.type === "click") {
+            if (search.trim()) {
+                // Điều hướng sang trang danh sách sách kèm query param
+                navigate(`/books?search=${encodeURIComponent(search.trim())}`);
+            } else {
+                navigate("/books");
+            }
+        }
+    };
+
     return (
         <>
             <div className="min-h-screen bg-base-100">
@@ -28,8 +44,8 @@ export const LayoutClient = () => {
                                 </div>
                             </Link>
 
-                            {/* Search */}
-                            <div className="flex-1 flex justify-center">
+                            {/* Search Desktop */}
+                            <div className="flex-1 md:flex md:justify-center hidden">
                                 <label className="
                                     input
                                     input-bordered
@@ -46,7 +62,8 @@ export const LayoutClient = () => {
                                     transition
                                 ">
                                     <svg
-                                        className="h-5 w-5 opacity-50"
+                                        onClick={handleSearch}
+                                        className="h-5 w-5 opacity-50 cursor-pointer hover:opacity-100 hover:text-primary transition"
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24"
                                     >
@@ -66,9 +83,14 @@ export const LayoutClient = () => {
                                         type="search"
                                         className="grow text-sm"
                                         placeholder="Search books, authors..."
+                                        value={search}
+                                        onChange={(e) => setSearch(e.target.value)}
+                                        onKeyDown={handleSearch}
                                     />
                                 </label>
                             </div>
+
+                            <div className="flex-1 flex justify-center md:hidden"></div>
 
                             {/* Actions */}
                             <div className="flex items-center gap-2 shrink-0">
@@ -85,7 +107,7 @@ export const LayoutClient = () => {
                                             hover:bg-primary/10
                                             hover:text-primary
                                         "
-                                                >
+                                    >
                                         <LiaUserSolid size={27} />
                                     </div>
 
@@ -160,18 +182,19 @@ export const LayoutClient = () => {
                         {/* Mobile Search */}
                         <div className="pb-4 md:hidden">
                             <label className="
-                    input
-                    input-bordered
-                    flex
-                    items-center
-                    gap-3
-                    w-full
-                    h-11
-                    rounded-xl
-                    bg-base-200/50
-                ">
+                                input
+                                input-bordered
+                                flex
+                                items-center
+                                gap-3
+                                w-full
+                                h-11
+                                rounded-xl
+                                bg-base-200/50
+                            ">
                                 <svg
-                                    className="h-5 w-5 opacity-50"
+                                    onClick={handleSearch}
+                                    className="h-5 w-5 opacity-50 cursor-pointer hover:opacity-100 hover:text-primary transition"
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
                                 >
@@ -191,6 +214,9 @@ export const LayoutClient = () => {
                                     type="search"
                                     className="grow text-sm"
                                     placeholder="Search books, authors..."
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    onKeyDown={handleSearch}
                                 />
                             </label>
                         </div>
@@ -207,16 +233,16 @@ export const LayoutClient = () => {
                                         tabIndex={0}
                                         role="button"
                                         className="
-                                flex
-                                items-center
-                                gap-2
-                                cursor-pointer
-                                text-sm
-                                font-semibold
-                                text-base-content/70
-                                hover:text-primary
-                                transition
-                            "
+                                            flex
+                                            items-center
+                                            gap-2
+                                            cursor-pointer
+                                            text-sm
+                                            font-semibold
+                                            text-base-content/70
+                                            hover:text-primary
+                                            transition
+                                        "
                                     >
                                         BOOKS
                                         <FaAngleDown size={13} />
@@ -225,16 +251,16 @@ export const LayoutClient = () => {
                                     <ul
                                         tabIndex="-1"
                                         className="
-                                dropdown-content
-                                menu
-                                w-52
-                                rounded-2xl
-                                bg-base-100
-                                p-2
-                                shadow-xl
-                                border
-                                border-base-200
-                            "
+                                            dropdown-content
+                                            menu
+                                            w-52
+                                            rounded-2xl
+                                            bg-base-100
+                                            p-2
+                                            shadow-xl
+                                            border
+                                            border-base-200
+                                        "
                                     >
                                         <li><Link to={"/books"}>All Books</Link></li>
                                         <li><a>Best Sellers</a></li>
@@ -248,16 +274,16 @@ export const LayoutClient = () => {
                                         tabIndex={0}
                                         role="button"
                                         className="
-                                flex
-                                items-center
-                                gap-2
-                                cursor-pointer
-                                text-sm
-                                font-semibold
-                                text-base-content/70
-                                hover:text-primary
-                                transition
-                            "
+                                            flex
+                                            items-center
+                                            gap-2
+                                            cursor-pointer
+                                            text-sm
+                                            font-semibold
+                                            text-base-content/70
+                                            hover:text-primary
+                                            transition
+                                        "
                                     >
                                         CATEGORIES
                                         <FaAngleDown size={13} />
@@ -266,16 +292,16 @@ export const LayoutClient = () => {
                                     <ul
                                         tabIndex="-1"
                                         className="
-                                dropdown-content
-                                menu
-                                w-52
-                                rounded-2xl
-                                bg-base-100
-                                p-2
-                                shadow-xl
-                                border
-                                border-base-200
-                            "
+                                            dropdown-content
+                                            menu
+                                            w-52
+                                            rounded-2xl
+                                            bg-base-100
+                                            p-2
+                                            shadow-xl
+                                            border
+                                            border-base-200
+                                        "
                                     >
                                         <li><a>Fiction</a></li>
                                         <li><a>Technology</a></li>
@@ -290,16 +316,16 @@ export const LayoutClient = () => {
                                         tabIndex={0}
                                         role="button"
                                         className="
-                                flex
-                                items-center
-                                gap-2
-                                cursor-pointer
-                                text-sm
-                                font-semibold
-                                text-base-content/70
-                                hover:text-primary
-                                transition
-                            "
+                                            flex
+                                            items-center
+                                            gap-2
+                                            cursor-pointer
+                                            text-sm
+                                            font-semibold
+                                            text-base-content/70
+                                            hover:text-primary
+                                            transition
+                                        "
                                     >
                                         ABOUT US
                                         <FaAngleDown size={13} />
@@ -308,16 +334,16 @@ export const LayoutClient = () => {
                                     <ul
                                         tabIndex="-1"
                                         className="
-                                dropdown-content
-                                menu
-                                w-52
-                                rounded-2xl
-                                bg-base-100
-                                p-2
-                                shadow-xl
-                                border
-                                border-base-200
-                            "
+                                            dropdown-content
+                                            menu
+                                            w-52
+                                            rounded-2xl
+                                            bg-base-100
+                                            p-2
+                                            shadow-xl
+                                            border
+                                            border-base-200
+                                        "
                                     >
                                         <li><a>About Us</a></li>
                                         <li><a>Contact</a></li>
@@ -334,7 +360,6 @@ export const LayoutClient = () => {
                 <main className="">
                     <Outlet />
                 </main>
-
 
                 <footer className="footer sm:footer-horizontal bg-base-200 text-base-content p-10">
                     <aside>
@@ -378,5 +403,5 @@ export const LayoutClient = () => {
                 </footer>
             </div>
         </>
-    )
-}
+    );
+};

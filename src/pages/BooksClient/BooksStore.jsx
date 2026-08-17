@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 import {
     FaChevronUp,
     FaChevronDown,
@@ -11,6 +11,9 @@ import {
 import { callApi } from "../../api/api";
 
 const BookStorePage = () => {
+    const [searchParams] = useSearchParams();
+    const searchQuery = searchParams.get("search") || "null";
+    const LIMIT = 16;
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [isCategoryOpen, setIsCategoryOpen] = useState(true);
     const [bookBestSaler, setBookBestSaler] = useState([]);
@@ -19,7 +22,7 @@ const BookStorePage = () => {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [totalBooks, setTotalBooks] = useState(0);
-    const LIMIT = 16;
+
     useEffect(() => {
         setPage(1);
     }, [priceFilter, selectedCategory]);
@@ -27,17 +30,17 @@ const BookStorePage = () => {
     useEffect(() => {
         (async () => {
             const res = await callApi(
-                "get", 
-                `${import.meta.env.VITE_REACT_APP_APIDEV}/client/books/list?searchBookName=null&searchAuthor=null&priceFilter=${priceFilter}&category=${selectedCategory}&sortCreatedAt=null&page=${page}&limit=${LIMIT}`, 
+                "get",
+                `${import.meta.env.VITE_REACT_APP_APIDEV}/client/books/list?searchBookName=${searchQuery}&searchAuthor=null&priceFilter=${priceFilter}&category=${selectedCategory}&sortCreatedAt=null&page=${page}&limit=${LIMIT}`,
                 {}
             );
-            
+
             // Cập nhật danh sách sách
             setBookBestSaler(res.data || []);
             setTotalPages(res.totalPage)
             console.log(res)
         })();
-    }, [priceFilter, selectedCategory, page]);
+    }, [priceFilter, selectedCategory, page, searchQuery]);
 
     useEffect(() => {
         (async () => {
@@ -50,7 +53,6 @@ const BookStorePage = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    // Hàm chuyển trang và tự động cuộn lên đầu danh sách
     const handlePageChange = (newPage) => {
         if (newPage >= 1 && newPage <= totalPages) {
             setPage(newPage);
@@ -82,11 +84,10 @@ const BookStorePage = () => {
                                     <li key={"all"}>
                                         <button
                                             onClick={() => setSelectedCategory("all")}
-                                            className={`w-full text-left py-1.5 px-2 rounded-lg transition-all cursor-pointer ${
-                                                selectedCategory === "all"
-                                                    ? 'bg-primary/10 text-primary font-bold'
-                                                    : 'hover:bg-slate-50 hover:text-slate-900'
-                                            }`}
+                                            className={`w-full text-left py-1.5 px-2 rounded-lg transition-all cursor-pointer ${selectedCategory === "all"
+                                                ? 'bg-primary/10 text-primary font-bold'
+                                                : 'hover:bg-slate-50 hover:text-slate-900'
+                                                }`}
                                         >
                                             All
                                         </button>
@@ -95,11 +96,10 @@ const BookStorePage = () => {
                                         <li key={idx}>
                                             <button
                                                 onClick={() => setSelectedCategory(cat.id)}
-                                                className={`w-full text-left py-1.5 px-2 rounded-lg transition-all cursor-pointer ${
-                                                    selectedCategory === cat.id
-                                                        ? 'bg-primary/10 text-primary font-bold'
-                                                        : 'hover:bg-slate-50 hover:text-slate-900'
-                                                }`}
+                                                className={`w-full text-left py-1.5 px-2 rounded-lg transition-all cursor-pointer ${selectedCategory === cat.id
+                                                    ? 'bg-primary/10 text-primary font-bold'
+                                                    : 'hover:bg-slate-50 hover:text-slate-900'
+                                                    }`}
                                             >
                                                 {cat.categoryName}
                                             </button>
@@ -192,11 +192,10 @@ const BookStorePage = () => {
                                             <button
                                                 key={pageNum}
                                                 onClick={() => handlePageChange(pageNum)}
-                                                className={`cursor-pointer w-9 h-9 rounded-xl text-xs font-bold transition-all ${
-                                                    page === pageNum
-                                                        ? 'bg-primary text-white shadow-md shadow-primary/20'
-                                                        : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
-                                                }`}
+                                                className={`cursor-pointer w-9 h-9 rounded-xl text-xs font-bold transition-all ${page === pageNum
+                                                    ? 'bg-primary text-white shadow-md shadow-primary/20'
+                                                    : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+                                                    }`}
                                             >
                                                 {pageNum}
                                             </button>
