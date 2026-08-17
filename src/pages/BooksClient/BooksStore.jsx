@@ -52,6 +52,11 @@ const BookStorePage = () => {
         })();
     }, []);
 
+
+    useEffect(() => {
+        setSelectedCategory(categoryFilter);
+    }, [categoryFilter]);
+    
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };

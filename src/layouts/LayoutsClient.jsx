@@ -3,25 +3,32 @@ import icon from "../assets/Logo1.png";
 import { LiaUserSolid } from "react-icons/lia";
 import { IoCartOutline } from "react-icons/io5";
 import { FaAngleDown } from "react-icons/fa";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../contexts/cartContext";
+import { callApi } from "../api/api";
 
 export const LayoutClient = () => {
     const { totalCart } = useContext(CartContext);
     const [search, setSearch] = useState("");
     const navigate = useNavigate();
-
+    const [categories, setCategories] = useState([]);
     // Hàm xử lý tìm kiếm
     const handleSearch = (e) => {
         if (e.key === "Enter" || e.type === "click") {
             if (search.trim()) {
-                // Điều hướng sang trang danh sách sách kèm query param
                 navigate(`/books?search=${encodeURIComponent(search.trim())}`);
             } else {
                 navigate("/books");
             }
         }
     };
+
+    useEffect(() => {
+        (async () => {
+            const res = await callApi("get", `${import.meta.env.VITE_REACT_APP_APIDEV}/client/categories`, {});
+            setCategories(res.data);
+        })()
+    }, []);
 
     return (
         <>
@@ -307,14 +314,19 @@ export const LayoutClient = () => {
                                                     Categories List
                                                 </h3>
                                                 <ul className="border-l-2 border-base-200 pl-4 space-y-3 text-sm font-medium text-slate-700">
-                                                    <li><Link to="/books?category=fiction" className="hover:text-primary transition block">Fiction</Link></li>
-                                                    <li><Link to="/books?category=technology" className="hover:text-primary transition block">Technology</Link></li>
-                                                    <li><Link to="/books?category=business" className="hover:text-primary transition block">Business</Link></li>
-                                                    <li><Link to="/books?category=self_development" className="hover:text-primary transition block">Self Development</Link></li>
+                                                    {categories && (
+                                                        <>
+                                                            {categories.map((item) => (
+                                                                <li><Link to={`/books?categoryFilter=${item.id}`} className="hover:text-primary transition block">
+                                                                    {item.categoryName}
+                                                                </Link></li>
+                                                            ))}
+                                                        </>
+                                                    )}
                                                 </ul>
                                             </div>
-                                        
-                                        </div> 
+
+                                        </div>
                                     </div>
                                 </div>
                                 {/* About */}

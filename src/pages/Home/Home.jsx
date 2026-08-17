@@ -14,7 +14,7 @@ export const Home = () => {
     const [bookBestSaler, setBookBestSaler] = useState([]);
     const [newBooks, setNewBooks] = useState([]);
     const [mythBooks, setMythBooks] = useState([]);
-
+    
     useEffect(() => {
         (async () => {
             const res = await callApi("get", `${import.meta.env.VITE_REACT_APP_APIDEV}/client/books/list?searchBookName=null&searchAuthor=null&priceFilter=null&category=all&sortCreatedAt=null&page=1&limit=6`, {});
@@ -35,6 +35,8 @@ export const Home = () => {
             setMythBooks(res.data);
         })()
     }, []);
+
+
 
     return (
         <>
