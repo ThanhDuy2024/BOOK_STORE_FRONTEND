@@ -142,7 +142,7 @@ export const LayoutClient = () => {
                                 </div>
 
                                 {/* Cart */}
-                                <Link 
+                                <Link
                                     to={"/cart"}
                                     className="
                                         btn
@@ -263,11 +263,13 @@ export const LayoutClient = () => {
                                         "
                                     >
                                         <li><Link to={"/books"}>All Books</Link></li>
-                                        <li><Link to={`/books?createdAtFilter=desc`} >New Arrivals</Link></li>
+                                        <li><Link to={`/books?`} >New Arrivals</Link></li>
                                     </ul>
                                 </div>
 
                                 {/* Categories */}
+                                {/* Dropdown CATEGORIES - Mega Menu Nằm Ngang (Chữ to) */}
+
                                 <div className="dropdown dropdown-hover">
                                     <div
                                         tabIndex={0}
@@ -285,30 +287,36 @@ export const LayoutClient = () => {
                                         "
                                     >
                                         CATEGORIES
-                                        <FaAngleDown size={13} />
+                                        <FaAngleDown size={14} />
                                     </div>
 
-                                    <ul
-                                        tabIndex="-1"
+                                    <div
+                                        tabIndex={0}
                                         className="
                                             dropdown-content
-                                            menu
-                                            w-52
-                                            rounded-2xl
-                                            bg-base-100
-                                            p-2
-                                            shadow-xl
-                                            border
-                                            border-base-200
+                                            z-50
+                                            pt-2
+                                            left-0 
                                         "
                                     >
-                                        <li><a>Fiction</a></li>
-                                        <li><a>Technology</a></li>
-                                        <li><a>Business</a></li>
-                                        <li><a>Self Development</a></li>
-                                    </ul>
-                                </div>
+                                        {/* Card chứa 1 cột duy nhất */}
+                                        <div className="bg-base-100 p-7 rounded-2xl shadow-xl border border-base-200 min-w-[220px]">
 
+                                            <div className="flex flex-col">
+                                                <h3 className="text-slate-900 font-bold text-lg mb-4">
+                                                    Categories List
+                                                </h3>
+                                                <ul className="border-l-2 border-base-200 pl-4 space-y-3 text-sm font-medium text-slate-700">
+                                                    <li><Link to="/books?category=fiction" className="hover:text-primary transition block">Fiction</Link></li>
+                                                    <li><Link to="/books?category=technology" className="hover:text-primary transition block">Technology</Link></li>
+                                                    <li><Link to="/books?category=business" className="hover:text-primary transition block">Business</Link></li>
+                                                    <li><Link to="/books?category=self_development" className="hover:text-primary transition block">Self Development</Link></li>
+                                                </ul>
+                                            </div>
+                                        
+                                        </div> 
+                                    </div>
+                                </div>
                                 {/* About */}
                                 <div className="dropdown dropdown-hover">
                                     <div
