@@ -3,6 +3,10 @@ import { FaPlus, FaMinus, FaRegHeart, FaHeart, FaArrowUp } from 'react-icons/fa'
 import { Link, useParams } from 'react-router';
 import { callApi } from '../../api/api';
 import { MdKeyboardArrowRight } from "react-icons/md";
+import {
+    FaChevronLeft,
+    FaChevronRight
+} from 'react-icons/fa';
 import { CartContext } from '../../contexts/cartContext';
 import { toast } from "sonner"
 export const BookDetail = () => {
@@ -12,10 +16,12 @@ export const BookDetail = () => {
     const [isLiked, setIsLiked] = useState(false);
     const [bookDetail, setBookDetail] = useState();
     const [bookBestSaler, setBookBestSaler] = useState([]);
-
-    // State cho phần bình luận
     const [commentText, setCommentText] = useState("");
     const [reviews, setReviews] = useState([]);
+
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [totalComments, setTotalCommnets] = useState(0);
 
     useEffect(() => {
         (async () => {
@@ -38,10 +44,11 @@ export const BookDetail = () => {
 
     useEffect(() => {
         (async () => {
-            const res = await callApi("get", `${import.meta.env.VITE_REACT_APP_APIDEV}/client/comments/${id}`, {});
+            const res = await callApi("get", `${import.meta.env.VITE_REACT_APP_APIDEV}/client/comments/${id}/?page=${page}&limit=5`, {});
             setReviews(res.data);
+            setTotalPages(res.totalPage)
         })();
-    }, [id]);
+    }, [id, page]);
 
     const handleDecrease = () => {
         if (quantity > 1) setQuantity(quantity - 1);
@@ -104,6 +111,11 @@ export const BookDetail = () => {
         setCommentText("");
     };
 
+    const handlePageChange = (newPage) => {
+        if (newPage >= 1 && newPage <= totalPages) {
+            setPage(newPage);
+        }
+    };
     return (
         <div className="max-w-6xl mx-auto p-6 bg-white font-sans text-gray-700">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
@@ -251,6 +263,47 @@ export const BookDetail = () => {
                         </div>
                     ))}
                 </div>
+
+                {totalPages > 1 && (
+                    <div className="flex justify-center items-center gap-2 pt-8">
+                        {/* Nút Trang Trước */}
+                        <button
+                            onClick={() => handlePageChange(page - 1)}
+                            disabled={page === 1}
+                            className="btn btn-sm btn-circle btn-outline border-slate-200 text-slate-600 hover:bg-primary hover:text-white hover:border-primary disabled:opacity-40"
+                        >
+                            <FaChevronLeft className="text-xs" />
+                        </button>
+
+                        {/* Danh sách số trang */}
+                        <div className="flex items-center gap-1">
+                            {[...Array(totalPages)].map((_, index) => {
+                                const pageNum = index + 1;
+                                return (
+                                    <button
+                                        key={pageNum}
+                                        onClick={() => handlePageChange(pageNum)}
+                                        className={`cursor-pointer w-9 h-9 rounded-xl text-xs font-bold transition-all ${page === pageNum
+                                            ? 'bg-primary text-white shadow-md shadow-primary/20'
+                                            : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+                                            }`}
+                                    >
+                                        {pageNum}
+                                    </button>
+                                );
+                            })}
+                        </div>
+
+                        {/* Nút Trang Sau */}
+                        <button
+                            onClick={() => handlePageChange(page + 1)}
+                            disabled={page === totalPages}
+                            className="cursor-pointer btn btn-sm btn-circle btn-outline border-slate-200 text-slate-600 hover:bg-primary hover:text-white hover:border-primary disabled:opacity-40"
+                        >
+                            <FaChevronRight className="text-xs" />
+                        </button>
+                    </div>
+                )}
             </section>
 
             {/* SECTION BESTSELLERS */}
