@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router';
 import { callApi } from '../../api/api';
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { CartContext } from '../../contexts/cartContext';
-
+import { toast } from "sonner"
 export const BookDetail = () => {
     const { id } = useParams();
     const { items, cartDispatch } = useContext(CartContext);
@@ -15,22 +15,7 @@ export const BookDetail = () => {
 
     // State cho phần bình luận
     const [commentText, setCommentText] = useState("");
-    const [reviews, setReviews] = useState([
-        {
-            id: 1,
-            userName: "Thanh Duy",
-            userAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Duy",
-            date: "15/08/2026",
-            comment: "Sách in rất rõ nét, đóng gói cẩn thận. Nội dung cực kỳ cuốn hút!"
-        },
-        {
-            id: 2,
-            userName: "Minh Anh",
-            userAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Minh",
-            date: "10/08/2026",
-            comment: "Giao hàng nhanh, nội dung ổn nhưng bìa sách hơi nhăn nhẹ ở góc."
-        }
-    ]);
+    const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
         (async () => {
@@ -48,6 +33,13 @@ export const BookDetail = () => {
         (async () => {
             const res = await callApi("get", `${import.meta.env.VITE_REACT_APP_APIDEV}/client/books/list?searchBookName=null&searchAuthor=null&priceFilter=null&category=all&sortCreatedAt=null&page=1&limit=6`, {});
             setBookBestSaler(res.data);
+        })();
+    }, [id]);
+
+    useEffect(() => {
+        (async () => {
+            const res = await callApi("get", `${import.meta.env.VITE_REACT_APP_APIDEV}/client/comments/${id}`, {});
+            setReviews(res.data);
         })();
     }, [id]);
 
@@ -84,19 +76,31 @@ export const BookDetail = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    const handleSubmitComment = (e) => {
+    const handleSubmitComment = async (e) => {
         e.preventDefault();
         if (!commentText.trim()) return;
 
         const newComment = {
             id: Date.now(),
-            userName: "Bạn",
-            userAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=User",
-            date: new Date().toLocaleDateString("vi-VN"),
+            customer: {
+                fullName: "You"
+            },
+            image: "https://api.dicebear.com/7.x/avataaars/svg?seed=User",
+            createdAtFormat: new Date().toLocaleDateString("vi-VN"),
             comment: commentText.trim()
         };
 
         setReviews([newComment, ...reviews]);
+        const res = await callApi("post", `${import.meta.env.VITE_REACT_APP_APIDEV}/client/comments`, {
+            id: id,
+            comment: commentText.trim()
+        });
+        if (res.status === true) {
+            toast.success("Post comment successful!");
+        } else {
+            toast.error("You must login if you wanna post comment!")
+        }
+
         setCommentText("");
     };
 
@@ -234,13 +238,13 @@ export const BookDetail = () => {
 
                 {/* Danh sách bình luận */}
                 <div className="space-y-6">
-                    {reviews.map((rev) => (
+                    {reviews?.map((rev) => (
                         <div key={rev.id} className="p-4 rounded-xl border border-slate-100 bg-white shadow-sm flex gap-4">
-                            <img src={rev.userAvatar} alt={rev.userName} className="w-10 h-10 rounded-full bg-slate-100" />
+                            <img src={rev.image || "https://api.dicebear.com/7.x/avataaars/svg?seed=Duy"} alt={rev.userName} className="w-10 h-10 rounded-full bg-slate-100" />
                             <div className="flex-1 space-y-1">
                                 <div className="flex items-center justify-between">
-                                    <h4 className="font-bold text-slate-800 text-sm">{rev.userName}</h4>
-                                    <span className="text-xs text-slate-400">{rev.date}</span>
+                                    <h4 className="font-bold text-slate-800 text-sm">{rev.customer?.fullName}</h4>
+                                    <span className="text-xs text-slate-400">{rev.createdAtFormat}</span>
                                 </div>
                                 <p className="text-sm text-slate-600 mt-1">{rev.comment}</p>
                             </div>
