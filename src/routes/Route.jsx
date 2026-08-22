@@ -20,7 +20,8 @@ import ShoppingCart from "../pages/ShppingCart/ShoppingCart";
 import CheckoutPage from "../pages/Checkout/Checkout";
 import OrderSuccessPage from "../pages/OrderSuccess/OrderSuccessPage";
 import BookStorePage from "../pages/BooksClient/BooksStore";
-
+import { AuthFlow } from "../pages/Authentication/AuthFlow";
+import { LoginClient } from "../pages/Authentication/Login";
 const ProtectedAdminRoute = () => {
     const navigate = useNavigate();
     const { adminName, adminDispatch } = useContext(AdminContext);
@@ -66,6 +67,8 @@ const RoutesList = () => {
                     <Route path="/checkout" element={<CheckoutPage/>}/>
                     <Route path="/order/success" element={<OrderSuccessPage/>}/>
                     <Route path="/books" element={<BookStorePage/>}/>
+                    <Route path="/register" element={<AuthFlow/>}/>
+                    <Route path="/login" element={<LoginClient/>}/>
                 </Route>
                 <Route path="/admin/login" element={<Login />} />
                 <Route element={<ProtectedAdminRoute />}>

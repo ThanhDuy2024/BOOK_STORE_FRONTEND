@@ -3,6 +3,7 @@ import icon from "../assets/Logo1.png";
 import { LiaUserSolid } from "react-icons/lia";
 import { IoCartOutline } from "react-icons/io5";
 import { FaAngleDown } from "react-icons/fa";
+import { RiUserAddLine } from "react-icons/ri";
 import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../contexts/cartContext";
 import { callApi } from "../api/api";
@@ -12,7 +13,6 @@ export const LayoutClient = () => {
     const [search, setSearch] = useState("");
     const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
-    // Hàm xử lý tìm kiếm
     const handleSearch = (e) => {
         if (e.key === "Enter" || e.type === "click") {
             if (search.trim()) {
@@ -134,16 +134,17 @@ export const LayoutClient = () => {
                                         "
                                     >
                                         <li>
-                                            <a className="rounded-xl">
+                                            <Link to={"/login"} className="rounded-xl">
                                                 <LiaUserSolid size={20} />
                                                 Sign in
-                                            </a>
+                                            </Link>
                                         </li>
 
                                         <li>
-                                            <a className="rounded-xl">
+                                            <Link to={"/register"} className="rounded-xl">
+                                                <RiUserAddLine size={20} />
                                                 Create an account
-                                            </a>
+                                            </Link>
                                         </li>
                                     </ul>
                                 </div>
