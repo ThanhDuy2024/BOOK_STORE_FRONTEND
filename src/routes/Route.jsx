@@ -22,6 +22,7 @@ import OrderSuccessPage from "../pages/OrderSuccess/OrderSuccessPage";
 import BookStorePage from "../pages/BooksClient/BooksStore";
 import { AuthFlow } from "../pages/Authentication/AuthFlow";
 import { LoginClient } from "../pages/Authentication/Login";
+import { CustomerContext } from "../contexts/customerContext";
 const ProtectedAdminRoute = () => {
     const navigate = useNavigate();
     const { adminName, adminDispatch } = useContext(AdminContext);
@@ -56,19 +57,54 @@ const ProtectedAdminRoute = () => {
 }
 
 const RoutesList = () => {
+    const { customerDispatch } = useContext(CustomerContext);
+
+    useEffect(() => {
+        (async () => {
+            const res = await callApi("get", `${import.meta.env.VITE_REACT_APP_APIDEV}/client/auth/profile`, {});
+            if (res.status === true) {
+                customerDispatch({
+                    type: "CUSTOMER-PROFILE",
+                    payload: {
+                        id: res.data.id,
+                        fullName: res.data.fullName,
+                        email: res.data.email,
+                        address: res.data.address,
+                        phone: res.data.phone,
+                        image: res.data.image,
+                        status: true
+                    }
+                })
+            } else {
+                customerDispatch({
+                    type: "CUSTOMER-PROFILE",
+                    payload: {
+                        id: -1,
+                        fullName: "",
+                        email: "",
+                        address: "",
+                        phone: "",
+                        image: "",
+                        status: false
+                    }
+                })
+            }
+        })()
+    }, []);
+
     return (
         <>
             <Toaster position="top-right" richColors />
             <Routes>
-                <Route element={<LayoutClient/>}>
-                    <Route path="/" element={<Home/>}/>
-                    <Route path="/book/detail/:id" element={<BookDetail/>}/>
-                    <Route path="/cart" element={<ShoppingCart/>}/>
-                    <Route path="/checkout" element={<CheckoutPage/>}/>
-                    <Route path="/order/success" element={<OrderSuccessPage/>}/>
-                    <Route path="/books" element={<BookStorePage/>}/>
-                    <Route path="/register" element={<AuthFlow/>}/>
-                    <Route path="/login" element={<LoginClient/>}/>
+                <Route element={<LayoutClient />}>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/book/detail/:id" element={<BookDetail />} />
+                    <Route path="/cart" element={<ShoppingCart />} />
+                    <Route path="/checkout" element={<CheckoutPage />} />
+                    <Route path="/order/success" element={<OrderSuccessPage />} />
+                    <Route path="/books" element={<BookStorePage />} />
+                    <Route path="/register" element={<AuthFlow />} />
+                    <Route path="/login" element={<LoginClient />} />
                 </Route>
                 <Route path="/admin/login" element={<Login />} />
                 <Route element={<ProtectedAdminRoute />}>
