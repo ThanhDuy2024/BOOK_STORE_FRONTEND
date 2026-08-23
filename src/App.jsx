@@ -11,6 +11,7 @@ import { IntlProvider } from "react-intl";
 import en from "./locales/en.json";
 import vi from "./locales/vi.json";
 import RoutesList from './routes/Route'
+
 const messages = {
   en,
   vi,
@@ -18,7 +19,7 @@ const messages = {
 function App() {
   const [count, setCount] = useState(0)
   const { locale } = useContext(LangContext);
-
+ 
   return (
     <>
       <IntlProvider locale={locale} messages={messages[locale]}>

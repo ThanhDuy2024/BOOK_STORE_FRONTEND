@@ -1,20 +1,55 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useContext, useState } from 'react';
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaArrowRight, FaGoogle, FaFacebook } from 'react-icons/fa';
-
+import { useNavigate } from 'react-router';
+import { toast } from "sonner"
+import { CustomerContext } from '../../contexts/customerContext';
 export const LoginClient = () => {
+  const navigate = useNavigate();
+  const { customerDispatch } = useContext(CustomerContext);
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.email || !formData.password) return;
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_REACT_APP_APIDEV}/client/auth/login`, {
+        email: formData.email,
+        password: formData.password
+      });
+
+      if (res.data.status === true) {
+        localStorage.setItem("token", res.data.clientToken);
+        customerDispatch({
+          type: "CUSTOMER-PROFILE",
+          payload: {
+            id: res.data.data.id,
+            fullName: res.data.data.fullName,
+            email: res.data.data.email,
+            address: res.data.data.address,
+            phone: res.data.data.phone,
+            image: res.data.data.image,
+            status: true
+          }
+        })
+        toast.success("Đăng nhập thành công");
+        navigate("/");
+      } else {
+        toast.error("Email hoặc mật khẩu của bạn không đúng")
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Email hoặc mật khẩu của bạn không đúng")
+    }
   };
 
   return (
     <div className="flex items-center justify-center mt-[50px] mb-[400px]">
       <div className="w-full max-w-4xl bg-white rounded-[10px] shadow-md border border-slate-100 overflow-hidden grid grid-cols-1 md:grid-cols-2">
-        
+
         {/* Cột Trái: Banner Minh Họa */}
         <div className="relative hidden md:flex flex-col justify-between p-10 bg-gradient-to-br from-indigo-600 via-indigo-700 to-purple-800 text-white">
           <div className="space-y-2 z-10">

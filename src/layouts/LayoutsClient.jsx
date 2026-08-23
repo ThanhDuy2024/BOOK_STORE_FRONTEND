@@ -7,9 +7,12 @@ import { RiUserAddLine } from "react-icons/ri";
 import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../contexts/cartContext";
 import { callApi } from "../api/api";
-
+import { CustomerContext } from "../contexts/customerContext";
+import { LuInbox } from "react-icons/lu";
+import { IoIosLogOut } from "react-icons/io";
 export const LayoutClient = () => {
     const { totalCart } = useContext(CartContext);
+    const { id, fullName, image } = useContext(CustomerContext);
     const [search, setSearch] = useState("");
     const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
@@ -115,12 +118,23 @@ export const LayoutClient = () => {
                                             hover:text-primary
                                         "
                                     >
-                                        <LiaUserSolid size={27} />
+                                        {id != -1 ? (
+                                            <div className="avatar">
+                                                <div className="w-10 rounded-full">
+                                                    <img
+                                                        alt="Customer avatar"
+                                                        src={image || "https://api.dicebear.com/7.x/avataaars/svg?seed=Duy"} />
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <LiaUserSolid size={27} />
+                                        )}
                                     </div>
 
-                                    <ul
-                                        tabIndex="-1"
-                                        className="
+                                    {id != -1 ? (
+                                        <ul
+                                            tabIndex="-1"
+                                            className="
                                             dropdown-content
                                             menu
                                             mt-3
@@ -132,21 +146,58 @@ export const LayoutClient = () => {
                                             border
                                             border-base-200
                                         "
-                                    >
-                                        <li>
-                                            <Link to={"/login"} className="rounded-xl">
-                                                <LiaUserSolid size={20} />
-                                                Sign in
-                                            </Link>
-                                        </li>
+                                        >
+                                            <li>
+                                                <Link to={"/login"} className="rounded-xl">
+                                                    <LiaUserSolid size={20} />
+                                                    Thông tin của bạn
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link to={"/login"} className="rounded-xl">
+                                                    <LuInbox size={20} />
+                                                    Trạng thái đơn hàng
+                                                </Link>
+                                            </li>
 
-                                        <li>
-                                            <Link to={"/register"} className="rounded-xl">
-                                                <RiUserAddLine size={20} />
-                                                Create an account
-                                            </Link>
-                                        </li>
-                                    </ul>
+                                            <li>
+                                                <Link to={"/register"} className="rounded-xl">
+                                                    <IoIosLogOut size={20} />
+                                                    Đăng xuất
+                                                </Link>
+                                            </li>
+                                        </ul>
+                                    ) : (
+                                        <ul
+                                            tabIndex="-1"
+                                            className="
+                                            dropdown-content
+                                            menu
+                                            mt-3
+                                            w-56
+                                            rounded-2xl
+                                            bg-base-100
+                                            p-2
+                                            shadow-xl
+                                            border
+                                            border-base-200
+                                        "
+                                        >
+                                            <li>
+                                                <Link to={"/login"} className="rounded-xl">
+                                                    <LiaUserSolid size={20} />
+                                                    Đăng nhập
+                                                </Link>
+                                            </li>
+
+                                            <li>
+                                                <Link to={"/register"} className="rounded-xl">
+                                                    <RiUserAddLine size={20} />
+                                                    Đăng ký
+                                                </Link>
+                                            </li>
+                                        </ul>
+                                    )}
                                 </div>
 
                                 {/* Cart */}

@@ -9,12 +9,15 @@ import vi from "./locales/vi.json";
 import { LangContextProvider } from './contexts/langContext.jsx';
 import { AdminContextProvider } from './contexts/adminContext.jsx';
 import { CartContextProvider } from './contexts/cartContext.jsx';
+import { CustomerContextProvider } from './contexts/customerContext.jsx';
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <LangContextProvider>
       <CartContextProvider>
         <AdminContextProvider>
-          <App />
+          <CustomerContextProvider>
+            <App />
+          </CustomerContextProvider>
         </AdminContextProvider>
       </CartContextProvider>
     </LangContextProvider>

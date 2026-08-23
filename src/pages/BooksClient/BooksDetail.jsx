@@ -92,7 +92,7 @@ export const BookDetail = () => {
             customer: {
                 fullName: "You"
             },
-            image: "https://api.dicebear.com/7.x/avataaars/svg?seed=User",
+            image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Duy",
             createdAtFormat: new Date().toLocaleDateString("vi-VN"),
             comment: commentText.trim()
         };
