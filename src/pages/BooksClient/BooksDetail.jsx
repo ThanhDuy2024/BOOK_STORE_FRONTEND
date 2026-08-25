@@ -9,8 +9,10 @@ import {
 } from 'react-icons/fa';
 import { CartContext } from '../../contexts/cartContext';
 import { toast } from "sonner"
+import { CustomerContext } from "../../contexts/customerContext"
 export const BookDetail = () => {
     const { id } = useParams();
+    const { fullName } = useContext(CustomerContext);
     const { items, cartDispatch } = useContext(CartContext);
     const [quantity, setQuantity] = useState(1);
     const [isLiked, setIsLiked] = useState(false);
@@ -18,7 +20,6 @@ export const BookDetail = () => {
     const [bookBestSaler, setBookBestSaler] = useState([]);
     const [commentText, setCommentText] = useState("");
     const [reviews, setReviews] = useState([]);
-
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [totalComments, setTotalCommnets] = useState(0);
@@ -90,7 +91,7 @@ export const BookDetail = () => {
         const newComment = {
             id: Date.now(),
             customer: {
-                fullName: "You"
+                fullName: fullName
             },
             image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Duy",
             createdAtFormat: new Date().toLocaleDateString("vi-VN"),
