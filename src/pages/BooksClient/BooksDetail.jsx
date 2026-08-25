@@ -28,7 +28,7 @@ export const BookDetail = () => {
             try {
                 const res = await callApi("get", `${import.meta.env.VITE_REACT_APP_APIDEV}/client/books/${id}`, {});
                 setBookDetail(res.data);
-                console.log(res.data);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             } catch (error) {
                 console.log(error);
             }

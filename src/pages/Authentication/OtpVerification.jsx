@@ -53,9 +53,6 @@ export const OtpVerification = ({ userData, onBack }) => {
         otp: otpCode
       };
 
-      console.log('API Register Payload:', payload);
-
-      // TODO: Gọi API tạo tài khoản chính thức ở đây
       const res = await callApi("post", `${import.meta.env.VITE_REACT_APP_APIDEV}/client/auth/register`, payload);
 
       if (res.status === true) {
