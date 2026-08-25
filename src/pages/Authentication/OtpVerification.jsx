@@ -1,11 +1,16 @@
 import React, { useState, useRef } from 'react';
 import { FaShieldAlt, FaArrowLeft } from 'react-icons/fa';
+import { useNavigate } from 'react-router';
+import { toast } from 'sonner';
+import { callApi } from '../../api/api';
 
 export const OtpVerification = ({ userData, onBack }) => {
+  const inputRefs = useRef([]);
+  const navigate = useNavigate();
   const { fullName, email, password } = userData || {};
   const [otp, setOtp] = useState(new Array(6).fill(''));
   const [loading, setLoading] = useState(false);
-  const inputRefs = useRef([]);
+
 
   const handleChange = (element, index) => {
     if (isNaN(element.value)) return false;
@@ -51,12 +56,16 @@ export const OtpVerification = ({ userData, onBack }) => {
       console.log('API Register Payload:', payload);
 
       // TODO: Gọi API tạo tài khoản chính thức ở đây
-      // const res = await callApi("post", "/client/auth/verify-register", payload);
+      const res = await callApi("post", `${import.meta.env.VITE_REACT_APP_APIDEV}/client/auth/register`, payload);
 
-      setTimeout(() => {
+      if (res.status === true) {
         setLoading(false);
-        alert(`Chào mừng ${fullName}! Tài khoản đã tạo thành công.`);
-      }, 1000);
+        toast.success(`Chào mừng ${fullName}! Tài khoản đã tạo thành công.`);
+        navigate("/login");
+      } else {
+        toast.error("Email của bạn đã tồn tại trong hệ thống!")
+        navigate("/register")
+      }
     } catch (error) {
       setLoading(false);
       console.error(error);
@@ -66,7 +75,7 @@ export const OtpVerification = ({ userData, onBack }) => {
   return (
     <div className="min-h-[calc(100vh-80px)] flex items-center justify-center p-4 bg-slate-50">
       <div className="w-full max-w-4xl bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden grid grid-cols-1 md:grid-cols-2">
-        
+
         {/* Banner bên trái */}
         <div className="relative hidden md:flex flex-col justify-between p-10 bg-gradient-to-br from-indigo-600 via-indigo-700 to-purple-800 text-white">
           <div className="space-y-2 z-10">

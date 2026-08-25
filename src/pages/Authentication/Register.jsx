@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaArrowRight, FaGoogle, FaFacebook } from 'react-icons/fa';
+import { callApi } from '../../api/api';
+import { toast } from 'sonner';
 
 export const Register = ({ onNavigateToOtp }) => {
   const [formData, setFormData] = useState({
@@ -28,15 +30,24 @@ export const Register = ({ onNavigateToOtp }) => {
 
     setLoading(true);
     try {
-      setTimeout(() => {
-        setLoading(false);
+      const res = await callApi("post", `${import.meta.env.VITE_REACT_APP_APIDEV}/client/auth/otp`, {
+        email: formData.email
+      });
 
-        onNavigateToOtp({
-          fullName: formData.fullName,
-          email: formData.email,
-          password: formData.password
-        });
-      }, 1000);
+      if (res.status === true) {
+        setTimeout(() => {
+          setLoading(false);
+
+          onNavigateToOtp({
+            fullName: formData.fullName,
+            email: formData.email,
+            password: formData.password
+          });
+        }, 1000);
+      } else {
+        toast.error("Email của bạn đã tồn tại!");
+      }
+
     } catch (error) {
       setLoading(false);
       console.error(error);
