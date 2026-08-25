@@ -10,9 +10,10 @@ import { callApi } from "../api/api";
 import { CustomerContext } from "../contexts/customerContext";
 import { LuInbox } from "react-icons/lu";
 import { IoIosLogOut } from "react-icons/io";
+import { toast } from "sonner";
 export const LayoutClient = () => {
     const { totalCart } = useContext(CartContext);
-    const { id, fullName, image } = useContext(CustomerContext);
+    const { id, fullName, image, customerDispatch } = useContext(CustomerContext);
     const [search, setSearch] = useState("");
     const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
@@ -33,6 +34,23 @@ export const LayoutClient = () => {
         })()
     }, []);
 
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        customerDispatch({
+            type: "CUSTOMER-PROFILE",
+            payload: {
+                id: -1,
+                fullName: "",
+                email: "",
+                address: "",
+                phone: "",
+                image: "",
+                status: false
+            }
+        });
+        toast.success("Đăng xuất thành công!")
+        navigate("/");
+    }
     return (
         <>
             <div className="min-h-screen bg-base-100">
@@ -161,10 +179,10 @@ export const LayoutClient = () => {
                                             </li>
 
                                             <li>
-                                                <Link to={"/register"} className="rounded-xl">
+                                                <div className="rounded-xl" onClick={handleLogout}>
                                                     <IoIosLogOut size={20} />
                                                     Đăng xuất
-                                                </Link>
+                                                </div>
                                             </li>
                                         </ul>
                                     ) : (
