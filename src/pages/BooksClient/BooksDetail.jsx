@@ -12,7 +12,7 @@ import { toast } from "sonner"
 import { CustomerContext } from "../../contexts/customerContext"
 export const BookDetail = () => {
     const { id } = useParams();
-    const { fullName } = useContext(CustomerContext);
+    const { fullName, image } = useContext(CustomerContext);
     const { items, cartDispatch } = useContext(CartContext);
     const [quantity, setQuantity] = useState(1);
     const [isLiked, setIsLiked] = useState(false);
@@ -91,9 +91,9 @@ export const BookDetail = () => {
         const newComment = {
             id: Date.now(),
             customer: {
-                fullName: fullName
+                fullName: fullName,
+                image: image || "https://api.dicebear.com/7.x/avataaars/svg?seed=Duy",
             },
-            image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Duy",
             createdAtFormat: new Date().toLocaleDateString("vi-VN"),
             comment: commentText.trim()
         };
@@ -253,7 +253,7 @@ export const BookDetail = () => {
                 <div className="space-y-6">
                     {reviews?.map((rev) => (
                         <div key={rev.id} className="p-4 rounded-xl border border-slate-100 bg-white shadow-sm flex gap-4">
-                            <img src={rev.image || "https://api.dicebear.com/7.x/avataaars/svg?seed=Duy"} alt={rev.userName} className="w-10 h-10 rounded-full bg-slate-100" />
+                            <img src={rev.customer?.image || "https://api.dicebear.com/7.x/avataaars/svg?seed=Duy"} alt={rev.userName} className="w-10 h-10 rounded-full bg-slate-100" />
                             <div className="flex-1 space-y-1">
                                 <div className="flex items-center justify-between">
                                     <h4 className="font-bold text-slate-800 text-sm">{rev.customer?.fullName}</h4>
