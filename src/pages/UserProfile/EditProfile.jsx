@@ -3,6 +3,7 @@ import { FaUser, FaArrowRight, FaCamera } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router';
 import { CustomerContext } from '../../contexts/customerContext';
 import { toast } from 'sonner';
+import { callApi } from '../../api/api';
 
 export const EditProfile = () => {
     const menuItems = [
@@ -31,9 +32,70 @@ export const EditProfile = () => {
     const [avatarPreview, setAvatarPreview] = useState("");
 
     useEffect(() => {
-        if (status === false) {
-            navigate("/");
-        }
+        const getProfile = async () => {
+            try {
+                const res = await callApi(
+                    "get",
+                    `${import.meta.env.VITE_REACT_APP_APIDEV}/client/auth/profile`,
+                    {}
+                );
+
+                if (res.status === true) {
+
+                    customerDispatch({
+                        type: "CUSTOMER-PROFILE",
+                        payload: {
+                            id: res.data.id,
+                            fullName: res.data.fullName,
+                            email: res.data.email,
+                            address: res.data.address,
+                            phone: res.data.phone,
+                            image: res.data.image,
+                            status: true
+                        }
+                    });
+
+                } else {
+
+                    customerDispatch({
+                        type: "CUSTOMER-PROFILE",
+                        payload: {
+                            id: -1,
+                            fullName: "",
+                            email: "",
+                            address: "",
+                            phone: "",
+                            image: "",
+                            status: false
+                        }
+                    });
+
+                    navigate("/");
+                }
+
+            } catch (error) {
+
+                console.error("Get profile error:", error);
+
+                customerDispatch({
+                    type: "CUSTOMER-PROFILE",
+                    payload: {
+                        id: -1,
+                        fullName: "",
+                        email: "",
+                        address: "",
+                        phone: "",
+                        image: "",
+                        status: false
+                    }
+                });
+
+                navigate("/");
+            }
+        };
+
+        getProfile();
+
     }, []);
 
 
@@ -414,7 +476,6 @@ export const EditProfile = () => {
                                                 shadow-sm
                                                 hover:opacity-90
                                                 transition
-                                                cursor-pointer
                                             "
                                         >
                                             Lưu thay đổi
