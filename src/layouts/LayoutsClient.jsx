@@ -166,13 +166,13 @@ export const LayoutClient = () => {
                                         "
                                         >
                                             <li>
-                                                <Link to={"/login"} className="rounded-xl">
+                                                <Link to={"/profile"} className="rounded-xl">
                                                     <LiaUserSolid size={20} />
                                                     Thông tin của bạn
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link to={"/login"} className="rounded-xl">
+                                                <Link to={"/order"} className="rounded-xl">
                                                     <LuInbox size={20} />
                                                     Trạng thái đơn hàng
                                                 </Link>

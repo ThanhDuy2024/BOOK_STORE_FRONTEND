@@ -23,6 +23,7 @@ import BookStorePage from "../pages/BooksClient/BooksStore";
 import { AuthFlow } from "../pages/Authentication/AuthFlow";
 import { LoginClient } from "../pages/Authentication/Login";
 import { CustomerContext } from "../contexts/customerContext";
+import { UserProfile } from "../pages/UserProfile/UserProfile";
 const ProtectedAdminRoute = () => {
     const navigate = useNavigate();
     const { adminName, adminDispatch } = useContext(AdminContext);
@@ -105,6 +106,7 @@ const RoutesList = () => {
                     <Route path="/books" element={<BookStorePage />} />
                     <Route path="/register" element={<AuthFlow />} />
                     <Route path="/login" element={<LoginClient />} />
+                    <Route path="/profile" element={<UserProfile/>}/>
                 </Route>
                 <Route path="/admin/login" element={<Login />} />
                 <Route element={<ProtectedAdminRoute />}>
