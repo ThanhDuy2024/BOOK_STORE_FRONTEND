@@ -191,7 +191,7 @@ const OrderSuccessPage = () => {
                         <FaHome /> Về trang chủ
                     </Link>
                     <Link
-                        to="/shop"
+                        to="/"
                         className="px-6 py-3 bg-primary hover:bg-opacity-90 text-white font-medium rounded-xl flex items-center justify-center gap-2 transition-all"
                     >
                         <FaShoppingBag /> Tiếp tục mua sắm
