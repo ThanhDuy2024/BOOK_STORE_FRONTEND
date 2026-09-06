@@ -25,6 +25,7 @@ import { LoginClient } from "../pages/Authentication/Login";
 import { CustomerContext } from "../contexts/customerContext";
 import { UserProfile } from "../pages/UserProfile/UserProfile";
 import { EditProfile } from "../pages/UserProfile/EditProfile";
+import { OrderTracking } from "../pages/OrderTracking/OrderTracking";
 const ProtectedAdminRoute = () => {
     const navigate = useNavigate();
     const { adminName, adminDispatch } = useContext(AdminContext);
@@ -109,6 +110,7 @@ const RoutesList = () => {
                     <Route path="/login" element={<LoginClient />} />
                     <Route path="/profile" element={<UserProfile/>}/>
                     <Route path="/profile/edit" element={<EditProfile/>}/>
+                    <Route path="/tracking" element={<OrderTracking/>}/>
                 </Route>
                 <Route path="/admin/login" element={<Login />} />
                 <Route element={<ProtectedAdminRoute />}>

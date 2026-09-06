@@ -203,8 +203,6 @@ export const EditProfile = () => {
                 dataSubmit.append("image", avatarFile); // Tên field này khớp với multer backend
             }
 
-            console.log("Submit profile data with file:", avatarFile);
-
             const res = await axios.put(
                 `${import.meta.env.VITE_REACT_APP_APIDEV}/client/auth/profile`,
                 dataSubmit,
