@@ -10,7 +10,7 @@ import {
   FaHashtag, 
   FaFileInvoice
 } from 'react-icons/fa';
-
+import { callApi } from "../../api/api"
 export const OrderTracking = () => {
   const [orderId, setOrderId] = useState('');
   const [email, setEmail] = useState('');
@@ -41,37 +41,26 @@ export const OrderTracking = () => {
 
     try {
       // TODO: Thay thế bằng hàm callApi thực tế của bạn
-      // const res = await callApi('get', `/api/orders/track?id=${orderId}&email=${email}`);
+      const res = await callApi('post', `${import.meta.env.VITE_REACT_APP_APIDEV}/client/tracking`, {
+        orderId: orderId,
+        email: email
+      });
 
+      console.log(res.data);
       // Giả lập delay mạng 1s & Dữ liệu Mock
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // Mock data phản hồi từ API
       const mockResult = {
         id: orderId,
-        customerName: 'Nguyễn Văn A',
+        customerName: res.data.fullName,
         email: email,
-        phone: '0987654321',
-        address: '123 Đường Lê Lợi, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh',
-        status: 'SHIPPING', // PENDING, CONFIRMED, SHIPPING, DELIVERED, CANCELLED
-        createdAt: '05/09/2026 14:30',
-        totalAmount: 450000,
-        items: [
-          {
-            id: 1,
-            title: 'Lập Trình Hướng Đối Tượng Với C++',
-            quantity: 1,
-            price: 150000,
-            image: 'https://via.placeholder.com/80'
-          },
-          {
-            id: 2,
-            title: 'Thiết Kế Mẫu (Design Patterns)',
-            quantity: 2,
-            price: 150000,
-            image: 'https://via.placeholder.com/80'
-          }
-        ]
+        phone: res.data.phone,
+        address: res.data.address,
+        status: res.data.status, // PENDING, CONFIRMED, SHIPPING, DELIVERED, CANCELLED
+        createdAt: res.data.createdAtFormat,
+        totalAmount: res.data.totalAmount,
+        items: res.data.items
       };
 
       setOrderData(mockResult);
@@ -177,7 +166,7 @@ export const OrderTracking = () => {
               </div>
 
               <div>
-                {orderData.status === 'CANCELLED' ? (
+                {orderData.status === 'canceled' ? (
                   <div className="badge badge-error gap-2 p-3 text-white font-semibold">
                     <FaTimesCircle /> Đã hủy
                   </div>
@@ -190,7 +179,7 @@ export const OrderTracking = () => {
             </div>
 
             {/* Timeline Tiến Trình (DaisyUI Steps Component) */}
-            {orderData.status !== 'CANCELLED' && (
+            {orderData.status !== 'canceled' && (
               <div className="py-4 overflow-x-auto">
                 <ul className="steps steps-vertical sm:steps-horizontal w-full">
                   {statusSteps.map((step, idx) => {
@@ -238,16 +227,16 @@ export const OrderTracking = () => {
                     <div className="flex items-center gap-3">
                       <img
                         src={item.image}
-                        alt={item.title}
+                        alt={item.bookName}
                         className="w-14 h-14 object-cover rounded-lg border border-base-300"
                       />
                       <div>
-                        <h4 className="font-medium text-sm text-base-content">{item.title}</h4>
-                        <p className="text-xs text-base-content/60">Số lượng: x{item.quantity}</p>
+                        <h4 className="font-medium text-sm text-base-content">{item.bookName}</h4>
+                        <p className="text-xs text-base-content/60">Số lượng: x{item.buyQuantity}</p>
                       </div>
                     </div>
                     <div className="text-right font-medium text-sm text-primary">
-                      {(item.price * item.quantity).toLocaleString('vi-VN')} đ
+                      {(item.price * item.buyQuantity).toLocaleString('vi-VN')} đ
                     </div>
                   </div>
                 ))}

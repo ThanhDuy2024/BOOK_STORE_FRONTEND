@@ -438,6 +438,27 @@ export const LayoutClient = () => {
                                         <li><a>Contact</a></li>
                                     </ul>
                                 </div>
+                                {/* Tracking */}
+                                <Link className="dropdown dropdown-hover" to={"/tracking"}>
+                                    <div
+                                        tabIndex={0}
+                                        role="button"
+                                        className="
+                                            flex
+                                            items-center
+                                            gap-2
+                                            cursor-pointer
+                                            text-sm
+                                            font-semibold
+                                            text-base-content/70
+                                            hover:text-primary
+                                            transition
+                                        "
+                                    >
+                                        ORDER TRACKING
+                                        <FaAngleDown size={13} />
+                                    </div>
+                                </Link>
 
                             </div>
                         </div>
