@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import { 
-  FaSearch, 
-  FaBox, 
-  FaTruck, 
-  FaCheckCircle, 
-  FaTimesCircle, 
-  FaClock, 
-  FaEnvelope, 
-  FaHashtag, 
+import {
+  FaSearch,
+  FaBox,
+  FaTruck,
+  FaCheckCircle,
+  FaTimesCircle,
+  FaClock,
+  FaEnvelope,
+  FaHashtag,
   FaFileInvoice
 } from 'react-icons/fa';
 import { callApi } from "../../api/api"
+import { toast } from 'sonner';
+import axios from 'axios';
 export const OrderTracking = () => {
   const [orderId, setOrderId] = useState('');
   const [email, setEmail] = useState('');
@@ -29,7 +31,7 @@ export const OrderTracking = () => {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    
+
     if (!orderId.trim() || !email.trim()) {
       setError('Vui lòng nhập đầy đủ Mã đơn hàng và Email!');
       return;
@@ -45,9 +47,6 @@ export const OrderTracking = () => {
         orderId: orderId,
         email: email
       });
-
-      console.log(res.data);
-      // Giả lập delay mạng 1s & Dữ liệu Mock
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // Mock data phản hồi từ API
@@ -77,10 +76,33 @@ export const OrderTracking = () => {
     return statusSteps.findIndex((step) => step.key === status);
   };
 
+  const handleDeleteOrder = async () => {
+    try {
+      const res = await axios.delete(`${import.meta.env.VITE_REACT_APP_APIDEV}/client/tracking/${orderData.id}`);
+      setOrderData({
+        ...orderData,
+        status: "cancel"
+      });
+      document
+        .getElementById(
+          "my_modal_delete"
+        )
+        .close();
+      toast.success("Đơn hàng đã được huỷ thành công");
+    } catch (error) {
+      console.log(error);
+      toast.error("Bạn không thể hủy đơn hàng này khi đã được xác nhận hoặc đã thanh toán");
+      document
+        .getElementById(
+          "my_modal_delete"
+        )
+        .close();
+    }
+  }
   return (
     <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-3xl mx-auto space-y-8">
-        
+
         {/* Header Title */}
         <div className="text-center space-y-2">
           <h1 className="text-3xl font-bold text-base-content">Tra Cứu Đơn Hàng</h1>
@@ -94,7 +116,7 @@ export const OrderTracking = () => {
           <div className="card-body">
             <form onSubmit={handleSearch} className="space-y-4">
               <div className="grid grid-cols-1 gap-4">
-                
+
                 {/* Input Order ID */}
                 <div className="form-control">
                   <label className="label">
@@ -153,7 +175,7 @@ export const OrderTracking = () => {
         {/* Kết Quả Tra Cứu Đơn Hàng */}
         {orderData && (
           <div className="card bg-base-100 shadow-xl border border-base-300 space-y-6 p-6">
-            
+
             {/* Header thông tin chung */}
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-base-200 pb-4">
               <div>
@@ -171,8 +193,8 @@ export const OrderTracking = () => {
                     <FaTimesCircle /> Đã hủy
                   </div>
                 ) : (
-                  <div className="badge badge-primary gap-2 p-3 font-semibold">
-                    {statusSteps.find(s => s.key === orderData.status)?.label || 'Đang xử lý'}
+                  <div className={orderData.status == "cancel" ? `badge badge-error text-white gap-2 p-3 font-semibold` : `badge badge-primary gap-2 p-3 font-semibold`}>
+                    {statusSteps.find(s => s.key === orderData.status)?.label || 'Đơn hàng đã bị hủy bỏ'}
                   </div>
                 )}
               </div>
@@ -246,13 +268,81 @@ export const OrderTracking = () => {
             {/* Tổng tiền */}
             <div className="border-t border-base-200 pt-4 flex justify-between items-center font-bold text-lg">
               <span>Tổng cộng:</span>
-              <span className="text-primary">{orderData.totalAmount.toLocaleString('vi-VN')} đ</span>
+              <span className="text-primary">
+                {Number(orderData?.totalAmount || 0).toLocaleString('vi-VN')} đ
+              </span>
             </div>
+
+            {orderData.status != "cancel" && (
+              <div className="border-t border-base-200 pt-4 flex justify-between items-center font-bold text-lg">
+                <span></span>
+                <span className="text-primary">
+                  <button
+                    className="btn btn-error text-white"
+                    onClick={() => {
+                      document
+                        .getElementById(
+                          "my_modal_delete"
+                        )
+                        .showModal();
+                    }}
+                  >
+                    Hủy đơn hàng
+                  </button>
+                </span>
+              </div>
+            )}
 
           </div>
         )}
 
       </div>
+
+      <dialog
+        id="my_modal_delete"
+        className="modal"
+      >
+
+        <div className="modal-box">
+
+          <h3 className="text-lg font-bold text-error">
+            Thông báo xác nhận
+          </h3>
+
+          <p className="py-4">
+            Bạn có chắc chắn muốn hủy đơn hàng này không ?
+          </p>
+
+          <div className="modal-action">
+
+            <button
+              className="btn btn-error text-white"
+              onClick={handleDeleteOrder}
+            >
+              Xác nhận
+            </button>
+
+            <form method="dialog">
+
+              <button className="btn">
+                Đóng
+              </button>
+
+            </form>
+
+          </div>
+
+        </div>
+
+        <form
+          method="dialog"
+          className="modal-backdrop"
+        >
+          <button>close</button>
+        </form>
+
+      </dialog>
     </div>
+
   );
 };
