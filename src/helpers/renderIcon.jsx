@@ -5,6 +5,7 @@ import { LuBookCheck, LuHouse, LuSquareUser, LuSquareUserRound } from "react-ico
 import { CiBatteryCharging, CiSettings, CiUser } from "react-icons/ci";
 import { TbReportSearch } from "react-icons/tb";
 import { LuBookPlus } from "react-icons/lu";
+import { RiAccountPinCircleLine } from "react-icons/ri";
 const iconMap = {
   earth: IoEarthOutline,
   notiIos: IoIosNotificationsOutline,
@@ -18,6 +19,7 @@ const iconMap = {
   settings: CiSettings,
   user: LuSquareUserRound,
   report: TbReportSearch,
+  customer: RiAccountPinCircleLine
 };
 
 export const renderIcon = (iconName, size) => {
