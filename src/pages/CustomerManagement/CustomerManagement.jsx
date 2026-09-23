@@ -19,8 +19,7 @@ const CustomerManagement = () => {
     const [search, setSearch] = useState("null");
     const [searchEmail, setSearchEmail] = useState("null");
     const [status, setStatus] = useState("null");
-    
-    const [bookDelete, setBookDelete] = useState();
+
     const [updatedAtFilter, setUpdatedAtFilter] = useState("desc");
     const [priceFilter, setPriceFilter] = useState("null");
     const [quantityFilter, setQuantityFilter] = useState("null");
@@ -41,21 +40,6 @@ const CustomerManagement = () => {
         loadCustomerApi();
     }, [status, currentPage, search, searchEmail]);
 
-    const handleDeleteBook = async () => {
-        try {
-            const res = await callApi("put", `${import.meta.env.VITE_REACT_APP_APIDEV}/admin/books/delete/${bookDelete}`, {});
-            if (res.status === true) {
-                loadBookApi(currentPage, search, status, updatedAtFilter, priceFilter, quantityFilter);
-                document.getElementById('my_modal_delete').close();
-                toast.success(`${lang.formatMessage({ id: "book.subtitle" })} ${lang.formatMessage({ id: "toast.deleted" })}`)
-            } else {
-                toast.error(`${lang.formatMessage({ id: "book.subtitle" })} ${lang.formatMessage({ id: "toast.notFound" })}`)
-            }
-        } catch (error) {
-            console.log(error);
-            toast.error(`${lang.formatMessage({ id: "book.subtitle" })} ${lang.formatMessage({ id: "toast.notFound" })}`)
-        }
-    }
 
     return (
         <>
@@ -483,7 +467,7 @@ const CustomerManagement = () => {
                                             <div className="flex justify-center gap-2">
 
                                                 <Link
-                                                    to={`/admin/books/edit/${item.id}`}
+                                                    to={`/admin/customer/${item.id}`}
                                                     className="btn btn-sm btn-primary btn-outline"
                                                 >
                                                     {lang.formatMessage({
@@ -673,7 +657,7 @@ const CustomerManagement = () => {
                                 <div className="card-actions justify-end mt-4">
 
                                     <Link
-                                        to={`/admin/books/edit/${item.id}`}
+                                        to={`/admin/customer/${item.id}`}
                                         className="btn btn-sm btn-primary btn-outline"
                                     >
                                         {lang.formatMessage({
@@ -742,7 +726,6 @@ const CustomerManagement = () => {
 
                         <button
                             className="btn btn-primary"
-                            onClick={handleDeleteBook}
                         >
                             {lang.formatMessage({
                                 id: "button.confirm"
