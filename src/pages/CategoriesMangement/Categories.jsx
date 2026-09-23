@@ -662,14 +662,14 @@ const Categories = () => {
                                         <td className="align-middle">
                                             <div className="flex items-center justify-center gap-2 sm:gap-3">
 
-                                                <div className="avatar">
+                                                {/* <div className="avatar">
                                                     <div className="w-10 sm:w-12 rounded-lg">
                                                         <img
                                                             src={item.image}
                                                             alt="Category"
                                                         />
                                                     </div>
-                                                </div>
+                                                </div> */}
 
                                                 <div className="text-left min-w-0">
                                                     <div className="font-semibold truncate max-w-[120px] sm:max-w-[200px]">
