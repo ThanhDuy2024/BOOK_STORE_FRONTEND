@@ -6,20 +6,33 @@ import { IoMdInformationCircleOutline } from "react-icons/io";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
+import { callApi } from "../../api/api";
 
 export const CreateUsers = () => {
     const lang = useIntl();
     const navigate = useNavigate();
-
-    // ==============================
-    // STATE
-    // ==============================
     const [preview, setPreview] = useState("");
     const [loading, setLoading] = useState(false);
+    const [roles, setRoles] = useState([]);
+    useEffect(() => {
+        ( async () => {
+            try {
+                const res = await callApi("get", `${import.meta.env.VITE_REACT_APP_APIDEV}/admin/account/roles/list`, {});
+                setRoles(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        })();
+    }, []);
 
-    // ==============================
-    // IMAGE PREVIEW & CLEANUP
-    // ==============================
+    useEffect(() => {
+        return () => {
+            if (preview) {
+                URL.revokeObjectURL(preview);
+            }
+        };
+    }, [preview]);
+
     const handleImageChange = (e) => {
         const file = e.target.files?.[0];
 
@@ -32,17 +45,6 @@ export const CreateUsers = () => {
         setPreview(imageUrl);
     };
 
-    useEffect(() => {
-        return () => {
-            if (preview) {
-                URL.revokeObjectURL(preview);
-            }
-        };
-    }, [preview]);
-
-    // ==============================
-    // SUBMIT FORM
-    // ==============================
     const handleSubmitCreate = async (e) => {
         e.preventDefault();
 
@@ -103,9 +105,6 @@ export const CreateUsers = () => {
         }
     };
 
-    // ==============================
-    // CLOSE
-    // ==============================
     const handleClose = () => {
         navigate("/admin/users");
     };
@@ -147,7 +146,7 @@ export const CreateUsers = () => {
             {/* =====================================================
                 MAIN
             ====================================================== */}
-            <div className="flex flex-col lg:flex-row gap-[10px] w-full">
+            <div className="flex flex-col lg:flex-row gap-[10px] w-full justify-center">
                 {/* =================================================
                     USER INFORMATION
                 ================================================= */}
@@ -355,11 +354,14 @@ export const CreateUsers = () => {
                             <select
                                 id="roleId"
                                 name="roleId"
-                                defaultValue="1"
+                                defaultValue={roles.length ? roles[0].id : "1"}
                                 className="select w-full outline-none"
                             >
-                                <option value="1">Admin</option>
-                                <option value="2">Staff</option>
+                                {roles.map((item) => (
+                                    <option key={item.id} value={item.id}>
+                                        {item.name || item.roleName || `Role ${item.id}`}
+                                    </option>
+                                ))}
                             </select>
                         </fieldset>
 
@@ -426,60 +428,11 @@ export const CreateUsers = () => {
                                 {loading
                                     ? "Creating..."
                                     : lang.formatMessage({
-                                          id: "users.addNewUsers",
-                                      })}
+                                        id: "users.addNewUsers",
+                                    })}
                             </button>
                         </div>
                     </form>
-                </div>
-
-                {/* =================================================
-                    CATEGORY / SIDE PANEL
-                ================================================= */}
-                <div className="w-full lg:w-[40%] mt-[20px] lg:mx-[10px] rounded-[10px] shadow-md bg-white p-4">
-                    {/* HEADER */}
-                    <div className="flex items-center gap-[10px] mb-[16px]">
-                        <div className="w-[48px] h-[48px] shrink-0 bg-[#eaf2ff] flex items-center justify-center rounded-[10px]">
-                            <MdOutlineCategory
-                                size={20}
-                                className="text-primary"
-                            />
-                        </div>
-
-                        <div>
-                            <div className="font-bold text-[18px] sm:text-[20px]">
-                                Chọn danh mục
-                            </div>
-
-                            <div className="mt-[5px] text-[14px] opacity-75">
-                                Trong một cuốn sách bạn có thể chọn nhiều danh
-                                mục
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* CATEGORY LIST */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-3">
-                        <label className="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:border-primary transition">
-                            <input
-                                type="checkbox"
-                                className="checkbox checkbox-primary"
-                            />
-                            <span className="font-medium text-gray-700">
-                                Category 1
-                            </span>
-                        </label>
-
-                        <label className="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:border-primary transition">
-                            <input
-                                type="checkbox"
-                                className="checkbox checkbox-primary"
-                            />
-                            <span className="font-medium text-gray-700">
-                                Category 2
-                            </span>
-                        </label>
-                    </div>
                 </div>
             </div>
         </>

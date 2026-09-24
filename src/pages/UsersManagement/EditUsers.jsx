@@ -188,10 +188,7 @@ export const EditUsers = () => {
             {/* =====================================================
                 MAIN
             ====================================================== */}
-            <div className="flex flex-col lg:flex-row gap-[10px] w-full">
-                {/* =================================================
-                    USER INFORMATION
-                ================================================= */}
+            <div className="flex flex-col lg:flex-row gap-[10px] w-full justify-center">
                 <div className="w-full lg:w-[60%] mt-[20px] lg:mx-[10px] rounded-[10px] shadow-md bg-white p-4">
                     {/* HEADER */}
                     <div className="flex items-center justify-between mb-[16px]">
@@ -435,55 +432,6 @@ export const EditUsers = () => {
                             </button>
                         </div>
                     </form>
-                </div>
-
-                {/* =================================================
-                    CATEGORY / SIDE PANEL
-                ================================================= */}
-                <div className="w-full lg:w-[40%] mt-[20px] lg:mx-[10px] rounded-[10px] shadow-md bg-white p-4">
-                    {/* HEADER */}
-                    <div className="flex items-center gap-[10px] mb-[16px]">
-                        <div className="w-[48px] h-[48px] shrink-0 bg-[#eaf2ff] flex items-center justify-center rounded-[10px]">
-                            <MdOutlineCategory
-                                size={20}
-                                className="text-primary"
-                            />
-                        </div>
-
-                        <div>
-                            <div className="font-bold text-[18px] sm:text-[20px]">
-                                Chọn danh mục
-                            </div>
-
-                            <div className="mt-[5px] text-[14px] opacity-75">
-                                Trong một cuốn sách bạn có thể chọn nhiều danh
-                                mục
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* CATEGORY LIST */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-3">
-                        <label className="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:border-primary transition">
-                            <input
-                                type="checkbox"
-                                className="checkbox checkbox-primary"
-                            />
-                            <span className="font-medium text-gray-700">
-                                Category 1
-                            </span>
-                        </label>
-
-                        <label className="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:border-primary transition">
-                            <input
-                                type="checkbox"
-                                className="checkbox checkbox-primary"
-                            />
-                            <span className="font-medium text-gray-700">
-                                Category 2
-                            </span>
-                        </label>
-                    </div>
                 </div>
             </div>
 
