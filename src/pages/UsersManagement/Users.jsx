@@ -1,7 +1,7 @@
 import { IoSearchOutline } from "react-icons/io5";
 import { useIntl } from "react-intl";
 import { userMockData } from "../../data/mockData";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { LiaUsersCogSolid } from "react-icons/lia";
 import { PiFlagBannerFoldDuotone } from "react-icons/pi";
 import { VscLayersActive } from "react-icons/vsc";
@@ -14,14 +14,11 @@ import { toast } from "sonner";
 
 const Users = () => {
     const lang = useIntl();
-
-    // =========================
-    // STATE
-    // =========================
     const [usersList, setUsersList] = useState(userMockData);
     const [userDetail, setUserDetail] = useState();
+    const [roles, setRoles] = useState([]);
+    const [roleId, setRoleId] = useState("null");
     const [totalPage, setTotalPage] = useState(1);
-
     const [search, setSearch] = useState("null");
     const [status, setStatus] = useState("all");
     const [currentPage, setCurrentPage] = useState(1);
@@ -31,10 +28,6 @@ const Users = () => {
 
     const [deleteUser, setDeleteUser] = useState();
 
-
-    // =========================
-    // LOAD USERS
-    // =========================
     const loadApiUser = async (
         searchValue,
         statusValue,
@@ -56,28 +49,29 @@ const Users = () => {
         }
     };
 
+    const loadApiRoles = async () => {
+        try {
+            const res = await callApi("get", `${import.meta.env.VITE_REACT_APP_APIDEV}/admin/account/roles/list`);
+            setRoles(res.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
-    // =========================
-    // USE EFFECT
-    // =========================
     useEffect(() => {
+        console.log(roleId)
         loadApiUser(
             search,
             status,
             currentPage,
             createdAtFilter
         );
-    }, [
-        search,
-        status,
-        currentPage,
-        createdAtFilter
-    ]);
+    }, [search, status, currentPage, createdAtFilter, roleId]);
 
+    useEffect(() => {
+        loadApiRoles();
+    }, []);
 
-    // =========================
-    // DELETE USER
-    // =========================
     const handleDeleteUser = async () => {
         try {
             const res = await callApi(
@@ -401,7 +395,25 @@ const Users = () => {
                                         })}
                                     </option>
                                 </select>
-
+                                {/* ROLES */}
+                                <select
+                                    className="select outline-none w-full sm:w-auto"
+                                    onChange={(e) => {
+                                        setCurrentPage(1);
+                                        setRoleId(
+                                            e.target.value
+                                        );
+                                    }}
+                                >
+                                    <option value="null">
+                                        Tất cả vai trò
+                                    </option>
+                                    {roles.map((item) => (
+                                        <option value={item.id}>
+                                            {item.roleName}
+                                        </option>
+                                    ))}
+                                </select>
                                 {/* CREATED AT */}
                                 <select
                                     className="select outline-none w-full sm:w-auto"
@@ -430,7 +442,6 @@ const Users = () => {
                                     </option>
 
                                 </select>
-
                             </div>
 
                         </div>
@@ -535,7 +546,7 @@ const Users = () => {
                                             <span
                                                 className={
                                                     item.status ===
-                                                    "active"
+                                                        "active"
                                                         ? "badge badge-primary badge-outline"
                                                         : "badge badge-error badge-outline"
                                                 }
@@ -662,12 +673,11 @@ const Users = () => {
                                             <button
                                                 key={page}
                                                 type="button"
-                                                className={`join-item btn btn-square btn-sm sm:btn-md ${
-                                                    currentPage ===
+                                                className={`join-item btn btn-square btn-sm sm:btn-md ${currentPage ===
                                                     page
-                                                        ? "btn-primary"
-                                                        : ""
-                                                }`}
+                                                    ? "btn-primary"
+                                                    : ""
+                                                    }`}
                                                 onClick={() =>
                                                     setCurrentPage(
                                                         page
@@ -763,7 +773,7 @@ const Users = () => {
                                     <span
                                         className={
                                             item.status ===
-                                            "active"
+                                                "active"
                                                 ? "badge badge-primary badge-outline shrink-0"
                                                 : "badge badge-error badge-outline shrink-0"
                                         }
