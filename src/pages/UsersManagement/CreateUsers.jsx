@@ -99,7 +99,7 @@ export const CreateUsers = () => {
             }
         } catch (error) {
             console.log(error);
-            toast.error("Error system");
+            toast.error("Email hoặc tên quản trị viên đã tồn tại!");
         } finally {
             setLoading(false);
         }

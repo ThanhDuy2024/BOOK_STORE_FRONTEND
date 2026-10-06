@@ -160,17 +160,8 @@ const Users = () => {
                         </div>
 
                         <div className="text-[26px] text-black font-[700]">
-                            {lang.formatMessage({
-                                id: "users.subtitle"
-                            })}
+                            Tài khoản quản trị
                         </div>
-
-                        <div>
-                            {lang.formatMessage({
-                                id: "users.sub"
-                            })}
-                        </div>
-
                     </div>
 
                 </div>
@@ -199,7 +190,7 @@ const Users = () => {
                     <div className="flex justify-between text-[14px] text-[#6b7280] font-bold items-center">
 
                         <div>
-                            TOTAL USERS
+                            TỔNG SỐ TÀI KHOẢN QUẢN TRỊ
                         </div>
 
                         <div className="bg-[#e7f6f3] w-[42px] h-[42px] flex items-center justify-center rounded-[10px]">
@@ -216,15 +207,9 @@ const Users = () => {
                     </div>
 
                     <div className="flex gap-[5px] text-[15px] mt-[14px]">
-
-                        <div className="text-green-700">
-                            +50
+                        <div className="text-green-500 font-bold">
+                            ----------------------------------------------------------------------------------
                         </div>
-
-                        <div className="text-[#6b7280] font-bold">
-                            users in this month
-                        </div>
-
                     </div>
 
                 </div>
@@ -236,7 +221,7 @@ const Users = () => {
                     <div className="flex justify-between text-[14px] text-[#6b7280] font-bold items-center">
 
                         <div>
-                            TOTAL ACTIVE
+                            SỐ TÀI KHOẢN HOẠT ĐỘNG
                         </div>
 
                         <div className="bg-[#eaf2ff] w-[42px] h-[42px] flex items-center justify-center rounded-[10px]">
@@ -255,13 +240,8 @@ const Users = () => {
                     <div className="flex gap-[5px] text-[15px] mt-[14px]">
 
                         <div className="text-indigo-700">
-                            90%
+                            ----------------------------------------------------------------------------------
                         </div>
-
-                        <div className="text-[#6b7280] font-bold">
-                            healthy account
-                        </div>
-
                     </div>
 
                 </div>
@@ -273,7 +253,7 @@ const Users = () => {
                     <div className="flex justify-between text-[14px] text-[#6b7280] font-bold items-center">
 
                         <div>
-                            TOTAL INACTIVE
+                            SỐ TÀI KHOẢN KHÔNG HOẠT ĐỘNG
                         </div>
 
                         <div className="bg-[#ffecec] w-[42px] h-[42px] flex items-center justify-center rounded-[10px]">
@@ -292,13 +272,8 @@ const Users = () => {
                     <div className="flex gap-[5px] text-[15px] mt-[14px]">
 
                         <div className="text-red-700">
-                            5%
+                            ----------------------------------------------------------------------------------
                         </div>
-
-                        <div className="text-[#6b7280] font-bold">
-                            account inactive
-                        </div>
-
                     </div>
 
                 </div>
@@ -310,7 +285,7 @@ const Users = () => {
                     <div className="flex justify-between text-[14px] text-[#6b7280] font-bold items-center">
 
                         <div>
-                            TOTAL BANNED
+                            SỐ TÀI KHOẢN BỊ CẤM
                         </div>
 
                         <div className="bg-[#fff4df] w-[42px] h-[42px] flex items-center justify-center rounded-[10px]">
@@ -331,13 +306,8 @@ const Users = () => {
                     <div className="flex gap-[5px] text-[15px] mt-[14px]">
 
                         <div className="text-orange-700">
-                            5%
+                            ----------------------------------------------------------------------------------
                         </div>
-
-                        <div className="text-[#6b7280] font-bold">
-                            account banned
-                        </div>
-
                     </div>
 
                 </div>
