@@ -84,11 +84,7 @@ export const CreateUsers = () => {
             );
 
             if (res.data.status === true) {
-                toast.success(
-                    `${lang.formatMessage({
-                        id: "users.subtitle",
-                    })} ${lang.formatMessage({ id: "toast.created" })}`
-                );
+                toast.success("Tài khoản đã được tạo vui lòng kêu người sở hữu kích hoạt tài khoản quan email");
                 navigate("/admin/users");
             } else {
                 toast.error(

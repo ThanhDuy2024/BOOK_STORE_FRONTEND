@@ -32,12 +32,13 @@ const Users = () => {
         searchValue,
         statusValue,
         pageValue,
-        createdAtValue
+        createdAtValue,
+        roleId
     ) => {
         try {
             const res = await callApi(
                 "get",
-                `${import.meta.env.VITE_REACT_APP_APIDEV}/admin/account?search=${searchValue}&status=${statusValue}&createdAtFilter=${createdAtValue}&page=${pageValue}`,
+                `${import.meta.env.VITE_REACT_APP_APIDEV}/admin/account?search=${searchValue}&status=${statusValue}&createdAtFilter=${createdAtValue}&roleId=${roleId}&page=${pageValue}`,
                 {}
             );
 
@@ -59,12 +60,12 @@ const Users = () => {
     }
 
     useEffect(() => {
-        console.log(roleId)
         loadApiUser(
             search,
             status,
             currentPage,
-            createdAtFilter
+            createdAtFilter,
+            roleId
         );
     }, [search, status, currentPage, createdAtFilter, roleId]);
 
