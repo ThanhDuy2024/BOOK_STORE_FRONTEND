@@ -6,9 +6,9 @@ import { VscLayersActive } from "react-icons/vsc";
 import { IoMdRemoveCircleOutline } from "react-icons/io";
 import { IoSpeedometerOutline, IoPieChartOutline } from "react-icons/io5";
 import { FaArrowDown, FaRegChartBar } from "react-icons/fa";
-import LineChart from "../../components/chart/LineChart";
-import DonutChart from "../../components/chart/DonutChart";
-import { userMockData } from "../../data/mockData";
+import LineChart from "../../../components/chart/LineChart"
+import DonutChart from "../../../components/chart/DonutChart";
+import { userMockData } from "../../../data/mockData";
 
 const Dashboard = () => {
     const lang = useIntl();

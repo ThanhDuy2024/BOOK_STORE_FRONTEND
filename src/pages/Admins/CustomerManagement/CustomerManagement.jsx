@@ -1,6 +1,6 @@
 import { IoSearchOutline } from "react-icons/io5";
 import { useIntl } from "react-intl";
-import { bookMockData, categoryMockData } from "../../data/mockData";
+import { bookMockData, categoryMockData } from "../../../data/mockData";
 import { useEffect, useState } from "react";
 import { LiaBookSolid } from "react-icons/lia";
 import { PiBooksThin } from "react-icons/pi";
@@ -9,7 +9,7 @@ import { IoMdRemoveCircleOutline } from "react-icons/io";
 import { FaRegChartBar } from "react-icons/fa";
 import { RiAccountPinCircleLine } from "react-icons/ri";
 import { Link } from "react-router";
-import { callApi } from "../../api/api";
+import { callApi } from "../../../api/api";
 import { toast } from "sonner"
 const CustomerManagement = () => {
     const lang = useIntl();

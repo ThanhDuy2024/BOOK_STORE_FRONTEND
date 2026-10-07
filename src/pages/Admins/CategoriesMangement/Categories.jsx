@@ -6,7 +6,7 @@ import { VscLayersActive } from "react-icons/vsc";
 import { IoMdRemoveCircleOutline } from "react-icons/io";
 import { BiCategoryAlt } from "react-icons/bi";
 import { FaRegChartBar } from "react-icons/fa";
-import { callApi } from "../../api/api";
+import { callApi } from "../../../api/api";
 import axios from "axios";
 import { toast } from "sonner";
 

@@ -1,18 +1,18 @@
 import { Outlet, Route, Routes, useNavigate } from "react-router"
 import AdminLayouts from "../layouts/Layouts";
-import Dashboard from "../pages/Dashboard/Dashboard";
-import Categories from "../pages/CategoriesMangement/Categories";
-import Books from "../pages/BooksManagement/Books";
-import Users from "../pages/UsersManagement/Users";
+import Dashboard from "../pages/Admins/Dashboard/Dashboard";
+import Categories from "../pages/Admins/CategoriesMangement/Categories";
+import Books from "../pages/Admins/BooksManagement/Books"
+import Users from "../pages/Admins/UsersManagement/Users";
 import Login from "../pages/Login/Login";
 import { useContext, useEffect, useState } from "react";
 import { callApi } from "../api/api";
 import { AdminContext } from "../contexts/adminContext";
 import { Toaster, toast } from 'sonner'
-import { CreateBook } from "../pages/BooksManagement/CreateBook";
-import { CreateUsers } from "../pages/UsersManagement/CreateUsers";
-import { EditBook } from "../pages/BooksManagement/EditBook";
-import { EditUsers } from "../pages/UsersManagement/EditUsers";
+import { CreateBook } from "../pages/Admins/BooksManagement/CreateBook";
+import { CreateUsers } from "../pages/Admins/UsersManagement/CreateUsers";
+import { EditBook } from "../pages/Admins/BooksManagement/EditBook";
+import { EditUsers } from "../pages/Admins/UsersManagement/EditUsers";
 import { LayoutClient } from "../layouts/LayoutsClient";
 import { Home } from "../pages/Home/Home";
 import { BookDetail } from "../pages/BooksClient/BooksDetail";
@@ -26,8 +26,8 @@ import { CustomerContext } from "../contexts/customerContext";
 import { UserProfile } from "../pages/UserProfile/UserProfile";
 import { EditProfile } from "../pages/UserProfile/EditProfile";
 import { OrderTracking } from "../pages/OrderTracking/OrderTracking";
-import CustomerManagement from "../pages/CustomerManagement/CustomerManagement";
-import CustomerDetail from "../pages/CustomerManagement/CustomerDetail";
+import CustomerManagement from "../pages/Admins/CustomerManagement/CustomerManagement";
+import CustomerDetail from "../pages/Admins/CustomerManagement/CustomerDetail";
 const ProtectedAdminRoute = () => {
     const { adminDispatch } = useContext(AdminContext);
     const [loginStatus, setLoginStatus] = useState(false);

@@ -1,6 +1,6 @@
 import { IoSearchOutline } from "react-icons/io5";
 import { useIntl } from "react-intl";
-import { userMockData } from "../../data/mockData";
+import { userMockData } from "../../../data/mockData";
 import { use, useEffect, useState } from "react";
 import { LiaUsersCogSolid } from "react-icons/lia";
 import { PiFlagBannerFoldDuotone } from "react-icons/pi";
@@ -9,7 +9,7 @@ import { IoMdRemoveCircleOutline } from "react-icons/io";
 import { LiaUserSolid } from "react-icons/lia";
 import { FaRegChartBar } from "react-icons/fa";
 import { Link } from "react-router";
-import { callApi } from "../../api/api";
+import { callApi } from "../../../api/api";
 import { toast } from "sonner";
 
 const Users = () => {

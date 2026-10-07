@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
-import { callApi } from "../../api/api";
+import { callApi } from "../../../api/api";
 import { RiAccountPinCircleLine } from "react-icons/ri";
 import { TbUserEdit } from "react-icons/tb";
 import { useIntl } from "react-intl";

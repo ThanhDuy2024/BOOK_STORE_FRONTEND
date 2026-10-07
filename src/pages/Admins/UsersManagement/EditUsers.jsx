@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { TbUserEdit } from "react-icons/tb";
 import axios from "axios";
 import { toast } from "sonner";
-import { callApi } from "../../api/api";
+import { callApi } from "../../../api/api";
 
 export const EditUsers = () => {
     const lang = useIntl();

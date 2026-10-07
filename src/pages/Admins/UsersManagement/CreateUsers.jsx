@@ -6,7 +6,7 @@ import { IoMdInformationCircleOutline } from "react-icons/io";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
-import { callApi } from "../../api/api";
+import { callApi } from "../../../api/api";
 
 export const CreateUsers = () => {
     const lang = useIntl();
