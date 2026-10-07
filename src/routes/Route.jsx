@@ -29,37 +29,62 @@ import { OrderTracking } from "../pages/OrderTracking/OrderTracking";
 import CustomerManagement from "../pages/CustomerManagement/CustomerManagement";
 import CustomerDetail from "../pages/CustomerManagement/CustomerDetail";
 const ProtectedAdminRoute = () => {
-    const navigate = useNavigate();
-    const { adminName, adminDispatch } = useContext(AdminContext);
+    const { adminDispatch } = useContext(AdminContext);
     const [loginStatus, setLoginStatus] = useState(false);
+    const [isLoading, setIsLoading] = useState(true); 
     useEffect(() => {
-        (async () => {
-            const res = await callApi("get", `${import.meta.env.VITE_REACT_APP_APIDEV}/admin/auth/profile`, {})
-            if (res.status === true) {
-                setLoginStatus(true);
-                adminDispatch({
-                    type: "ADMIN-PROFILE",
-                    payload: {
-                        id: res.data.id,
-                        adminName: res.data.adminName,
-                        fullName: res.data.fullName,
-                        email: res.data.email,
-                        address: res.data.address,
-                        phone: res.data.phone,
-                        image: res.data.image,
-                        status: res.data.status,
-                        roleId: res.data.roleId,
-                    }
-                })
-            }
-        })();
-    }, []);
+        let isMounted = true; // Cleanup flag tránh leak memory nếu component unmount
 
-    if (loginStatus === false) {
-        return navigate("/admin/login")
-    };
-    return <Outlet />
-}
+        const checkAuth = async () => {
+            try {
+                const res = await callApi("get", `${import.meta.env.VITE_REACT_APP_APIDEV}/admin/auth/profile`, {});
+
+                if (isMounted && res?.status === true) {
+                    setLoginStatus(true);
+                    adminDispatch({
+                        type: "ADMIN-PROFILE",
+                        payload: {
+                            id: res.data.id,
+                            adminName: res.data.adminName,
+                            fullName: res.data.fullName,
+                            email: res.data.email,
+                            address: res.data.address,
+                            phone: res.data.phone,
+                            image: res.data.image,
+                            status: res.data.status,
+                            roleId: res.data.roleId,
+                        }
+                    });
+                } else if (isMounted) {
+                    setLoginStatus(false);
+                }
+            } catch (error) {
+                console.error("Auth check failed:", error);
+                if (isMounted) setLoginStatus(false);
+            } finally {
+                if (isMounted) setIsLoading(false); // Hoàn tất kiểm tra
+            }
+        };
+
+        checkAuth();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [adminDispatch]);
+
+    if (isLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-base-100">
+                <span className="loading loading-spinner loading-lg text-primary"></span>
+            </div>
+        );
+    }
+    if (!loginStatus) {
+        return <Navigate to="/admin/login" replace />;
+    }
+    return <Outlet />;
+};
 
 const RoutesList = () => {
     const { customerDispatch } = useContext(CustomerContext);
@@ -110,9 +135,9 @@ const RoutesList = () => {
                     <Route path="/books" element={<BookStorePage />} />
                     <Route path="/register" element={<AuthFlow />} />
                     <Route path="/login" element={<LoginClient />} />
-                    <Route path="/profile" element={<UserProfile/>}/>
-                    <Route path="/profile/edit" element={<EditProfile/>}/>
-                    <Route path="/tracking" element={<OrderTracking/>}/>
+                    <Route path="/profile" element={<UserProfile />} />
+                    <Route path="/profile/edit" element={<EditProfile />} />
+                    <Route path="/tracking" element={<OrderTracking />} />
                 </Route>
                 <Route path="/admin/login" element={<Login />} />
                 <Route element={<ProtectedAdminRoute />}>
@@ -126,7 +151,7 @@ const RoutesList = () => {
                         <Route path="/admin/users/create" element={<CreateUsers />} />
                         <Route path="/admin/users/edit/:id" element={<EditUsers />} />
                         <Route path="/admin/customer" element={<CustomerManagement />} />
-                        <Route path="/admin/customer/:id" element={<CustomerDetail/>}/>
+                        <Route path="/admin/customer/:id" element={<CustomerDetail />} />
                     </Route>
                 </Route>
             </Routes>
