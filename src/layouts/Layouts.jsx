@@ -5,7 +5,7 @@ import { LuBookCheck, LuHouse, LuSquareUser } from "react-icons/lu";
 import { CiBatteryCharging, CiSettings, CiUser } from "react-icons/ci";
 import { TbReportSearch } from "react-icons/tb";
 import { useIntl } from "react-intl";
-import { sibarInfo, bookAndCategoriesInfo, clientInfo } from "../data/sidebar";
+import { sibarInfo, bookAndCategoriesInfo, clientInfo, orderInfo } from "../data/sidebar";
 import { renderIcon } from "../helpers/renderIcon";
 import { useContext } from "react";
 import { LangContext } from "../contexts/langContext";
@@ -95,6 +95,22 @@ const AdminLayouts = ({ children }) => {
                                     <Link to={item.link} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip={lang.formatMessage({ id: item.title })}>
                                         {/* Home icon */}
                                         {renderIcon(item.iconkey, 20)}
+                                        <span className="is-drawer-close:hidden text-[16px]">{lang.formatMessage({ id: `${item.title}` })}</span>
+                                    </Link>
+                                </li>
+                            ))}
+
+                            <li className="mb-[16px]">
+                                <div className="is-drawer-close:hidden text-[16px] opacity-50">
+                                    Đơn hàng
+                                </div>
+                            </li>
+
+                            {orderInfo.map(item => (
+                                <li className="mb-[20px]">
+                                    <Link to={item.link} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip={lang.formatMessage({ id: item.title })}>
+                                        {/* Home icon */}
+                                        {renderIcon(item.iconKey, 20)}
                                         <span className="is-drawer-close:hidden text-[16px]">{lang.formatMessage({ id: `${item.title}` })}</span>
                                     </Link>
                                 </li>

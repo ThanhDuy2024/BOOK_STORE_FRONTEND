@@ -28,6 +28,7 @@ import { EditProfile } from "../pages/UserProfile/EditProfile";
 import { OrderTracking } from "../pages/OrderTracking/OrderTracking";
 import CustomerManagement from "../pages/Admins/CustomerManagement/CustomerManagement";
 import CustomerDetail from "../pages/Admins/CustomerManagement/CustomerDetail";
+import OrderManagement from "../pages/Admins/OrdersManagement/OrdersManagement";
 const ProtectedAdminRoute = () => {
     const { adminDispatch } = useContext(AdminContext);
     const [loginStatus, setLoginStatus] = useState(false);
@@ -152,6 +153,7 @@ const RoutesList = () => {
                         <Route path="/admin/users/edit/:id" element={<EditUsers />} />
                         <Route path="/admin/customer" element={<CustomerManagement />} />
                         <Route path="/admin/customer/:id" element={<CustomerDetail />} />
+                        <Route path="/admin/orders" element={<OrderManagement />} />
                     </Route>
                 </Route>
             </Routes>

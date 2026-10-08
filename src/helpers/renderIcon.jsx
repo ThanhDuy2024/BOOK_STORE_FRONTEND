@@ -6,6 +6,7 @@ import { CiBatteryCharging, CiSettings, CiUser } from "react-icons/ci";
 import { TbReportSearch } from "react-icons/tb";
 import { LuBookPlus } from "react-icons/lu";
 import { RiAccountPinCircleLine } from "react-icons/ri";
+import { GoContainer } from "react-icons/go";
 const iconMap = {
   earth: IoEarthOutline,
   notiIos: IoIosNotificationsOutline,
@@ -19,7 +20,8 @@ const iconMap = {
   settings: CiSettings,
   user: LuSquareUserRound,
   report: TbReportSearch,
-  customer: RiAccountPinCircleLine
+  customer: RiAccountPinCircleLine,
+  order: GoContainer
 };
 
 export const renderIcon = (iconName, size) => {

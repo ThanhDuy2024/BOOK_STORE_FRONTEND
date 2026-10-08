@@ -31,3 +31,11 @@ export const clientInfo = [
         link: "/admin/customer"
     }
 ]
+
+export const orderInfo = [
+    {
+        title: "Quản lý đơn hàng",
+        iconKey: "order",
+        link: "/admin/orders"
+    }
+]
